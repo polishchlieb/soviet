@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace tokenizer {
+namespace soviet {
     enum class PendingTokenType {
         none,
         unknown,

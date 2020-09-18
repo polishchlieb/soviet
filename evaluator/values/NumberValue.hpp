@@ -3,7 +3,7 @@
 
 #include "Value.hpp"
 
-namespace evaluator {
+namespace soviet {
     struct NumberValue : Value {
         float value;
         explicit NumberValue(float value) : Value{ValueType::NumberValue}, value(value) {}

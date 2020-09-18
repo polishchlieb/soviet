@@ -3,7 +3,7 @@
 
 #include "Node.hpp"
 
-namespace parser {
+namespace soviet {
     struct NumberNode : Node {
         float value;
         explicit NumberNode(float value) : Node{NodeType::NumberNode}, value(value) {}

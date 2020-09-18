@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace parser {
+namespace soviet {
     enum class NodeType {
         NumberNode,
         AddOpNode,
@@ -12,7 +12,9 @@ namespace parser {
         DivOpNode,
         EqualsOpNode,
         DoubleEqualsOpNode,
-        NameNode
+        NameNode,
+        FuncCallNode,
+        StringNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -25,6 +27,8 @@ namespace parser {
             case NodeType::EqualsOpNode: return "equals_operator_node";
             case NodeType::DoubleEqualsOpNode: return "double_equals_operator_node";
             case NodeType::NameNode: return "name_node";
+            case NodeType::FuncCallNode: return "function_call_node";
+            case NodeType::StringNode: return "string_node";
         }
     }
 }

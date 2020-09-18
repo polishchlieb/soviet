@@ -4,7 +4,7 @@
 #include "TokenType.hpp"
 #include <string>
 
-namespace tokenizer {
+namespace soviet {
     struct Token {
         TokenType type;
         std::string value;

@@ -9,5 +9,7 @@
 #include "EqualsOpNode.hpp"
 #include "DoubleEqualsOpNode.hpp"
 #include "NameNode.hpp"
+#include "FuncCallNode.hpp"
+#include "StringNode.hpp"
 
 #endif //SOVIET_NODES_HPP

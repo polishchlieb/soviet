@@ -9,7 +9,7 @@
 #include "nodes/LeafNode.hpp"
 #include "node_cast.hpp"
 
-namespace parser {
+namespace soviet {
     static std::string times(const std::string& str, unsigned int num) {
         std::string result;
         for (unsigned int i = 0; i < num; i++)
@@ -44,8 +44,23 @@ namespace parser {
                 dumpLeafNode<float>(node, spacing);
                 break;
             case NodeType::NameNode:
+            case NodeType::StringNode:
                 dumpLeafNode<std::string>(node, spacing);
                 break;
+            case NodeType::FuncCallNode: {
+                const auto& funcNode = node_cast<FuncCallNode>(node);
+                const auto& funcName = node_cast<NameNode>(funcNode->name);
+
+                std::cout << times(" ", 2 * spacing)
+                    << dumpNodeType(node->type) << ":" << std::endl
+                    << times(" ", 2 * spacing + 2) << "name: "
+                    << funcName->value << std::endl
+                    << times(" ", 2 * spacing + 2) << "arguments: "
+                    << std::endl;
+                for (const auto& arg : funcNode->arguments)
+                    dump(arg, 2 * spacing + 2);
+                break;
+            }
         }
     }
 }

@@ -3,9 +3,11 @@
 
 #include "ValueType.hpp"
 
-namespace evaluator {
+namespace soviet {
     struct Value {
         ValueType type;
+
+        explicit Value(ValueType type) : type(type) {}
     };
 }
 

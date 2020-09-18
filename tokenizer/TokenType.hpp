@@ -4,7 +4,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace tokenizer {
+namespace soviet {
     enum class TokenType {
         undefined, // use only when moving Token
         name,

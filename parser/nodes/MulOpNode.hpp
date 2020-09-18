@@ -6,7 +6,7 @@
 #include "Node.hpp"
 #include "NumberNode.hpp"
 
-namespace parser {
+namespace soviet {
     struct MulOpNode : Node {
         std::shared_ptr<Node> left;
         std::shared_ptr<Node> right;

@@ -5,10 +5,10 @@
 #include <iostream>
 #include "Token.hpp"
 
-namespace tokenizer {
+namespace soviet {
     static void dump(const std::vector<Token>& tokens) {
         for (const auto& token : tokens) {
-            std::cout << "(" << tokenizer::dumpTokenType(token.type) << ") " << token.value << std::endl;
+            std::cout << "(" << dumpTokenType(token.type) << ") " << token.value << std::endl;
         }
     }
 }

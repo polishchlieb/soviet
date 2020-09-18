@@ -4,122 +4,155 @@
 #include "../tokenizer/Token.hpp"
 #include <vector>
 #include "nodes/nodes.hpp"
+#include "TokenIterator.hpp"
 #include <memory>
 #include <stack>
 #include <stdexcept>
+#include <iostream>
 
-namespace parser {
+#ifdef DEBUG
+#include <exception>
+#endif
+
+#include "../util/util.hpp"
+
+namespace soviet {
     class Parser {
     public:
-        std::shared_ptr<Node> parse(std::vector<tokenizer::Token>& tokens) {
-            return parseInfixExpression(tokens);
+        std::shared_ptr<Node> parse(TokenIterator&& iterator) {
+            this->iterator = std::move(iterator);
+            return this->parseExpression();
         }
 
     private:
-        std::stack<tokenizer::Token> operatorStack;
-        std::stack<std::shared_ptr<Node>> expressionStack;
+        TokenIterator iterator;
 
-        std::shared_ptr<Node> parseInfixExpression(std::vector<tokenizer::Token>& tokens) {
-            for (auto& token : tokens) {
-                if (token.type == tokenizer::TokenType::open_bracket) {
-                    operatorStack.push(std::move(token));
-                } else if (token.type == tokenizer::TokenType::number) {
-                    const float value = std::stof(token.value);
-                    expressionStack.emplace(std::make_shared<NumberNode>(value));
-                } else if (token.type == tokenizer::TokenType::name) {
-                    expressionStack.emplace(std::make_shared<NameNode>(std::move(token.value)));
-                } else if (isOperator(token)) {
-                    while (!operatorStack.empty() && getOperatorPrecedence(operatorStack.top()) >= getOperatorPrecedence(token)) {
-                        parseInfixOperator();
-                    }
-                    operatorStack.push(std::move(token));
-                } else if (token.type == tokenizer::TokenType::close_bracket) {
-                    while (operatorStack.top().type != tokenizer::TokenType::open_bracket) {
-                        parseInfixOperator();
-                    }
-                    operatorStack.pop();
-                }
-            }
-
-            while (!operatorStack.empty()) {
-                parseInfixOperator();
-            }
-
-            auto value = std::move(expressionStack.top());
-            expressionStack.pop();
-
-            return std::move(value);
+        std::shared_ptr<Node> parseExpression() {
+            return this->parseAdditive();
         }
 
-        void parseInfixOperator() {
-            const auto op = std::move(operatorStack.top());
-            operatorStack.pop();
-
-            auto e2 = std::move(expressionStack.top());
-            expressionStack.pop();
-
-            auto e1 = std::move(expressionStack.top());
-            expressionStack.pop();
-
-            switch (op.type) {
-                case tokenizer::TokenType::add_op:
-                    createOperatorExpression<AddOpNode>(std::move(e1), std::move(e2));
-                    break;
-                case tokenizer::TokenType::sub_op:
-                    createOperatorExpression<SubOpNode>(std::move(e1), std::move(e2));
-                    break;
-                case tokenizer::TokenType::mul_op:
-                    createOperatorExpression<MulOpNode>(std::move(e1), std::move(e2));
-                    break;
-                case tokenizer::TokenType::div_op:
-                    createOperatorExpression<DivOpNode>(std::move(e1), std::move(e2));
-                    break;
-                case tokenizer::TokenType::equals_op:
-                    createOperatorExpression<EqualsOpNode>(std::move(e1), std::move(e2));
-                    break;
-                case tokenizer::TokenType::double_equals_op:
-                    createOperatorExpression<DoubleEqualsOpNode>(std::move(e1), std::move(e2));
-                    break;
-                default: break;
+        std::shared_ptr<Node> parsePrimary() {
+            auto& token = iterator.getNextToken();
+            switch (token.type) {
+                case TokenType::open_bracket:
+                    return parseBracketExpression();
+                case TokenType::number:
+                    return parseNumber(token);
+                case TokenType::name:
+                    return parseName(token);
+                case TokenType::string:
+                    return parseString(token);
+                default:
+                    throw std::runtime_error(
+                        "parsePrimary was called with token of type "
+                            + dumpTokenType(token.type)
+                            + " which is not defined"
+                    );
             }
         }
 
-        template<typename T, typename std::enable_if<std::is_base_of<Node, T>::value>::type* = nullptr>
-        void createOperatorExpression(std::shared_ptr<Node>&& e1, std::shared_ptr<Node>&& e2) {
-            expressionStack.push(
-                std::make_shared<T>(
-                    std::move(e1),
-                    std::move(e2)
-                )
+        std::shared_ptr<Node> parseBracketExpression() {
+            auto operand = this->parseExpression();
+            this->iterator.getNextToken(); // eat )
+            return std::move(operand);
+        }
+
+        std::shared_ptr<Node> parseNumber(Token& token) {
+            return std::make_shared<NumberNode>(
+                std::stof(token.value)
             );
         }
 
-        static inline bool isOperator(const tokenizer::Token& token) {
-            using tokenizer::TokenType;
-            return token.type == TokenType::add_op || token.type == TokenType::sub_op
-                || token.type == TokenType::mul_op || token.type == TokenType::div_op
-                || token.type == TokenType::equals_op || token.type == TokenType::double_equals_op;
+        std::shared_ptr<Node> parseString(Token& token) {
+            return std::make_shared<StringNode>(
+                std::move(token.value)
+            );
         }
 
-        static unsigned int getOperatorPrecedence(const tokenizer::Token& token) {
-            switch (token.type) {
-                // numbers here really don't matter, precedence for multiply
-                // operator just has to be greater than precedence for add operator, etc.
-                case tokenizer::TokenType::add_op:
-                case tokenizer::TokenType::sub_op:
-                    return 2;
-                case tokenizer::TokenType::mul_op:
-                case tokenizer::TokenType::div_op:
-                    return 3;
-                case tokenizer::TokenType::equals_op:
-                case tokenizer::TokenType::double_equals_op:
-                    return 1;
-                case tokenizer::TokenType::open_bracket:
-                    // this has to be the lowest
-                    return 0;
+        std::shared_ptr<Node> parseName(Token& token) {
+            auto node = std::make_shared<NameNode>(
+                std::move(token.value)
+            );
+
+            if (iterator.isEmpty())
+                return node;
+
+            switch (iterator.peekNextToken().type) {
+                case TokenType::equals_op:
+                    return parseAssignment(std::move(node));
+                case TokenType::open_bracket:
+                    return parseFunctionCall(std::move(node));
                 default:
-                    throw std::runtime_error(tokenizer::dumpTokenType(token.type) + " is not an operator");
+                    return node;
             }
+        }
+
+        std::shared_ptr<Node> parseAssignment(std::shared_ptr<Node>&& name) {
+            iterator.getNextToken(); // eat =
+            return std::make_shared<EqualsOpNode>(
+                std::move(name),
+                this->parseExpression()
+            );
+        }
+
+        std::shared_ptr<Node> parseFunctionCall(std::shared_ptr<Node>&& name) {
+            iterator.getNextToken(); // eat (
+
+            std::vector<std::shared_ptr<Node>> args;
+            if (iterator.peekNextToken().type != TokenType::close_bracket) {
+                while (true) {
+                    auto arg = parseExpression();
+                    args.push_back(arg);
+
+                    if (iterator.peekNextToken().type == TokenType::close_bracket)
+                        break;
+                    if (iterator.peekNextToken().type != TokenType::comma)
+                        throw std::runtime_error("function arguments must be separated by a comma");
+
+                    iterator.getNextToken(); // eat comma
+                }
+            }
+
+            iterator.getNextToken(); // eat )
+
+            return std::make_shared<FuncCallNode>(
+                std::move(name), std::move(args)
+            );
+        }
+
+        std::shared_ptr<Node> parseAdditive() {
+            auto operand1 = this->parseMultiplicative();
+            while (isIn(
+                iterator.peekNextToken().type,
+                TokenType::add_op, TokenType::sub_op
+            )) {
+                const auto op = iterator.getNextToken();
+                auto operand2 = parseMultiplicative();
+                // todo: handle substract operator
+                operand1 = std::make_shared<AddOpNode>(
+                    std::move(operand1),
+                    std::move(operand2)
+                );
+            }
+            return operand1;
+        }
+
+        std::shared_ptr<Node> parseMultiplicative() {
+            auto operand1 = this->parsePrimary();
+
+            while (isIn(
+                iterator.peekNextToken().type,
+                TokenType::mul_op, TokenType::div_op
+            )) {
+                const auto op = iterator.getNextToken();
+                auto operand2 = parsePrimary();
+                // todo: handle divide operator
+                operand1 = std::make_shared<MulOpNode>(
+                    std::move(operand1),
+                    std::move(operand2)
+                );
+            }
+            return operand1;
         }
     };
 }

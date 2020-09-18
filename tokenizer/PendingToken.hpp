@@ -6,7 +6,7 @@
 #include "PendingTokenType.hpp"
 #include "Token.hpp"
 
-namespace tokenizer {
+namespace soviet {
     struct PendingToken {
         PendingTokenType type;
         std::string value;

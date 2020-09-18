@@ -3,7 +3,7 @@
 
 #include "Value.hpp"
 
-namespace evaluator {
+namespace soviet {
     struct BooleanValue : Value {
         bool value;
         explicit BooleanValue(bool value) : Value{ValueType::BooleanValue}, value(value) {}

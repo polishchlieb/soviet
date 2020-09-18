@@ -4,7 +4,7 @@
 #include "Node.hpp"
 #include <stdexcept>
 
-namespace parser {
+namespace soviet {
     template<typename T>
     struct LeafNode : Node {
         T value;

@@ -4,7 +4,7 @@
 #include "NodeType.hpp"
 #include <string>
 
-namespace parser {
+namespace soviet {
     struct Node {
         NodeType type;
     };

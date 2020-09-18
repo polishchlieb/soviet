@@ -7,7 +7,7 @@
 #include "Node.hpp"
 #include "NumberNode.hpp"
 
-namespace parser {
+namespace soviet {
     struct NameNode : Node {
         std::string value;
 

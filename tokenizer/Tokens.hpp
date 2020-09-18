@@ -5,7 +5,7 @@
 #include "Token.hpp"
 #include "PendingToken.hpp"
 
-namespace tokenizer {
+namespace soviet {
     class Tokens : public std::vector<Token> {
     public:
         void add(PendingToken& token) {

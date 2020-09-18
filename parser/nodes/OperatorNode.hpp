@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "Node.hpp"
 
-namespace parser {
+namespace soviet {
     struct OperatorNode : Node {
         std::shared_ptr<Node> left;
         std::shared_ptr<Node> right;

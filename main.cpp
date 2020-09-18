@@ -9,9 +9,9 @@
 #endif
 
 int main() {
-    tokenizer::Tokenizer t;
-    parser::Parser p;
-    evaluator::Evaluator e;
+    soviet::Tokenizer tokenizer;
+    soviet::Parser parser;
+    soviet::Evaluator evaluator;
 
     while (true) {
         std::string input;
@@ -32,24 +32,25 @@ int main() {
 #ifdef DEBUG
         auto tokens = t.tokenize(input);
         std::cout << "Tokenizer output:" << std::endl;
-        tokenizer::dump(tokens);
+        soviet::dump(tokens);
         std::cout << "---------------------" << std::endl;
 
         auto rootNode = p.parse(tokens);
         std::cout << "Parser output:" << std::endl;
-        parser::dump(rootNode);
+        soviet::dump(rootNode);
         std::cout << "---------------------" << std::endl;
 
         std::cout << "Evaluator output:" << std::endl;
         const auto value = e.evaluate(rootNode);
-        std::cout << evaluator::dumpValue(value) << std::endl << std::endl;
+        std::cout << soviet::dumpValue(value) << std::endl << std::endl;
 #else
-        auto tokens = t.tokenize(input);
-        const auto value = e.evaluate(
-            p.parse(tokens)
-        );
+        tokenizer.tokenize(input);
+        const auto rootNode = parser.parse(tokenizer.getIterator());
+        const auto value = evaluator.evaluate(rootNode);
 
-        std::cout << evaluator::dumpValue(value) << std::endl;
+        std::cout << soviet::dumpValue(value) << std::endl;
+
+        tokenizer.clear();
 #endif
     }
 }

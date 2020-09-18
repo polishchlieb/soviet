@@ -8,11 +8,12 @@
 #include "Token.hpp"
 #include "PendingToken.hpp"
 #include "Tokens.hpp"
+#include "../parser/TokenIterator.hpp"
 
-namespace tokenizer {
+namespace soviet {
     class Tokenizer {
     public:
-        std::vector<Token> tokenize(const std::string& line) {
+        void tokenize(const std::string& line) {
             // tokens may have been moved before
             tokens = Tokens();
 
@@ -27,10 +28,15 @@ namespace tokenizer {
                 tokens.add(previous);
                 previous.clear();
             }
-
-            return std::move(tokens);
         }
 
+        void clear() {
+            tokens = Tokens();
+        }
+
+        TokenIterator getIterator() {
+            return TokenIterator{std::move(tokens)};
+        }
     private:
         Tokens tokens;
         PendingToken previous{PendingTokenType::none, ""};
