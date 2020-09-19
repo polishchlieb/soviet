@@ -168,11 +168,17 @@ namespace soviet {
             )) {
                 const auto op = iterator.getNextToken();
                 auto operand2 = parseMultiplicative();
-                // todo: handle substract operator
-                operand1 = std::make_shared<AddOpNode>(
-                    std::move(operand1),
-                    std::move(operand2)
-                );
+                if (op.type == TokenType::add_op) {
+                    operand1 = std::make_shared<AddOpNode>(
+                        std::move(operand1),
+                        std::move(operand2)
+                    );
+                } else {
+                    operand1 = std::make_shared<SubOpNode>(
+                        std::move(operand1),
+                        std::move(operand2)
+                    );
+                }
             }
             return operand1;
         }
@@ -186,11 +192,17 @@ namespace soviet {
             )) {
                 const auto op = iterator.getNextToken();
                 auto operand2 = parsePrimary();
-                // todo: handle divide operator
-                operand1 = std::make_shared<MulOpNode>(
-                    std::move(operand1),
-                    std::move(operand2)
-                );
+                if (op.type == TokenType::mul_op) {
+                    operand1 = std::make_shared<MulOpNode>(
+                        std::move(operand1),
+                        std::move(operand2)
+                    );
+                } else {
+                    operand1 = std::make_shared<DivOpNode>(
+                        std::move(operand1),
+                        std::move(operand2)
+                    );
+                }
             }
             return operand1;
         }
