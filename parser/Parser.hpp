@@ -28,7 +28,7 @@ namespace soviet {
         TokenIterator iterator;
 
         std::shared_ptr<Node> parseExpression() {
-            return this->parseAdditive();
+            return this->parseComparison();
         }
 
         std::shared_ptr<Node> parsePrimary() {
@@ -63,6 +63,29 @@ namespace soviet {
             );
         }
 
+        std::shared_ptr<Node> parseIfStatement() {
+            auto condition = this->parseExpression();
+
+            auto thenTok = iterator.getNextToken(); // eat "then"
+            auto body = this->parseExpression();
+
+            if (!iterator.isEmpty()) { // "else"
+                iterator.getNextToken(); // eat "else"
+
+                auto elseBody = this->parseExpression();
+                return std::make_shared<IfNode>(
+                    std::move(condition),
+                    std::move(body),
+                    std::move(elseBody)
+                );
+            }
+
+            return std::make_shared<IfNode>(
+                std::move(condition),
+                std::move(body)
+            );
+        }
+
         std::shared_ptr<Node> parseString(Token& token) {
             return std::make_shared<StringNode>(
                 std::move(token.value)
@@ -70,6 +93,9 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseName(Token& token) {
+            if (token.value == "if")
+                return parseIfStatement();
+
             auto node = std::make_shared<NameNode>(
                 std::move(token.value)
             );
@@ -116,8 +142,22 @@ namespace soviet {
             iterator.getNextToken(); // eat )
 
             return std::make_shared<FuncCallNode>(
-                std::move(name), std::move(args)
+                std::move(name),
+                std::move(args)
             );
+        }
+
+        std::shared_ptr<Node> parseComparison() {
+            auto operand1 = this->parseAdditive();
+            while (iterator.peekNextToken().type == TokenType::double_equals_op) {
+                const auto op = iterator.getNextToken();
+                auto operand2 = parseAdditive();
+                operand1 = std::make_shared<DoubleEqualsOpNode>(
+                    std::move(operand1),
+                    std::move(operand2)
+                );
+            }
+            return operand1;
         }
 
         std::shared_ptr<Node> parseAdditive() {

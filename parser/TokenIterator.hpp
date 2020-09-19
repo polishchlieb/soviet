@@ -21,7 +21,7 @@ namespace soviet {
         }
 
         bool isEmpty() {
-            return currentIndex - 1 >= tokens.size();
+            return currentIndex >= tokens.size();
         }
     private:
         Tokens tokens;

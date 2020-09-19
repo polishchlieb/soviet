@@ -14,7 +14,8 @@ namespace soviet {
         DoubleEqualsOpNode,
         NameNode,
         FuncCallNode,
-        StringNode
+        StringNode,
+        IfNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -29,6 +30,7 @@ namespace soviet {
             case NodeType::NameNode: return "name_node";
             case NodeType::FuncCallNode: return "function_call_node";
             case NodeType::StringNode: return "string_node";
+            case NodeType::IfNode: return "if_node";
         }
     }
 }

@@ -11,5 +11,6 @@
 #include "NameNode.hpp"
 #include "FuncCallNode.hpp"
 #include "StringNode.hpp"
+#include "IfNode.hpp"
 
 #endif //SOVIET_NODES_HPP

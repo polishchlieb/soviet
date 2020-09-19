@@ -61,6 +61,30 @@ namespace soviet {
                     dump(arg, 2 * spacing + 2);
                 break;
             }
+            case NodeType::IfNode: {
+                const auto n = node_cast<IfNode>(node);
+                std::cout << times(" ", 2 * spacing)
+                    << dumpNodeType(node->type) << ":" << std::endl
+
+                    << times(" ", 2 * spacing + 2) << "condition:"
+                    << std::endl;
+
+                dump(n->condition, spacing + 2);
+
+                std::cout
+                    << times(" ", 2 * spacing + 2) << "then:"
+                    << std::endl;
+
+                dump(n->body, spacing + 2);
+
+                if (n->elseBody) {
+                    std::cout
+                        << times(" ", 2 * spacing + 2) << "else:"
+                        << std::endl;
+
+                    dump(n->elseBody, spacing + 2);
+                }
+            }
         }
     }
 }
