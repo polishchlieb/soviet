@@ -92,12 +92,12 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Google Test.soviet_test" />
       <item itemvalue="CMake Application.gmock" />
       <item itemvalue="CMake Application.gmock_main" />
       <item itemvalue="CMake Application.gtest" />
       <item itemvalue="CMake Application.gtest_main" />
       <item itemvalue="CMake Application.soviet" />
+      <item itemvalue="Google Test.soviet_test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -140,7 +140,7 @@
       <workItem from="1600367850351" duration="10873000" />
       <workItem from="1600453257760" duration="13627000" />
       <workItem from="1600519172307" duration="7040000" />
-      <workItem from="1600550213828" duration="19000" />
+      <workItem from="1600550213828" duration="256000" />
     </task>
     <servers />
   </component>

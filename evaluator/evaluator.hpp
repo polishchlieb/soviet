@@ -45,6 +45,8 @@ namespace soviet {
                     return evaluateStringNode(node);
                 case NodeType::FuncCallNode:
                     return evaluateFuncCallNode(node);
+                case NodeType::IfNode:
+                    return evaluateIfNode(node);
                 default:
                     throw std::runtime_error("not implemented (yet)");
             }
@@ -76,6 +78,15 @@ namespace soviet {
             const auto left = value_cast<NumberValue>(evaluate(n->left));
             const auto right = value_cast<NumberValue>(evaluate(n->right));
             return std::make_shared<NumberValue>(left->value + right->value);
+        }
+
+        std::shared_ptr<Value> evaluateIfNode(const std::shared_ptr<Node>& node) {
+            const auto n = node_cast<IfNode>(node);
+            const auto condition = value_cast<BooleanValue>(evaluate(n->condition));
+            if (condition->value)
+                return evaluate(n->body);
+            else if (n->elseBody)
+                return evaluate(n->elseBody);
         }
 
         std::shared_ptr<Value> evaluateSubOpNode(const std::shared_ptr<Node>& node) {
