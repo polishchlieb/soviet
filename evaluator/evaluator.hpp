@@ -87,6 +87,7 @@ namespace soviet {
                 return evaluate(n->body);
             else if (n->elseBody)
                 return evaluate(n->elseBody);
+            return std::make_shared<Value>(ValueType::UndefinedValue);
         }
 
         std::shared_ptr<Value> evaluateSubOpNode(const std::shared_ptr<Node>& node) {
