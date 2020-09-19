@@ -8,8 +8,6 @@
 #include "parser/dumpNode.hpp"
 #endif
 
-#include "parser/dumpNode.hpp"
-
 int main() {
     soviet::Tokenizer tokenizer;
     soviet::Parser parser;
@@ -48,8 +46,6 @@ int main() {
 #else
         tokenizer.tokenize(input);
         const auto rootNode = parser.parse(tokenizer.getIterator());
-        soviet::dump(rootNode);
-
         const auto value = evaluator.evaluate(rootNode);
 
         std::cout << soviet::dumpValue(value) << std::endl;

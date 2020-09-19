@@ -6,11 +6,11 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="soviet" targetName="gtest" />
-      <config projectName="soviet" targetName="gmock" />
-      <config projectName="soviet" targetName="soviet" />
-      <config projectName="soviet" targetName="gtest_main" />
       <config projectName="soviet" targetName="soviet_test" />
+      <config projectName="soviet" targetName="gmock" />
       <config projectName="soviet" targetName="gmock_main" />
+      <config projectName="soviet" targetName="gtest_main" />
+      <config projectName="soviet" targetName="soviet" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -55,11 +55,6 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.soviet">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="soviet_test" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="soviet_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="soviet" RUN_TARGET_NAME="soviet_test" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -97,12 +92,12 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Google Test.soviet_test" />
       <item itemvalue="CMake Application.gmock" />
       <item itemvalue="CMake Application.gmock_main" />
       <item itemvalue="CMake Application.gtest" />
       <item itemvalue="CMake Application.gtest_main" />
       <item itemvalue="CMake Application.soviet" />
-      <item itemvalue="Google Test.soviet_test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -144,7 +139,8 @@
       <workItem from="1600280499526" duration="3460000" />
       <workItem from="1600367850351" duration="10873000" />
       <workItem from="1600453257760" duration="13627000" />
-      <workItem from="1600519172307" duration="6845000" />
+      <workItem from="1600519172307" duration="7040000" />
+      <workItem from="1600550213828" duration="19000" />
     </task>
     <servers />
   </component>
@@ -169,22 +165,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="242" key="GridCell.Tab.0.bottom" timestamp="1600544957799">
+    <state width="1657" height="377" key="GridCell.Tab.0.bottom" timestamp="1600545201268">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="242" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1600544957799" />
-    <state width="1657" height="242" key="GridCell.Tab.0.center" timestamp="1600544957798">
+    <state width="1657" height="377" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1600545201268" />
+    <state width="1657" height="377" key="GridCell.Tab.0.center" timestamp="1600545201267">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="242" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1600544957798" />
-    <state width="1657" height="242" key="GridCell.Tab.0.left" timestamp="1600544957798">
+    <state width="1657" height="377" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1600545201267" />
+    <state width="1657" height="377" key="GridCell.Tab.0.left" timestamp="1600545201266">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="242" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1600544957798" />
-    <state width="1657" height="242" key="GridCell.Tab.0.right" timestamp="1600544957798">
+    <state width="1657" height="377" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1600545201266" />
+    <state width="1657" height="377" key="GridCell.Tab.0.right" timestamp="1600545201267">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="242" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1600544957798" />
+    <state width="1657" height="377" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1600545201267" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600471710676">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
