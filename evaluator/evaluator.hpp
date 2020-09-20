@@ -6,6 +6,7 @@
 #include "../parser/node_cast.hpp"
 #include "values/values.hpp"
 #include "Function.hpp"
+#include "EvaluateError.hpp"
 #include <unordered_map>
 
 namespace soviet {
@@ -48,7 +49,7 @@ namespace soviet {
                 case NodeType::IfNode:
                     return evaluateIfNode(node);
                 default:
-                    throw std::runtime_error("not implemented (yet)");
+                    throw EvaluateError("Unexpected node");
             }
         }
 
@@ -64,7 +65,7 @@ namespace soviet {
         std::shared_ptr<Value> evaluateNameNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<NameNode>(node);
             if (!variables.contains(n->value))
-                throw std::runtime_error("unknown name: " + n->value);
+                throw EvaluateError("unknown name: " + n->value);
             return variables[n->value];
         }
 
@@ -149,7 +150,7 @@ namespace soviet {
             const auto name = node_cast<NameNode>(n->name);
 
             if (!functions.contains(name->value))
-                throw std::runtime_error("unknown function: " + name->value);
+                throw EvaluateError("unknown function: " + name->value);
 
             const auto function = functions[name->value];
 

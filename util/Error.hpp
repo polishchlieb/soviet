@@ -11,11 +11,12 @@ namespace soviet {
     class Error : public std::exception {
     public:
         [[nodiscard]] virtual constexpr const char* name() const noexcept = 0;
+        [[nodiscard]] virtual std::string message() const noexcept = 0;
 
         void print() const {
             std::cout
                 << color(Color::RED)
-                << name() << ": " << what()
+                << name() << ": " << message()
                 << color(Color::RESET) << std::endl;
         }
     };

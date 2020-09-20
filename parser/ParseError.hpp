@@ -6,7 +6,7 @@
 namespace soviet {
     class ParseError : public Error {
     public:
-        explicit ParseError(const char* value) {
+        explicit ParseError(std::string&& value) {
             this->value = value;
         }
 
@@ -14,11 +14,11 @@ namespace soviet {
             return "ParseError";
         }
 
-        [[nodiscard]] const char* what() const noexcept override {
+        [[nodiscard]] std::string message() const noexcept override {
             return this->value;
         }
     private:
-        const char* value;
+        std::string value;
     };
 }
 
