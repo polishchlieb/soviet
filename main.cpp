@@ -3,8 +3,6 @@
 #include "evaluator/evaluator.hpp"
 #include "evaluator/dumpValue.hpp"
 
-#define DEBUG
-
 #ifdef DEBUG
 #include "tokenizer/dumpTokens.hpp"
 #include "parser/dumpNode.hpp"

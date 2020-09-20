@@ -20,7 +20,9 @@ namespace soviet {
         close_bracket,
         equals_op,
         double_equals_op,
-        comma
+        comma,
+        arrow,
+        greater_than
     };
 
     std::string dumpTokenType(const TokenType type) {
@@ -40,6 +42,8 @@ namespace soviet {
             case TokenType::equals_op: return "equals_operator";
             case TokenType::double_equals_op: return "double_equals_operator";
             case TokenType::comma: return "comma";
+            case TokenType::arrow: return "arrow";
+            case TokenType::greater_than: return "greater_than";
         }
     }
 }

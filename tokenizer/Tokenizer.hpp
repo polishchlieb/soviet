@@ -55,6 +55,8 @@ namespace soviet {
                 case TokenType::equals_op: parseEqualsOp(c); break;
                 case TokenType::double_equals_op: parseDoubleEqualsOp(c); break;
                 case TokenType::comma: parseComma(c); break;
+                case TokenType::arrow: parseArrow(c); break;
+                case TokenType::greater_than: parseGreaterThan(c); break;
                 default:
                     throw std::runtime_error("not implemented (yet)");
             }
@@ -73,6 +75,7 @@ namespace soviet {
             if (c == ')') return TokenType::close_bracket;
             if (c == '=') return TokenType::equals_op;
             if (c == ',') return TokenType::comma;
+            if (c == '>') return TokenType::greater_than;
             return TokenType::unknown;
         }
 
@@ -90,6 +93,7 @@ namespace soviet {
                 case TokenType::close_bracket:
                 case TokenType::equals_op:
                 case TokenType::comma:
+                case TokenType::greater_than:
                     previous.type = type;
                     previous.value += c;
                     break;
@@ -99,6 +103,7 @@ namespace soviet {
                 case TokenType::none:
                 case TokenType::undefined:
                 case TokenType::double_equals_op:
+                case TokenType::arrow:
                     break;
             }
         }
@@ -144,6 +149,13 @@ namespace soviet {
         }
 
         void parseSubOp(const char c) {
+            const auto type = getType(c);
+            if (type == TokenType::greater_than) {
+                previous.type = TokenType::arrow;
+                previous.value += c;
+                return;
+            }
+
             tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
@@ -193,6 +205,18 @@ namespace soviet {
         }
 
         void parseComma(const char c) {
+            tokens.add(std::move(previous));
+            previous.clear();
+            parseChar(c);
+        }
+
+        void parseArrow(const char c) {
+            tokens.add(std::move(previous));
+            previous.clear();
+            parseChar(c);
+        }
+
+        void parseGreaterThan(const char c) {
             tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
