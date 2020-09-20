@@ -15,6 +15,7 @@
 #endif
 
 #include "../util/util.hpp"
+#include "ParseError.hpp"
 
 namespace soviet {
     class Parser {
@@ -43,17 +44,17 @@ namespace soviet {
                 case TokenType::string:
                     return parseString(token);
                 default:
-                    throw std::runtime_error(
-                        "parsePrimary was called with token of type "
-                            + dumpTokenType(token.type)
-                            + " which is not defined"
-                    );
+                    throw ParseError("unexpected token");
             }
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
             auto operand = this->parseExpression();
-            this->iterator.getNextToken(); // eat )
+
+            const auto closeBracket = iterator.getNextToken(); // eat )
+            if (closeBracket.type != TokenType::close_bracket)
+                throw ParseError("expected \")\"");
+
             return std::move(operand);
         }
 
@@ -66,11 +67,16 @@ namespace soviet {
         std::shared_ptr<Node> parseIfStatement() {
             auto condition = this->parseExpression();
 
-            auto thenTok = iterator.getNextToken(); // eat "then"
+            const auto thenTok = iterator.getNextToken(); // eat "then"
+            if (thenTok.type != TokenType::name || thenTok.value != "then")
+                throw ParseError("expected \"then\"");
+
             auto body = this->parseExpression();
 
             if (!iterator.isEmpty()) { // "else"
-                iterator.getNextToken(); // eat "else"
+                const auto elseTok = iterator.getNextToken(); // eat "else"
+                if (elseTok.type != TokenType::name || elseTok.value != "else")
+                    throw ParseError("expected \"else\"");
 
                 auto elseBody = this->parseExpression();
                 return std::make_shared<IfNode>(
@@ -133,13 +139,15 @@ namespace soviet {
                     if (iterator.peekNextToken().type == TokenType::close_bracket)
                         break;
                     if (iterator.peekNextToken().type != TokenType::comma)
-                        throw std::runtime_error("function arguments must be separated by a comma");
+                        throw ParseError("function arguments must be separated by a comma");
 
                     iterator.getNextToken(); // eat comma
                 }
             }
 
-            iterator.getNextToken(); // eat )
+            const auto closeBracket = iterator.getNextToken(); // eat )
+            if (closeBracket.type != TokenType::close_bracket)
+                throw ParseError("expected \")\"");
 
             return std::make_shared<FuncCallNode>(
                 std::move(name),
