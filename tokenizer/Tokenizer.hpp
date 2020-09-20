@@ -6,7 +6,6 @@
 #include <iostream>
 #include <stdexcept>
 #include "Token.hpp"
-#include "PendingToken.hpp"
 #include "Tokens.hpp"
 #include "../parser/TokenIterator.hpp"
 
@@ -25,7 +24,7 @@ namespace soviet {
             }
 
             if (!previous.isEmpty()) {
-                tokens.add(previous);
+                tokens.add(std::move(previous));
                 previous.clear();
             }
         }
@@ -39,72 +38,74 @@ namespace soviet {
         }
     private:
         Tokens tokens;
-        PendingToken previous{PendingTokenType::none, ""};
+        Token previous{TokenType::none, ""};
 
         void parseChar(const char c) {
             switch (previous.type) {
-                case PendingTokenType::none: parseNone(c); break;
-                case PendingTokenType::string: parseString(c); break;
-                case PendingTokenType::number: parseNumber(c); break;
-                case PendingTokenType::name: parseName(c); break;
-                case PendingTokenType::add_op: parseAddOp(c); break;
-                case PendingTokenType::sub_op: parseSubOp(c); break;
-                case PendingTokenType::mul_op: parseMulOp(c); break;
-                case PendingTokenType::div_op: parseDivOp(c); break;
-                case PendingTokenType::open_bracket: parseOpenBracket(c); break;
-                case PendingTokenType::close_bracket: parseCloseBracket(c); break;
-                case PendingTokenType::equals_op: parseEqualsOp(c); break;
-                case PendingTokenType::double_equals_op: parseDoubleEqualsOp(c); break;
-                case PendingTokenType::comma: parseComma(c); break;
+                case TokenType::none: parseNone(c); break;
+                case TokenType::string: parseString(c); break;
+                case TokenType::number: parseNumber(c); break;
+                case TokenType::name: parseName(c); break;
+                case TokenType::add_op: parseAddOp(c); break;
+                case TokenType::sub_op: parseSubOp(c); break;
+                case TokenType::mul_op: parseMulOp(c); break;
+                case TokenType::div_op: parseDivOp(c); break;
+                case TokenType::open_bracket: parseOpenBracket(c); break;
+                case TokenType::close_bracket: parseCloseBracket(c); break;
+                case TokenType::equals_op: parseEqualsOp(c); break;
+                case TokenType::double_equals_op: parseDoubleEqualsOp(c); break;
+                case TokenType::comma: parseComma(c); break;
                 default:
                     throw std::runtime_error("not implemented (yet)");
             }
         }
 
-        static PendingTokenType getType(const char c) {
-            if (isdigit(c)) return PendingTokenType::number;
-            if (isalpha(c)) return PendingTokenType::name;
-            if (c == ' ') return PendingTokenType::none;
-            if (c == '\'' || c == '"') return PendingTokenType::string;
-            if (c == '+') return PendingTokenType::add_op;
-            if (c == '-') return PendingTokenType::sub_op;
-            if (c == '*') return PendingTokenType::mul_op;
-            if (c == '/') return PendingTokenType::div_op;
-            if (c == '(') return PendingTokenType::open_bracket;
-            if (c == ')') return PendingTokenType::close_bracket;
-            if (c == '=') return PendingTokenType::equals_op;
-            if (c == ',') return PendingTokenType::comma;
-            return PendingTokenType::unknown;
+        static TokenType getType(const char c) {
+            if (isdigit(c)) return TokenType::number;
+            if (isalpha(c)) return TokenType::name;
+            if (c == ' ') return TokenType::none;
+            if (c == '\'' || c == '"') return TokenType::string;
+            if (c == '+') return TokenType::add_op;
+            if (c == '-') return TokenType::sub_op;
+            if (c == '*') return TokenType::mul_op;
+            if (c == '/') return TokenType::div_op;
+            if (c == '(') return TokenType::open_bracket;
+            if (c == ')') return TokenType::close_bracket;
+            if (c == '=') return TokenType::equals_op;
+            if (c == ',') return TokenType::comma;
+            return TokenType::unknown;
         }
 
         void parseNone(const char c) {
             const auto type = getType(c);
             switch (getType(c)) {
-                case PendingTokenType::number:
-                case PendingTokenType::name:
-                case PendingTokenType::add_op:
-                case PendingTokenType::sub_op:
-                case PendingTokenType::div_op:
-                case PendingTokenType::mul_op:
-                case PendingTokenType::unknown:
-                case PendingTokenType::open_bracket:
-                case PendingTokenType::close_bracket:
-                case PendingTokenType::equals_op:
-                case PendingTokenType::comma:
+                case TokenType::number:
+                case TokenType::name:
+                case TokenType::add_op:
+                case TokenType::sub_op:
+                case TokenType::div_op:
+                case TokenType::mul_op:
+                case TokenType::unknown:
+                case TokenType::open_bracket:
+                case TokenType::close_bracket:
+                case TokenType::equals_op:
+                case TokenType::comma:
                     previous.type = type;
                     previous.value += c;
                     break;
-                case PendingTokenType::string:
+                case TokenType::string:
                     previous.type = type;
                     break;
-                case PendingTokenType::none:
+                case TokenType::none:
+                case TokenType::undefined:
+                case TokenType::double_equals_op:
                     break;
             }
         }
 
         void parseString(const char c) {
             if (c == '\'' || c == '"') {
-                tokens.add(previous);
+                tokens.add(std::move(previous));
                 previous.clear();
                 return;
             }
@@ -114,85 +115,85 @@ namespace soviet {
 
         void parseNumber(const char c) {
             const auto type = getType(c);
-            if (type == PendingTokenType::number) {
+            if (type == TokenType::number) {
                 previous.value += c;
                 return;
             }
-            
-            tokens.add(previous);
+
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseName(const char c) {
             const auto type = getType(c);
-            if (type == PendingTokenType::name || type == PendingTokenType::number) {
+            if (type == TokenType::name || type == TokenType::number) {
                 previous.value += c;
                 return;
             }
 
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseAddOp(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseSubOp(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseMulOp(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseDivOp(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseOpenBracket(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseCloseBracket(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseEqualsOp(const char c) {
             const auto type = getType(c);
-            if (type == PendingTokenType::equals_op) {
-                previous.type = PendingTokenType::double_equals_op;
+            if (type == TokenType::equals_op) {
+                previous.type = TokenType::double_equals_op;
                 previous.value += c;
                 return;
             }
 
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseDoubleEqualsOp(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }
 
         void parseComma(const char c) {
-            tokens.add(previous);
+            tokens.add(std::move(previous));
             previous.clear();
             parseChar(c);
         }

@@ -3,16 +3,12 @@
 
 #include <vector>
 #include "Token.hpp"
-#include "PendingToken.hpp"
 
 namespace soviet {
     class Tokens : public std::vector<Token> {
     public:
-        void add(PendingToken& token) {
-            this->emplace_back(
-                applyPendingTokenType(token.type),
-                std::move(token.value)
-            );
+        void add(Token&& token) {
+            this->emplace_back(std::move(token));
         }
     };
 }

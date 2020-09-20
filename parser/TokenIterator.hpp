@@ -23,6 +23,12 @@ namespace soviet {
         bool isEmpty() {
             return currentIndex >= tokens.size();
         }
+
+        void dump() {
+            for (const auto& token : tokens) {
+                std::cout << "(" << dumpTokenType(token.type) << ") " << token.value << std::endl;
+            }
+        }
     private:
         Tokens tokens;
         int currentIndex = 0;

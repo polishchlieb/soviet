@@ -3,6 +3,8 @@
 #include "evaluator/evaluator.hpp"
 #include "evaluator/dumpValue.hpp"
 
+#define DEBUG
+
 #ifdef DEBUG
 #include "tokenizer/dumpTokens.hpp"
 #include "parser/dumpNode.hpp"
@@ -30,18 +32,19 @@ int main() {
         }
 
 #ifdef DEBUG
-        auto tokens = t.tokenize(input);
+        tokenizer.tokenize(input);
+        auto it = tokenizer.getIterator();
         std::cout << "Tokenizer output:" << std::endl;
-        soviet::dump(tokens);
+        it.dump();
         std::cout << "---------------------" << std::endl;
 
-        auto rootNode = p.parse(tokens);
+        auto rootNode = parser.parse(std::move(it));
         std::cout << "Parser output:" << std::endl;
         soviet::dump(rootNode);
         std::cout << "---------------------" << std::endl;
 
         std::cout << "Evaluator output:" << std::endl;
-        const auto value = e.evaluate(rootNode);
+        const auto value = evaluator.evaluate(rootNode);
         std::cout << soviet::dumpValue(value) << std::endl << std::endl;
 #else
         try {

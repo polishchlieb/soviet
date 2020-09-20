@@ -3,6 +3,7 @@
 
 #include "TokenType.hpp"
 #include <string>
+#include <utility>
 
 namespace soviet {
     struct Token {
@@ -12,19 +13,20 @@ namespace soviet {
         Token(TokenType type, std::string&& value)
             : type(type), value(std::move(value)) {}
 
-        Token(const Token& other)
-            : type(other.type), value(other.value) {}
+        Token(const Token& other) = default;
 
-        Token(Token&& other) {
-            type = other.type;
-            other.type = TokenType::undefined;
+        Token(Token&& other) noexcept
+            : value(std::move(other.value)),
+              type(std::exchange(other.type, TokenType::undefined)) {}
 
-            value = std::move(other.value);
+        [[nodiscard]] bool isEmpty() const {
+            return this->type == TokenType::none;
         }
 
-        /* explicit Token(PendingToken& token)
-            : type(applyPendingTokenType(token.type)),
-              value(std::move(token.value)) {} */
+        void clear() {
+            this->type = TokenType::none;
+            this->value = "";
+        }
     };
 }
 
