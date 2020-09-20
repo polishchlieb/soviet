@@ -59,6 +59,12 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseNumber(Token& token) {
+            if (!iterator.isEmpty() && !isIn(iterator.peekNextToken().type,
+              TokenType::add_op, TokenType::sub_op, TokenType::div_op,
+              TokenType::div_op, TokenType::mul_op, TokenType::close_bracket,
+              TokenType::double_equals_op, TokenType::comma, TokenType::greater_than))
+                throw ParseError("unexpected token");
+
             return std::make_shared<NumberNode>(
                 std::stof(token.value)
             );
