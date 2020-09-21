@@ -20,7 +20,7 @@ namespace soviet {
     template<typename T>
     static void dumpLeafNode(const std::shared_ptr<Node>& node, unsigned int spacing = 0) {
         const auto& leafNode = node_cast<LeafNode<T>>(node);
-        std::cout << times(" ", 2 * spacing)
+        std::cout << times(" ", spacing)
             << dumpNodeType(node->type) << ": " << leafNode->value << std::endl;
     }
 
@@ -34,7 +34,7 @@ namespace soviet {
             case NodeType::DoubleEqualsOpNode: {
                 const auto& operatorNode = node_cast<OperatorNode>(node);
 
-                std::cout << times(" ", 2 * spacing)
+                std::cout << times(" ", spacing)
                           << dumpNodeType(node->type) << ":" << std::endl;
                 dump(operatorNode->left, spacing + 2);
                 dump(operatorNode->right, spacing + 2);
@@ -51,39 +51,58 @@ namespace soviet {
                 const auto& funcNode = node_cast<FuncCallNode>(node);
                 const auto& funcName = node_cast<NameNode>(funcNode->name);
 
-                std::cout << times(" ", 2 * spacing)
+                std::cout << times(" ", spacing)
                     << dumpNodeType(node->type) << ":" << std::endl
-                    << times(" ", 2 * spacing + 2) << "name: "
+                    << times(" ", spacing + 2) << "name: "
                     << funcName->value << std::endl
-                    << times(" ", 2 * spacing + 2) << "arguments: "
+                    << times(" ", spacing + 2) << "arguments: "
                     << std::endl;
                 for (const auto& arg : funcNode->arguments)
-                    dump(arg, 2 * spacing + 2);
+                    dump(arg, spacing + 4);
                 break;
             }
             case NodeType::IfNode: {
                 const auto n = node_cast<IfNode>(node);
-                std::cout << times(" ", 2 * spacing)
+                std::cout << times(" ", spacing)
                     << dumpNodeType(node->type) << ":" << std::endl
 
-                    << times(" ", 2 * spacing + 2) << "condition:"
+                    << times(" ", spacing + 2) << "condition:"
                     << std::endl;
 
-                dump(n->condition, spacing + 2);
+                dump(n->condition, spacing + 4);
 
                 std::cout
-                    << times(" ", 2 * spacing + 2) << "then:"
+                    << times(" ", spacing + 2) << "then:"
                     << std::endl;
 
-                dump(n->body, spacing + 2);
+                dump(n->body, spacing + 4);
 
                 if (n->elseBody) {
                     std::cout
-                        << times(" ", 2 * spacing + 2) << "else:"
+                        << times(" ", spacing + 2) << "else:"
                         << std::endl;
 
-                    dump(n->elseBody, spacing + 2);
+                    dump(n->elseBody, spacing + 4);
                 }
+                break;
+            }
+            case NodeType::PrototypeNode: {
+                const auto n = node_cast<PrototypeNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(node->type) << ":" << std::endl
+
+                    << times(" ", spacing + 2) << "arguments:"
+                    << std::endl;
+
+                for (const auto& arg : n->args)
+                    dump(arg, spacing + 4);
+
+                std::cout
+                    << times(" ", spacing + 2) << "return value:"
+                    << std::endl;
+
+                dump(n->returnValue, spacing + 4);
+                break;
             }
         }
     }

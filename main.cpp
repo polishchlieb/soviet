@@ -30,20 +30,26 @@ int main() {
         }
 
 #ifdef DEBUG
-        tokenizer.tokenize(input);
-        auto it = tokenizer.getIterator();
-        std::cout << "Tokenizer output:" << std::endl;
-        it.dump();
-        std::cout << "---------------------" << std::endl;
+        try {
+            tokenizer.tokenize(input);
+            auto it = tokenizer.getIterator();
+            std::cout << "Tokenizer output:" << std::endl;
+            it.dump();
+            std::cout << "---------------------" << std::endl;
 
-        auto rootNode = parser.parse(std::move(it));
-        std::cout << "Parser output:" << std::endl;
-        soviet::dump(rootNode);
-        std::cout << "---------------------" << std::endl;
+            auto rootNode = parser.parse(std::move(it));
+            std::cout << "Parser output:" << std::endl;
+            soviet::dump(rootNode);
+            std::cout << "---------------------" << std::endl;
 
-        std::cout << "Evaluator output:" << std::endl;
-        const auto value = evaluator.evaluate(rootNode);
-        std::cout << soviet::dumpValue(value) << std::endl << std::endl;
+            std::cout << "Evaluator output:" << std::endl;
+            const auto value = evaluator.evaluate(rootNode);
+            std::cout << soviet::dumpValue(value) << std::endl << std::endl;
+        } catch (soviet::Error& e) {
+            e.print();
+        }
+
+        tokenizer.clear();
 #else
         try {
             tokenizer.tokenize(input);

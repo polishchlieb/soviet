@@ -15,7 +15,8 @@ namespace soviet {
         NameNode,
         FuncCallNode,
         StringNode,
-        IfNode
+        IfNode,
+        PrototypeNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -31,6 +32,7 @@ namespace soviet {
             case NodeType::FuncCallNode: return "function_call_node";
             case NodeType::StringNode: return "string_node";
             case NodeType::IfNode: return "if_node";
+            case NodeType::PrototypeNode: return "prototype_node";
         }
     }
 }

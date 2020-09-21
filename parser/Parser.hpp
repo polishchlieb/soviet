@@ -22,7 +22,10 @@ namespace soviet {
     public:
         std::shared_ptr<Node> parse(TokenIterator&& iterator) {
             this->iterator = std::move(iterator);
-            return this->parseExpression();
+            auto node = this->parseExpression();
+            if (!this->iterator.isEmpty())
+                throw ParseError("unexpected token");
+            return node;
         }
 
     private:
@@ -49,22 +52,67 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
+            if (iterator.peekNextToken().type == TokenType::close_bracket) {
+                iterator.getNextToken(); // eat close bracket
+
+                const auto& arrowTok = iterator.getNextToken(); // eat ->
+                if (arrowTok.type != TokenType::arrow)
+                    throw ParseError("expected \"->\"");
+
+                auto returnValue = this->parseExpression();
+
+                return std::make_shared<PrototypeNode>(
+                    std::vector<std::shared_ptr<Node>>{},
+                    std::move(returnValue)
+                );
+            }
+
             auto operand = this->parseExpression();
+            if (iterator.peekNextToken().type == TokenType::comma) {
+                std::vector<std::shared_ptr<Node>> args{operand};
+                while (iterator.peekNextToken().type == TokenType::comma) {
+                    iterator.getNextToken(); // eat comma
+                    args.push_back(this->parseExpression());
+                }
+
+                const auto closeBracket = iterator.getNextToken(); // eat )
+                if (closeBracket.type != TokenType::close_bracket)
+                    throw ParseError("expected \")\"");
+
+                const auto arrow = iterator.getNextToken(); // eat ->
+                if (arrow.type != TokenType::arrow)
+                    throw ParseError("expected \"->\"");
+
+                return std::make_shared<PrototypeNode>(
+                    std::move(args),
+                    this->parseExpression()
+                );
+            }
 
             const auto closeBracket = iterator.getNextToken(); // eat )
             if (closeBracket.type != TokenType::close_bracket)
                 throw ParseError("expected \")\"");
 
+            if (!iterator.isEmpty()) {
+                switch (iterator.peekNextToken().type) {
+                    case TokenType::arrow:
+                        iterator.getNextToken(); // eat ->
+
+                        return std::make_shared<PrototypeNode>(
+                            std::vector{operand},
+                            this->parseExpression()
+                        );
+                    case TokenType::open_bracket:
+                        return parseFunctionCall(std::move(operand));
+                    default:
+                        break;
+                }
+            }
+
             return std::move(operand);
         }
 
         std::shared_ptr<Node> parseNumber(Token& token) {
-            if (!iterator.isEmpty() && !isIn(iterator.peekNextToken().type,
-              TokenType::add_op, TokenType::sub_op, TokenType::div_op,
-              TokenType::div_op, TokenType::mul_op, TokenType::close_bracket,
-              TokenType::double_equals_op, TokenType::comma, TokenType::greater_than))
-                throw ParseError("unexpected token");
-
             return std::make_shared<NumberNode>(
                 std::stof(token.value)
             );
@@ -120,6 +168,18 @@ namespace soviet {
                     return parseAssignment(std::move(node));
                 case TokenType::open_bracket:
                     return parseFunctionCall(std::move(node));
+                case TokenType::arrow: {
+                    iterator.getNextToken(); // eat ->
+
+                    auto returnValue = this->parseExpression();
+
+                    return std::make_shared<PrototypeNode>(
+                        std::vector<std::shared_ptr<Node>>{
+                            std::move(node)
+                        },
+                        std::move(returnValue)
+                    );
+                }
                 default:
                     return node;
             }

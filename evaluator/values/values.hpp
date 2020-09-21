@@ -8,5 +8,6 @@
 #include "NumberValue.hpp"
 #include "BooleanValue.hpp"
 #include "StringValue.hpp"
+#include "FunctionValue.hpp"
 
 #endif //SOVIET_VALUES_HPP

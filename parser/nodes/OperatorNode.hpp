@@ -10,7 +10,7 @@ namespace soviet {
         std::shared_ptr<Node> left;
         std::shared_ptr<Node> right;
 
-        OperatorNode() {
+        OperatorNode() : Node() {
             throw std::runtime_error("constructor of OperatorNode was called");
         }
     };

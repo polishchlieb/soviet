@@ -20,6 +20,9 @@ namespace soviet {
                 const auto& v = value_cast<StringValue>(value);
                 return v->value;
             }
+            case ValueType::FunctionValue: {
+                return "[function]";
+            }
             case ValueType::UndefinedValue:
                 return "";
         }

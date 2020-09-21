@@ -61,11 +61,6 @@
         <option name="BeforeTestRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="gmock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="gmock" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -148,14 +143,16 @@
       <workItem from="1600550213828" duration="4195000" />
       <workItem from="1600617783449" duration="8463000" />
       <workItem from="1600630576513" duration="6373000" />
+      <workItem from="1600705477152" duration="9859000" />
+      <workItem from="1600716084069" duration="801000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1600621619737">
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1600706782012">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1600621619737" />
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1600706782012" />
     <state x="298" y="196" width="1084" height="738" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598524546726">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -172,22 +169,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="328" key="GridCell.Tab.0.bottom" timestamp="1600638078305">
+    <state width="1657" height="384" key="GridCell.Tab.0.bottom" timestamp="1600716801903">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="328" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1600638078305" />
-    <state width="1657" height="328" key="GridCell.Tab.0.center" timestamp="1600638078304">
+    <state width="1657" height="384" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1600716801903" />
+    <state width="1657" height="384" key="GridCell.Tab.0.center" timestamp="1600716801902">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="328" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1600638078304" />
-    <state width="1657" height="328" key="GridCell.Tab.0.left" timestamp="1600638078303">
+    <state width="1657" height="384" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1600716801902" />
+    <state width="1657" height="384" key="GridCell.Tab.0.left" timestamp="1600716801902">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="328" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1600638078303" />
-    <state width="1657" height="328" key="GridCell.Tab.0.right" timestamp="1600638078305">
+    <state width="1657" height="384" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1600716801902" />
+    <state width="1657" height="384" key="GridCell.Tab.0.right" timestamp="1600716801903">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="328" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1600638078305" />
+    <state width="1657" height="384" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1600716801903" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>

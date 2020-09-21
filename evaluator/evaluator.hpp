@@ -5,23 +5,24 @@
 #include "../parser/nodes/nodes.hpp"
 #include "../parser/node_cast.hpp"
 #include "values/values.hpp"
-#include "Function.hpp"
 #include "EvaluateError.hpp"
+#include "../parser/dumpNode.hpp"
 #include <unordered_map>
 
 namespace soviet {
     class Evaluator {
     public:
         Evaluator() {
-            Function print{
+            variables.insert({
                 "print",
-                [](const std::vector<std::shared_ptr<Value>>& args) {
-                    const auto value = value_cast<StringValue>(args[0]);
-                    std::cout << value->value << std::endl;
-                    return std::make_shared<Value>(ValueType::UndefinedValue);
-                }
-            };
-            functions.insert({"print", print});
+                std::make_shared<FunctionValue>(
+                    [](const std::vector<std::shared_ptr<Value>>& args) {
+                        const auto value = value_cast<StringValue>(args[0]);
+                        std::cout << value->value << std::endl;
+                        return std::make_shared<Value>(ValueType::UndefinedValue);
+                    }
+                )
+            });
         }
 
         std::shared_ptr<Value> evaluate(const std::shared_ptr<Node>& node) {
@@ -48,6 +49,8 @@ namespace soviet {
                     return evaluateFuncCallNode(node);
                 case NodeType::IfNode:
                     return evaluateIfNode(node);
+                case NodeType::PrototypeNode:
+                    return evaluatePrototypeNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -55,7 +58,6 @@ namespace soviet {
 
     private:
         std::unordered_map<std::string, std::shared_ptr<Value>> variables;
-        std::unordered_map<std::string, Function> functions;
 
         std::shared_ptr<Value> evaluateNumberNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<NumberNode>(node);
@@ -147,12 +149,8 @@ namespace soviet {
 
         std::shared_ptr<Value> evaluateFuncCallNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<FuncCallNode>(node);
-            const auto name = node_cast<NameNode>(n->name);
 
-            if (!functions.contains(name->value))
-                throw EvaluateError("unknown function: " + name->value);
-
-            const auto function = functions[name->value];
+            const auto function = value_cast<FunctionValue>(evaluate(n->name));
 
             std::vector<std::shared_ptr<Value>> arguments;
             std::transform(
@@ -164,7 +162,17 @@ namespace soviet {
                 }
             );
 
-            return function.callback(arguments);
+            return function->run(arguments);
+        }
+
+        std::shared_ptr<Value> evaluatePrototypeNode(const std::shared_ptr<Node>& node) {
+            const auto n = node_cast<PrototypeNode>(node);
+
+            return std::make_shared<FunctionValue>(
+                [this, n](const std::vector<std::shared_ptr<Value>>& args) {
+                    return evaluate(n->returnValue);
+                }
+            );
         }
     };
 }
