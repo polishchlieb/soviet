@@ -3,12 +3,18 @@
 #include "evaluator/evaluator.hpp"
 #include "evaluator/dumpValue.hpp"
 
+#include <fstream>
+
 #ifdef DEBUG
 #include "tokenizer/dumpTokens.hpp"
 #include "parser/dumpNode.hpp"
 #endif
 
-int main() {
+static void runREPL() {
+    std::cout << "soviet 1 by chlebek ;D" << std::endl
+        << "Inline mode supports only one-liners currently, GLHF!"
+        << std::endl << std::endl;
+
     soviet::Tokenizer tokenizer;
     soviet::Parser parser;
     soviet::Evaluator evaluator;
@@ -16,20 +22,20 @@ int main() {
     while (true) {
         std::string input;
 
-#ifdef DEBUG
+    #ifdef DEBUG
         std::cout << "Input: ";
         std::getline(std::cin, input);
         std::cout << "---------------------" << std::endl;
-#else
+    #else
         std::cout << "> ";
         std::getline(std::cin, input);
-#endif
+    #endif
 
         if (input == "exit") {
             break;
         }
 
-#ifdef DEBUG
+    #ifdef DEBUG
         try {
             tokenizer.tokenize(input);
             auto it = tokenizer.getIterator();
@@ -50,7 +56,7 @@ int main() {
         }
 
         tokenizer.clear();
-#else
+    #else
         try {
             tokenizer.tokenize(input);
             const auto rootNode = parser.parse(tokenizer.getIterator());
@@ -61,7 +67,34 @@ int main() {
         }
 
         tokenizer.clear();
-#endif
+    #endif
+    }
+}
+
+static void runFile(const char* fileName) {
+    soviet::Tokenizer tokenizer;
+    soviet::Parser parser;
+    soviet::Evaluator evaluator;
+
+    std::ifstream file(fileName);
+    std::string line;
+
+    while (std::getline(file, line)) {
+        try {
+            tokenizer.tokenize(line);
+            const auto rootNode = parser.parse(tokenizer.getIterator());
+            const auto value = evaluator.evaluate(rootNode);
+        } catch (soviet::Error& e) {
+            e.print();
+        }
+    }
+}
+
+int main(int argc, char** argv) {
+    switch (argc) {
+        case 1: runREPL(); break;
+        case 2: runFile(argv[1]); break;
+        default: std::cout << "blyat" << std::endl;
     }
 }
 
