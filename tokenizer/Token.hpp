@@ -13,7 +13,7 @@ namespace soviet {
         Token(TokenType type, std::string&& value)
             : type(type), value(std::move(value)) {}
 
-        Token(const Token& other) = default;
+        Token(const Token&) = default;
 
         Token(Token&& other) noexcept
             : value(std::move(other.value)),

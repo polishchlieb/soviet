@@ -1,0 +1,9 @@
+add = () -> a + b
+
+a = 10
+b = 5
+print(add())
+
+a = 20
+b = 1
+print(add())

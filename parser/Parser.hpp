@@ -4,7 +4,6 @@
 #include "../tokenizer/Token.hpp"
 #include <vector>
 #include "nodes/nodes.hpp"
-#include "TokenIterator.hpp"
 #include <memory>
 #include <stack>
 #include <stdexcept>
@@ -20,23 +19,18 @@
 namespace soviet {
     class Parser {
     public:
-        std::shared_ptr<Node> parse(TokenIterator&& iterator) {
-            this->iterator = std::move(iterator);
-            auto node = this->parseExpression();
-            if (!this->iterator.isEmpty())
-                throw ParseError("unexpected token");
-            return node;
+        std::shared_ptr<Node> parse() {
+            return this->parseExpression();
         }
 
+        Tokenizer tokenizer;
     private:
-        TokenIterator iterator;
-
         std::shared_ptr<Node> parseExpression() {
             return this->parseComparison();
         }
 
         std::shared_ptr<Node> parsePrimary() {
-            auto& token = iterator.getNextToken();
+            auto token = tokenizer.getNextToken();
             switch (token.type) {
                 case TokenType::open_bracket:
                     return parseBracketExpression();
@@ -52,10 +46,10 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
-            if (iterator.peekNextToken().type == TokenType::close_bracket) {
-                iterator.getNextToken(); // eat close bracket
+            if (tokenizer.peekNextToken().type == TokenType::close_bracket) {
+                tokenizer.getNextToken(); // eat close bracket
 
-                const auto& arrowTok = iterator.getNextToken(); // eat ->
+                const auto arrowTok = tokenizer.getNextToken(); // eat ->
                 if (arrowTok.type != TokenType::arrow)
                     throw ParseError("expected \"->\"");
 
@@ -68,18 +62,18 @@ namespace soviet {
             }
 
             auto operand = this->parseExpression();
-            if (iterator.peekNextToken().type == TokenType::comma) {
+            if (tokenizer.peekNextToken().type == TokenType::comma) {
                 std::vector<std::shared_ptr<Node>> args{operand};
-                while (iterator.peekNextToken().type == TokenType::comma) {
-                    iterator.getNextToken(); // eat comma
+                while (tokenizer.peekNextToken().type == TokenType::comma) {
+                    tokenizer.getNextToken(); // eat comma
                     args.push_back(this->parseExpression());
                 }
 
-                const auto closeBracket = iterator.getNextToken(); // eat )
+                const auto closeBracket = tokenizer.getNextToken(); // eat )
                 if (closeBracket.type != TokenType::close_bracket)
                     throw ParseError("expected \")\"");
 
-                const auto arrow = iterator.getNextToken(); // eat ->
+                const auto arrow = tokenizer.getNextToken(); // eat ->
                 if (arrow.type != TokenType::arrow)
                     throw ParseError("expected \"->\"");
 
@@ -89,14 +83,14 @@ namespace soviet {
                 );
             }
 
-            const auto closeBracket = iterator.getNextToken(); // eat )
+            const auto closeBracket = tokenizer.getNextToken(); // eat )
             if (closeBracket.type != TokenType::close_bracket)
                 throw ParseError("expected \")\"");
 
-            if (!iterator.isEmpty()) {
-                switch (iterator.peekNextToken().type) {
+            if (!tokenizer.isEmpty()) {
+                switch (tokenizer.peekNextToken().type) {
                     case TokenType::arrow:
-                        iterator.getNextToken(); // eat ->
+                        tokenizer.getNextToken(); // eat ->
 
                         return std::make_shared<PrototypeNode>(
                             std::vector{operand},
@@ -121,14 +115,14 @@ namespace soviet {
         std::shared_ptr<Node> parseIfStatement() {
             auto condition = this->parseExpression();
 
-            const auto thenTok = iterator.getNextToken(); // eat "then"
+            const auto thenTok = tokenizer.getNextToken(); // eat "then"
             if (thenTok.type != TokenType::name || thenTok.value != "then")
                 throw ParseError("expected \"then\"");
 
             auto body = this->parseExpression();
 
-            if (!iterator.isEmpty()) { // "else"
-                const auto elseTok = iterator.getNextToken(); // eat "else"
+            if (!tokenizer.isEmpty()) { // "else"
+                const auto elseTok = tokenizer.getNextToken(); // eat "else"
                 if (elseTok.type != TokenType::name || elseTok.value != "else")
                     throw ParseError("expected \"else\"");
 
@@ -160,16 +154,16 @@ namespace soviet {
                 std::move(token.value)
             );
 
-            if (iterator.isEmpty())
+            if (tokenizer.isEmpty())
                 return node;
 
-            switch (iterator.peekNextToken().type) {
+            switch (tokenizer.peekNextToken().type) {
                 case TokenType::equals_op:
                     return parseAssignment(std::move(node));
                 case TokenType::open_bracket:
                     return parseFunctionCall(std::move(node));
                 case TokenType::arrow: {
-                    iterator.getNextToken(); // eat ->
+                    tokenizer.getNextToken(); // eat ->
 
                     auto returnValue = this->parseExpression();
 
@@ -186,7 +180,7 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseAssignment(std::shared_ptr<Node>&& name) {
-            iterator.getNextToken(); // eat =
+            tokenizer.getNextToken(); // eat =
             return std::make_shared<EqualsOpNode>(
                 std::move(name),
                 this->parseExpression()
@@ -194,24 +188,24 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseFunctionCall(std::shared_ptr<Node>&& name) {
-            iterator.getNextToken(); // eat (
+            tokenizer.getNextToken(); // eat (
 
             std::vector<std::shared_ptr<Node>> args;
-            if (iterator.peekNextToken().type != TokenType::close_bracket) {
+            if (tokenizer.peekNextToken().type != TokenType::close_bracket) {
                 while (true) {
                     auto arg = parseExpression();
                     args.push_back(arg);
 
-                    if (iterator.peekNextToken().type == TokenType::close_bracket)
+                    if (tokenizer.peekNextToken().type == TokenType::close_bracket)
                         break;
-                    if (iterator.peekNextToken().type != TokenType::comma)
+                    if (tokenizer.peekNextToken().type != TokenType::comma)
                         throw ParseError("function arguments must be separated by a comma");
 
-                    iterator.getNextToken(); // eat comma
+                    tokenizer.getNextToken(); // eat comma
                 }
             }
 
-            const auto closeBracket = iterator.getNextToken(); // eat )
+            const auto closeBracket = tokenizer.getNextToken(); // eat )
             if (closeBracket.type != TokenType::close_bracket)
                 throw ParseError("expected \")\"");
 
@@ -223,8 +217,8 @@ namespace soviet {
 
         std::shared_ptr<Node> parseComparison() {
             auto operand1 = this->parseAdditive();
-            while (iterator.peekNextToken().type == TokenType::double_equals_op) {
-                const auto op = iterator.getNextToken();
+            while (tokenizer.peekNextToken().type == TokenType::double_equals_op) {
+                const auto op = tokenizer.getNextToken();
                 auto operand2 = parseAdditive();
                 operand1 = std::make_shared<DoubleEqualsOpNode>(
                     std::move(operand1),
@@ -237,10 +231,10 @@ namespace soviet {
         std::shared_ptr<Node> parseAdditive() {
             auto operand1 = this->parseMultiplicative();
             while (isIn(
-                iterator.peekNextToken().type,
+                tokenizer.peekNextToken().type,
                 TokenType::add_op, TokenType::sub_op
             )) {
-                const auto op = iterator.getNextToken();
+                const auto op = tokenizer.getNextToken();
                 auto operand2 = parseMultiplicative();
                 if (op.type == TokenType::add_op) {
                     operand1 = std::make_shared<AddOpNode>(
@@ -261,10 +255,10 @@ namespace soviet {
             auto operand1 = this->parsePrimary();
 
             while (isIn(
-                iterator.peekNextToken().type,
+                tokenizer.peekNextToken().type,
                 TokenType::mul_op, TokenType::div_op
             )) {
-                const auto op = iterator.getNextToken();
+                const auto op = tokenizer.getNextToken();
                 auto operand2 = parsePrimary();
                 if (op.type == TokenType::mul_op) {
                     operand1 = std::make_shared<MulOpNode>(

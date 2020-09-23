@@ -17,8 +17,21 @@ namespace soviet {
                 "print",
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
-                        const auto value = value_cast<StringValue>(args[0]);
-                        std::cout << value->value << std::endl;
+                        switch (args[0]->type) {
+                            case ValueType::StringValue: {
+                                const auto value = value_cast<StringValue>(args[0]);
+                                std::cout << value->value << std::endl;
+                                break;
+                            }
+                            case ValueType::NumberValue: {
+                                const auto value = value_cast<NumberValue>(args[0]);
+                                std::cout << value->value << std::endl;
+                                break;
+                            }
+                            default:
+                                break;
+                        }
+
                         return std::make_shared<Value>(ValueType::UndefinedValue);
                     }
                 )

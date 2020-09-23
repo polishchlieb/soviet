@@ -49,13 +49,14 @@ namespace soviet {
                 break;
             case NodeType::FuncCallNode: {
                 const auto& funcNode = node_cast<FuncCallNode>(node);
-                const auto& funcName = node_cast<NameNode>(funcNode->name);
 
                 std::cout << times(" ", spacing)
                     << dumpNodeType(node->type) << ":" << std::endl
-                    << times(" ", spacing + 2) << "name: "
-                    << funcName->value << std::endl
-                    << times(" ", spacing + 2) << "arguments: "
+                    << times(" ", spacing + 2) << "function: " << std::endl;
+
+                dump(funcNode->name, spacing + 4);
+
+                std::cout << times(" ", spacing + 2) << "arguments: "
                     << std::endl;
                 for (const auto& arg : funcNode->arguments)
                     dump(arg, spacing + 4);
