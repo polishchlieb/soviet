@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "Token.hpp"
+#include "../parser/ParseError.hpp"
 #include <queue>
 
 namespace soviet {
@@ -18,7 +19,7 @@ namespace soviet {
         Token peekNextToken() {
             if (tokens.empty()) {
                 if (lines.empty())
-                    return Token{TokenType::undefined, ""};
+                    throw ParseError("expected a token");
                 tokenize(lines.front());
                 lines.pop();
             }
@@ -29,7 +30,7 @@ namespace soviet {
         Token getNextToken() {
             if (tokens.empty()) {
                 if (lines.empty())
-                    return Token{TokenType::undefined, ""};
+                    throw ParseError("expected a token");
                 tokenize(lines.front());
                 lines.pop();
             }

@@ -217,7 +217,8 @@ namespace soviet {
 
         std::shared_ptr<Node> parseComparison() {
             auto operand1 = this->parseAdditive();
-            while (tokenizer.peekNextToken().type == TokenType::double_equals_op) {
+            while (!tokenizer.isEmpty()
+              && tokenizer.peekNextToken().type == TokenType::double_equals_op) {
                 const auto op = tokenizer.getNextToken();
                 auto operand2 = parseAdditive();
                 operand1 = std::make_shared<DoubleEqualsOpNode>(
@@ -230,7 +231,7 @@ namespace soviet {
 
         std::shared_ptr<Node> parseAdditive() {
             auto operand1 = this->parseMultiplicative();
-            while (isIn(
+            while (!tokenizer.isEmpty() && isIn(
                 tokenizer.peekNextToken().type,
                 TokenType::add_op, TokenType::sub_op
             )) {
@@ -254,7 +255,7 @@ namespace soviet {
         std::shared_ptr<Node> parseMultiplicative() {
             auto operand1 = this->parsePrimary();
 
-            while (isIn(
+            while (!tokenizer.isEmpty() && isIn(
                 tokenizer.peekNextToken().type,
                 TokenType::mul_op, TokenType::div_op
             )) {
