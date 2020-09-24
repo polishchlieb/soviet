@@ -183,7 +183,10 @@ namespace soviet {
         std::shared_ptr<Value> evaluateBlockNode(const std::shared_ptr<Node>& node) {
             const auto n = node_cast<BlockNode>(node);
 
+            for (const auto& expr : n->nodes)
+                evaluate(expr);
 
+            return std::make_shared<Value>(ValueType::UndefinedValue);
         }
     };
 }
