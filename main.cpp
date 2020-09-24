@@ -81,13 +81,13 @@ static void runFile(const char* fileName) {
         parser.tokenizer.addLine(std::move(line));
     }
 
-    while (!parser.tokenizer.isEmpty()) {
-        try {
+    try {
+        while (!parser.tokenizer.isEmpty()) {
             const auto rootNode = parser.parse();
             evaluator.evaluate(rootNode);
-        } catch (const soviet::Error& e) {
-            e.print();
         }
+    } catch (const soviet::Error& e) {
+        e.print();
     }
 }
 

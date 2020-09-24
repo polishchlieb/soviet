@@ -40,14 +40,18 @@ namespace soviet {
             return value;
         }
 
+        void dump() {
+            auto copy = tokens;
+            while (!copy.empty()) {
+                const auto token = copy.front();
+                copy.pop();
+                std::cout << "(" << dumpTokenType(token.type) << ") " << token.value << std::endl;
+            }
+        }
+
         void addLine(std::string&& line) {
             this->lines.emplace(std::move(line));
         }
-    private:
-        std::queue<std::string> lines;
-        std::queue<Token> tokens;
-
-        Token previous{TokenType::none, ""};
 
         void tokenize(const std::string& line) {
             for (const char c : line) {
@@ -59,6 +63,11 @@ namespace soviet {
                 previous.clear();
             }
         }
+    private:
+        std::queue<std::string> lines;
+        std::queue<Token> tokens;
+
+        Token previous{TokenType::none, ""};
 
         void parseChar(const char c) {
             switch (previous.type) {
@@ -77,6 +86,8 @@ namespace soviet {
                 case TokenType::comma: parseComma(c); break;
                 case TokenType::arrow: parseArrow(c); break;
                 case TokenType::greater_than: parseGreaterThan(c); break;
+                case TokenType::open_curly_bracket: parseOpenCurlyBracket(c); break;
+                case TokenType::close_curly_bracket: parseCloseCurlyBracket(c); break;
                 default:
                     throw std::runtime_error("not implemented (yet)");
             }
@@ -96,6 +107,8 @@ namespace soviet {
             if (c == '=') return TokenType::equals_op;
             if (c == ',') return TokenType::comma;
             if (c == '>') return TokenType::greater_than;
+            if (c == '{') return TokenType::open_curly_bracket;
+            if (c == '}') return TokenType::close_curly_bracket;
             return TokenType::unknown;
         }
 
@@ -114,6 +127,8 @@ namespace soviet {
                 case TokenType::equals_op:
                 case TokenType::comma:
                 case TokenType::greater_than:
+                case TokenType::open_curly_bracket:
+                case TokenType::close_curly_bracket:
                     previous.type = type;
                     previous.value += c;
                     break;
@@ -237,6 +252,18 @@ namespace soviet {
         }
 
         void parseGreaterThan(const char c) {
+            tokens.emplace(std::move(previous));
+            previous.clear();
+            parseChar(c);
+        }
+
+        void parseOpenCurlyBracket(const char c) {
+            tokens.emplace(std::move(previous));
+            previous.clear();
+            parseChar(c);
+        }
+
+        void parseCloseCurlyBracket(const char c) {
             tokens.emplace(std::move(previous));
             previous.clear();
             parseChar(c);
