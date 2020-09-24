@@ -1,7 +1,22 @@
-p = () -> {
-  print('hell world')
-  print('dziala!!11!')
-  print('dupa1234')
+case = 0
+
+papierz = () -> {
+  if case == 0 then {
+    print(2)
+    case = 1
+  }
+  if case == 1 then {
+    print(1)
+    case = 2
+  }
+  if case == 2 then {
+    print(3)
+    case = 3
+  }
+  if case == 3 then {
+    print(7)
+    case = 0
+  }
 }
 
-p()
+papierz()

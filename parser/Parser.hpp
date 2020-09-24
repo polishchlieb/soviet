@@ -132,7 +132,9 @@ namespace soviet {
 
             auto body = this->parseExpression();
 
-            if (!tokenizer.isEmpty()) { // "else"
+            if (!tokenizer.isEmpty()
+                && tokenizer.peekNextToken().type == TokenType::name
+                && tokenizer.peekNextToken().value == "else") { // "else"
                 const auto elseTok = tokenizer.getNextToken(); // eat "else"
                 if (elseTok.type != TokenType::name || elseTok.value != "else")
                     throw ParseError("expected \"else\"");
