@@ -13,5 +13,6 @@
 #include "StringNode.hpp"
 #include "IfNode.hpp"
 #include "PrototypeNode.hpp"
+#include "BlockNode.hpp"
 
 #endif //SOVIET_NODES_HPP

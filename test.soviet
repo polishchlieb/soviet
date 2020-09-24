@@ -1,9 +1,7 @@
-add = () -> a +b
+p = () -> {
+  print('hell world')
+  print('dziala!!11!')
+  print('dupa1234')
+}
 
-a = 10
-b = 5
-print(add())
-
-a = 20
-b = 1
-print(add())
+p()

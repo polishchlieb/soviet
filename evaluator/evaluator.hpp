@@ -54,6 +54,8 @@ namespace soviet {
                     return evaluateIfNode(node);
                 case NodeType::PrototypeNode:
                     return evaluatePrototypeNode(node);
+                case NodeType::BlockNode:
+                    return evaluateBlockNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -176,6 +178,12 @@ namespace soviet {
                     return evaluate(n->returnValue);
                 }
             );
+        }
+
+        std::shared_ptr<Value> evaluateBlockNode(const std::shared_ptr<Node>& node) {
+            const auto n = node_cast<BlockNode>(node);
+
+
         }
     };
 }

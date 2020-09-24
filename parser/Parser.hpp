@@ -34,6 +34,8 @@ namespace soviet {
             switch (token.type) {
                 case TokenType::open_bracket:
                     return parseBracketExpression();
+                case TokenType::open_curly_bracket:
+                    return parseCurlyBracketExpression();
                 case TokenType::number:
                     return parseNumber(token);
                 case TokenType::name:
@@ -104,6 +106,15 @@ namespace soviet {
             }
 
             return std::move(operand);
+        }
+
+        std::shared_ptr<Node> parseCurlyBracketExpression() {
+            std::vector<std::shared_ptr<Node>> nodes;
+            while (tokenizer.peekNextToken().type != TokenType::close_curly_bracket) {
+                nodes.push_back(this->parseExpression());
+            }
+            tokenizer.getNextToken(); // eat close curly bracket
+            return std::make_shared<BlockNode>(std::move(nodes));
         }
 
         std::shared_ptr<Node> parseNumber(Token& token) {
