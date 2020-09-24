@@ -82,8 +82,12 @@ static void runFile(const char* fileName) {
     }
 
     while (!parser.tokenizer.isEmpty()) {
-        const auto rootNode = parser.parse();
-        evaluator.evaluate(rootNode);
+        try {
+            const auto rootNode = parser.parse();
+            evaluator.evaluate(rootNode);
+        } catch (const soviet::Error& e) {
+            e.print();
+        }
     }
 }
 
