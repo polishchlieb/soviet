@@ -7,7 +7,7 @@
 namespace soviet {
     struct StringValue : Value {
         std::string value;
-        explicit StringValue(std::string&& value)
+        explicit StringValue(std::string value)
             : Value{ValueType::StringValue}, value(std::move(value)) {}
     };
 }
