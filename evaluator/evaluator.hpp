@@ -67,7 +67,7 @@ namespace soviet {
 
         std::shared_ptr<Value> evaluateStringNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<StringNode>(node);
-            return std::make_shared<StringValue>(std::move(n->value));
+            return std::make_shared<StringValue>(n->value);
         }
 
         std::shared_ptr<Value> evaluateAddOpNode(const std::shared_ptr<Node>& node) {
@@ -177,8 +177,10 @@ namespace soviet {
                             args[i]
                         });
                     }
-                    currentContext.push_back(std::move(functionScope));
-                    return evaluate(n->returnValue);
+                    currentContext.push_back(functionScope);
+                    auto value = evaluate(n->returnValue);
+                    currentContext.pop_back();
+                    return value;
                 }
             );
         }
