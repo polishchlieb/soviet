@@ -9,25 +9,12 @@
 #include "../parser/dumpNode.hpp"
 #include <unordered_map>
 #include "dumpValue.hpp"
+#include "Scope.hpp"
+#include "GlobalScope.hpp"
 
 namespace soviet {
     class Evaluator {
     public:
-        Evaluator() {
-            variables.insert({
-                "print",
-                std::make_shared<FunctionValue>(
-                    [](const std::vector<std::shared_ptr<Value>>& args) {
-                        for (const auto& arg : args)
-                            std::cout << dumpValue(arg) << " ";
-                        std::cout << std::endl;
-
-                        return std::make_shared<Value>(ValueType::UndefinedValue);
-                    }
-                )
-            });
-        }
-
         std::shared_ptr<Value> evaluate(const std::shared_ptr<Node>& node) {
             switch (node->type) {
                 case NodeType::NumberNode:
@@ -60,9 +47,8 @@ namespace soviet {
                     throw EvaluateError("Unexpected node");
             }
         }
-
     private:
-        std::unordered_map<std::string, std::shared_ptr<Value>> variables;
+        std::vector<Scope> currentContext = {GlobalScope{}};
 
         std::shared_ptr<Value> evaluateNumberNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<NumberNode>(node);
@@ -71,9 +57,12 @@ namespace soviet {
 
         std::shared_ptr<Value> evaluateNameNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<NameNode>(node);
-            if (!variables.contains(n->value))
-                throw EvaluateError("unknown name: " + n->value);
-            return variables[n->value];
+            for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+                if (i->variables.contains(n->value))
+                    return i->variables[n->value];
+            }
+
+            throw EvaluateError("unknown name: " + n->value);
         }
 
         std::shared_ptr<Value> evaluateStringNode(const std::shared_ptr<Node>& node) {
@@ -122,8 +111,14 @@ namespace soviet {
         std::shared_ptr<Value> evaluateEqualsOpNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<EqualsOpNode>(node);
             const auto name = node_cast<NameNode>(n->left);
-            const auto value = value_cast<NumberValue>(evaluate(n->right));
-            variables[std::move(name->value)] = value;
+            auto value = evaluate(n->right);
+            for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+                if (i->variables.contains(name->value))
+                    return i->variables[name->value] = value;
+            }
+            currentContext[currentContext.size() - 1].variables.insert({
+                name->value, value
+            });
             return value;
         }
 
@@ -171,10 +166,18 @@ namespace soviet {
         }
 
         std::shared_ptr<Value> evaluatePrototypeNode(const std::shared_ptr<Node>& node) {
-            const auto n = node_cast<PrototypeNode>(node);
+            auto n = node_cast<PrototypeNode>(node);
 
             return std::make_shared<FunctionValue>(
                 [this, n](const std::vector<std::shared_ptr<Value>>& args) {
+                    Scope functionScope;
+                    for (unsigned int i = 0; i < n->args.size(); ++i) {
+                        functionScope.variables.insert({
+                            node_cast<NameNode>(n->args[i])->value,
+                            args[i]
+                        });
+                    }
+                    currentContext.push_back(std::move(functionScope));
                     return evaluate(n->returnValue);
                 }
             );

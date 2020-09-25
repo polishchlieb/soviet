@@ -1,2 +1,6 @@
-main = () -> { print('hell world') }
-main()
+int1 = 10
+int2 = 20
+
+add = (a, b) -> a + b
+
+print(add(int1, int2))
