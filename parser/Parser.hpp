@@ -30,24 +30,25 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parsePrimary() {
-            auto token = tokenizer.getNextToken();
-            switch (token.type) {
+            switch (tokenizer.peekNextToken().type) {
                 case TokenType::open_bracket:
                     return parseBracketExpression();
                 case TokenType::open_curly_bracket:
                     return parseCurlyBracketExpression();
                 case TokenType::number:
-                    return parseNumber(token);
+                    return parseNumber();
                 case TokenType::name:
-                    return parseName(token);
+                    return parseName();
                 case TokenType::string:
-                    return parseString(token);
+                    return parseString();
                 default:
                     throw ParseError("unexpected token");
             }
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
+            tokenizer.getNextToken(); // eat open bracket
+
             if (tokenizer.peekNextToken().type == TokenType::close_bracket) {
                 tokenizer.getNextToken(); // eat close bracket
 
@@ -109,6 +110,8 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseCurlyBracketExpression() {
+            tokenizer.getNextToken(); // eat curly bracket
+
             std::vector<std::shared_ptr<Node>> nodes;
             while (tokenizer.peekNextToken().type != TokenType::close_curly_bracket) {
                 nodes.push_back(this->parseExpression());
@@ -117,9 +120,9 @@ namespace soviet {
             return std::make_shared<BlockNode>(std::move(nodes));
         }
 
-        std::shared_ptr<Node> parseNumber(Token& token) {
+        std::shared_ptr<Node> parseNumber() {
             return std::make_shared<NumberNode>(
-                std::stof(token.value)
+                std::stof(tokenizer.getNextToken().value)
             );
         }
 
@@ -153,13 +156,15 @@ namespace soviet {
             );
         }
 
-        std::shared_ptr<Node> parseString(Token& token) {
+        std::shared_ptr<Node> parseString() {
             return std::make_shared<StringNode>(
-                std::move(token.value)
+                std::move(tokenizer.getNextToken().value)
             );
         }
 
-        std::shared_ptr<Node> parseName(Token& token) {
+        std::shared_ptr<Node> parseName() {
+            Token token = tokenizer.getNextToken();
+
             if (token.value == "if")
                 return parseIfStatement();
 
