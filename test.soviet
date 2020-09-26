@@ -1,3 +1,5 @@
-times(10, () -> {
-  print('hell world')
+func = a -> a * 2 + 3
+
+times(10, i -> {
+  print(func(i))
 })

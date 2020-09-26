@@ -95,7 +95,7 @@ namespace soviet {
 
         static TokenType getType(const char c) {
             if (isdigit(c)) return TokenType::number;
-            if (isalpha(c)) return TokenType::name;
+            if (isalpha(c) || c == '_') return TokenType::name;
             if (c == ' ') return TokenType::none;
             if (c == '\'' || c == '"') return TokenType::string;
             if (c == '+') return TokenType::add_op;

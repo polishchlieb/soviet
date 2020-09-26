@@ -34,7 +34,9 @@ namespace soviet {
                         const auto callback = value_cast<FunctionValue>(args[1]);
 
                         for (unsigned int i = 0; i < times; ++i)
-                            callback->run({});
+                            callback->run({
+                                std::make_shared<NumberValue>(i)
+                            });
                         return std::make_shared<Value>(ValueType::UndefinedValue);
                     }
                 )
