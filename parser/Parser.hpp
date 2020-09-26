@@ -109,20 +109,14 @@ namespace soviet {
             if (closeBracket.type != TokenType::close_bracket)
                 throw ParseError("expected \")\"");
 
-            if (!tokenizer.isEmpty()) {
-                switch (tokenizer.peekNextToken().type) {
-                    case TokenType::arrow:
-                        tokenizer.getNextToken(); // eat ->
+            if (!tokenizer.isEmpty()
+              && tokenizer.peekNextToken().type == TokenType::arrow) {
+                tokenizer.getNextToken(); // eat ->
 
-                        return std::make_shared<PrototypeNode>(
-                            std::vector{operand},
-                            this->parseExpression()
-                        );
-                    case TokenType::open_bracket:
-                        return parseFunctionCall(std::move(operand));
-                    default:
-                        break;
-                }
+                return std::make_shared<PrototypeNode>(
+                    std::vector{operand},
+                    this->parseExpression()
+                );
             }
 
             return std::move(operand);
@@ -195,8 +189,8 @@ namespace soviet {
                 return node;
 
             switch (tokenizer.peekNextToken().type) {
-                case TokenType::open_bracket:
-                    return parseFunctionCall(std::move(node));
+//                case TokenType::open_bracket:
+//                    return parseFunctionCall(std::move(node));
                 case TokenType::arrow: {
                     tokenizer.getNextToken(); // eat ->
 
@@ -214,32 +208,39 @@ namespace soviet {
             }
         }
 
-        std::shared_ptr<Node> parseFunctionCall(std::shared_ptr<Node>&& name) {
-            tokenizer.getNextToken(); // eat (
+        std::shared_ptr<Node> parseFunctionCall() {
+            auto result = parsePrimary();
 
-            std::vector<std::shared_ptr<Node>> args;
-            if (tokenizer.peekNextToken().type != TokenType::close_bracket) {
-                while (true) {
-                    auto arg = parseExpression();
-                    args.push_back(arg);
+            while (!tokenizer.isEmpty()
+              && tokenizer.peekNextToken().type == TokenType::open_bracket) {
+                tokenizer.getNextToken(); // eat open bracket
 
-                    if (tokenizer.peekNextToken().type == TokenType::close_bracket)
-                        break;
-                    if (tokenizer.peekNextToken().type != TokenType::comma)
-                        throw ParseError("function arguments must be separated by a comma");
+                std::vector<std::shared_ptr<Node>> args;
+                if (tokenizer.peekNextToken().type != TokenType::close_bracket) {
+                    while (true) {
+                        auto arg = parseExpression();
+                        args.push_back(arg);
 
-                    tokenizer.getNextToken(); // eat comma
+                        if (tokenizer.peekNextToken().type == TokenType::close_bracket)
+                            break;
+                        if (tokenizer.peekNextToken().type != TokenType::comma)
+                            throw ParseError("function arguments must be separated by a comma");
+
+                        tokenizer.getNextToken(); // eat comma
+                    }
                 }
+
+                const auto closeBracket = tokenizer.getNextToken(); // eat )
+                if (closeBracket.type != TokenType::close_bracket)
+                    throw ParseError("expected \")\"");
+
+                result = std::make_shared<FuncCallNode>(
+                    std::move(result),
+                    std::move(args)
+                );
             }
 
-            const auto closeBracket = tokenizer.getNextToken(); // eat )
-            if (closeBracket.type != TokenType::close_bracket)
-                throw ParseError("expected \")\"");
-
-            return std::make_shared<FuncCallNode>(
-                std::move(name),
-                std::move(args)
-            );
+            return result;
         }
 
         std::shared_ptr<Node> parseAssignmentOrComparison() {
@@ -295,7 +296,7 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseMultiplicative() {
-            auto operand1 = this->parsePrimary();
+            auto operand1 = this->parseFunctionCall();
 
             while (!tokenizer.isEmpty() && isIn(
                 tokenizer.peekNextToken().type,

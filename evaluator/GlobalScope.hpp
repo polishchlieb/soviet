@@ -51,7 +51,16 @@ namespace soviet {
                 "object",
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
-                        return std::make_shared<ObjectValue>();
+                        if (args.size() % 2 != 0)
+                            throw EvaluateError("object(): Args have to group in pairs");
+
+                        std::unordered_map<std::string, std::shared_ptr<Value>> props;
+                        for (unsigned int i = 0; i < args.size(); i += 2) {
+                            const auto& name = value_cast<StringValue>(args[i])->value;
+                            props.insert({ name, args[i + 1] });
+                        }
+
+                        return std::make_shared<ObjectValue>(props);
                     }
                 )
             });
