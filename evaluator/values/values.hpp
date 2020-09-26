@@ -9,5 +9,6 @@
 #include "BooleanValue.hpp"
 #include "StringValue.hpp"
 #include "FunctionValue.hpp"
+#include "ObjectValue.hpp"
 
 #endif //SOVIET_VALUES_HPP

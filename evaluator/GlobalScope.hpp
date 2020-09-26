@@ -17,7 +17,7 @@ namespace soviet {
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
                         for (const auto& arg : args)
-                            std::cout << dumpValue(arg);
+                            std::cout << dumpValue(arg) << " ";
                         std::cout << "\n";
                         return std::make_shared<Value>(ValueType::UndefinedValue);
                     }
@@ -38,6 +38,20 @@ namespace soviet {
                                 std::make_shared<NumberValue>(i)
                             });
                         return std::make_shared<Value>(ValueType::UndefinedValue);
+                    }
+                )
+            });
+
+            variables.insert({
+                "test_obj",
+                std::make_shared<ObjectValue>()
+            });
+
+            variables.insert({
+                "object",
+                std::make_shared<FunctionValue>(
+                    [](const std::vector<std::shared_ptr<Value>>& args) {
+                        return std::make_shared<ObjectValue>();
                     }
                 )
             });

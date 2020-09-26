@@ -24,7 +24,8 @@ namespace soviet {
         arrow,
         greater_than,
         open_curly_bracket,
-        close_curly_bracket
+        close_curly_bracket,
+        dot
     };
 
     std::string dumpTokenType(const TokenType type) {
@@ -48,6 +49,7 @@ namespace soviet {
             case TokenType::greater_than: return "greater_than";
             case TokenType::open_curly_bracket: return "open_curly_bracket";
             case TokenType::close_curly_bracket: return "close_curly_bracket";
+            case TokenType::dot: return "dot";
         }
     }
 }

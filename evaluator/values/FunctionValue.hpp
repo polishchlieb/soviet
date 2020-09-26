@@ -9,7 +9,7 @@ namespace soviet {
     struct FunctionValue : Value {
         std::function<std::shared_ptr<Value>(const std::vector<std::shared_ptr<Value>>&)> run;
         explicit FunctionValue(
-            std::function<std::shared_ptr<Value>(const std::vector<std::shared_ptr<Value>>&)>&& run
+            std::function<std::shared_ptr<Value>(const std::vector<std::shared_ptr<Value>>&)> run
         )
             : Value{ValueType::FunctionValue}, run(std::move(run)) {}
     };

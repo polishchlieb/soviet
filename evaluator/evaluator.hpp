@@ -43,6 +43,8 @@ namespace soviet {
                     return evaluatePrototypeNode(node);
                 case NodeType::BlockNode:
                     return evaluateBlockNode(node);
+                case NodeType::DotOpNode:
+                    return evaluateDotOpNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -109,17 +111,42 @@ namespace soviet {
         }
 
         std::shared_ptr<Value> evaluateEqualsOpNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<EqualsOpNode>(node);
-            const auto name = node_cast<NameNode>(n->left);
-            auto value = evaluate(n->right);
-            for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
-                if (i->variables.contains(name->value))
-                    return i->variables[name->value] = value;
+            const auto n = node_cast<EqualsOpNode>(node);
+
+            switch (n->left->type) {
+                case NodeType::NameNode: {
+                    const std::string& name = node_cast<NameNode>(n->left)->value;
+                    auto value = evaluate(n->right);
+
+                    // resolve name
+                    for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+                        if (i->variables.contains(name))
+                            return i->variables[name] = value;
+                    }
+                    currentContext[currentContext.size() - 1].variables.insert({
+                        name, value
+                    });
+                    return value;
+                }
+                case NodeType::DotOpNode: {
+                    const auto op = node_cast<DotOpNode>(n->left);
+                    const auto& left = node_cast<NameNode>(op->left)->value;
+                    const auto& right = node_cast<NameNode>(op->right)->value;
+
+                    auto value = evaluate(n->right);
+
+                    // resolve name
+                    for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+                        if (i->variables.contains(left)) {
+                            value_cast<ObjectValue>(i->variables[left])
+                                ->set(right, value);
+                            return value;
+                        }
+                    }
+                }
+                default:
+                    throw EvaluateError("unexpected node");
             }
-            currentContext[currentContext.size() - 1].variables.insert({
-                name->value, value
-            });
-            return value;
         }
 
         std::shared_ptr<Value> evaluateDoubleEqualsOpNode(const std::shared_ptr<Node>& node) {
@@ -192,6 +219,21 @@ namespace soviet {
                 evaluate(expr);
 
             return std::make_shared<Value>(ValueType::UndefinedValue);
+        }
+
+        std::shared_ptr<Value> evaluateDotOpNode(const std::shared_ptr<Node>& node) {
+            const auto n = node_cast<DotOpNode>(node);
+
+            const auto& left = node_cast<NameNode>(n->left)->value;
+            const auto& right = node_cast<NameNode>(n->right)->value;
+
+            for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+                if (i->variables.contains(left))
+                    return value_cast<ObjectValue>(i->variables[left])
+                        ->get(right);
+            }
+
+            throw EvaluateError("unknow object: " + left);
         }
     };
 }

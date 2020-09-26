@@ -17,7 +17,8 @@ namespace soviet {
         StringNode,
         IfNode,
         PrototypeNode,
-        BlockNode
+        BlockNode,
+        DotOpNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -35,6 +36,7 @@ namespace soviet {
             case NodeType::IfNode: return "if_node";
             case NodeType::PrototypeNode: return "prototype_node";
             case NodeType::BlockNode: return "block_node";
+            case NodeType::DotOpNode: return "dot_operator_node";
         }
     }
 }

@@ -88,6 +88,7 @@ namespace soviet {
                 case TokenType::greater_than: parseGreaterThan(c); break;
                 case TokenType::open_curly_bracket: parseOpenCurlyBracket(c); break;
                 case TokenType::close_curly_bracket: parseCloseCurlyBracket(c); break;
+                case TokenType::dot: parseDot(c); break;
                 default:
                     throw std::runtime_error("not implemented (yet)");
             }
@@ -109,6 +110,7 @@ namespace soviet {
             if (c == '>') return TokenType::greater_than;
             if (c == '{') return TokenType::open_curly_bracket;
             if (c == '}') return TokenType::close_curly_bracket;
+            if (c == '.') return TokenType::dot;
             return TokenType::unknown;
         }
 
@@ -129,6 +131,7 @@ namespace soviet {
                 case TokenType::greater_than:
                 case TokenType::open_curly_bracket:
                 case TokenType::close_curly_bracket:
+                case TokenType::dot:
                     previous.type = type;
                     previous.value += c;
                     break;
@@ -264,6 +267,12 @@ namespace soviet {
         }
 
         void parseCloseCurlyBracket(const char c) {
+            tokens.emplace(std::move(previous));
+            previous.clear();
+            parseChar(c);
+        }
+
+        void parseDot(const char c) {
             tokens.emplace(std::move(previous));
             previous.clear();
             parseChar(c);

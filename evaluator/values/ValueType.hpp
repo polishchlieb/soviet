@@ -7,7 +7,8 @@ namespace soviet {
         BooleanValue,
         StringValue,
         UndefinedValue,
-        FunctionValue
+        FunctionValue,
+        ObjectValue
     };
 }
 

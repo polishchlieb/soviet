@@ -26,24 +26,43 @@ namespace soviet {
         Tokenizer tokenizer;
     private:
         std::shared_ptr<Node> parseExpression() {
-            return this->parseComparison();
+            return this->parseAssignmentOrComparison();
         }
 
         std::shared_ptr<Node> parsePrimary() {
+            std::shared_ptr<Node> result;
             switch (tokenizer.peekNextToken().type) {
                 case TokenType::open_bracket:
-                    return parseBracketExpression();
+                    result = parseBracketExpression();
+                    break;
                 case TokenType::open_curly_bracket:
-                    return parseCurlyBracketExpression();
+                    result = parseCurlyBracketExpression();
+                    break;
                 case TokenType::number:
-                    return parseNumber();
+                    result = parseNumber();
+                    break;
                 case TokenType::name:
-                    return parseName();
+                    result = parseName();
+                    break;
                 case TokenType::string:
-                    return parseString();
+                    result = parseString();
+                    break;
                 default:
                     throw ParseError("unexpected token");
             }
+
+            while (!tokenizer.isEmpty()
+              && tokenizer.peekNextToken().type == TokenType::dot) {
+                const auto op = tokenizer.getNextToken(); // eat dot
+                auto operand2 = parseName();
+
+                result = std::make_shared<DotOpNode>(
+                    std::move(result),
+                    std::move(operand2)
+                );
+            }
+
+            return result;
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
@@ -176,8 +195,6 @@ namespace soviet {
                 return node;
 
             switch (tokenizer.peekNextToken().type) {
-                case TokenType::equals_op:
-                    return parseAssignment(std::move(node));
                 case TokenType::open_bracket:
                     return parseFunctionCall(std::move(node));
                 case TokenType::arrow: {
@@ -195,14 +212,6 @@ namespace soviet {
                 default:
                     return node;
             }
-        }
-
-        std::shared_ptr<Node> parseAssignment(std::shared_ptr<Node>&& name) {
-            tokenizer.getNextToken(); // eat =
-            return std::make_shared<EqualsOpNode>(
-                std::move(name),
-                this->parseExpression()
-            );
         }
 
         std::shared_ptr<Node> parseFunctionCall(std::shared_ptr<Node>&& name) {
@@ -233,16 +242,31 @@ namespace soviet {
             );
         }
 
-        std::shared_ptr<Node> parseComparison() {
+        std::shared_ptr<Node> parseAssignmentOrComparison() {
             auto operand1 = this->parseAdditive();
-            while (!tokenizer.isEmpty()
-              && tokenizer.peekNextToken().type == TokenType::double_equals_op) {
+            while (!tokenizer.isEmpty() && isIn(
+                tokenizer.peekNextToken().type,
+                TokenType::double_equals_op, TokenType::equals_op
+            )) {
                 const auto op = tokenizer.getNextToken();
                 auto operand2 = parseAdditive();
-                operand1 = std::make_shared<DoubleEqualsOpNode>(
-                    std::move(operand1),
-                    std::move(operand2)
-                );
+                switch (op.type) {
+                    case TokenType::double_equals_op: {
+                        operand1 = std::make_shared<DoubleEqualsOpNode>(
+                            std::move(operand1),
+                            std::move(operand2)
+                        );
+                        break;
+                    }
+                    case TokenType::equals_op: {
+                        operand1 = std::make_shared<EqualsOpNode>(
+                            std::move(operand1),
+                            std::move(operand2)
+                        );
+                    }
+                    default:
+                        break;
+                }
             }
             return operand1;
         }

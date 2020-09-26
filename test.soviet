@@ -1,5 +1,3 @@
-func = a -> a * 2 + 3
-
-times(10, i -> {
-  print(func(i))
-})
+a = object()
+a.papierz = 2137
+print(a, a.papierz)
