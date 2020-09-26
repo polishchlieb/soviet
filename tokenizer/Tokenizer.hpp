@@ -8,6 +8,7 @@
 #include "Token.hpp"
 #include "../parser/ParseError.hpp"
 #include <queue>
+#include "../util/util.hpp"
 
 namespace soviet {
     class Tokenizer {
@@ -158,7 +159,7 @@ namespace soviet {
 
         void parseNumber(const char c) {
             const auto type = getType(c);
-            if (type == TokenType::number) {
+            if (isIn(type, TokenType::number, TokenType::dot)) {
                 previous.value += c;
                 return;
             }

@@ -1,1 +1,9 @@
-print(() -> 5)
+num = 0
+
+times(10, i -> {
+  times(10, j -> {
+    num = num + i * j
+  })
+})
+
+print(num)
