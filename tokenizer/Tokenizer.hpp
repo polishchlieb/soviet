@@ -17,8 +17,8 @@ namespace soviet {
             return this->tokens.empty() && this->lines.empty();
         }
 
-        Token peekNextToken() {
-            if (tokens.empty()) {
+        Token& peekNextToken() {
+            while (tokens.empty()) {
                 if (lines.empty())
                     throw ParseError("expected a token");
                 tokenize(lines.front());
@@ -29,7 +29,7 @@ namespace soviet {
         }
 
         Token getNextToken() {
-            if (tokens.empty()) {
+            while (tokens.empty()) {
                 if (lines.empty())
                     throw ParseError("expected a token");
                 tokenize(lines.front());

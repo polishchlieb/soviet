@@ -19,6 +19,8 @@ namespace soviet {
             : value(std::move(other.value)),
               type(std::exchange(other.type, TokenType::undefined)) {}
 
+        Token& operator=(const Token& t) = default;
+
         [[nodiscard]] bool isEmpty() const {
             return this->type == TokenType::none;
         }
