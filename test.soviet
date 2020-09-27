@@ -1,9 +1,4 @@
-num = 0
+test = array('piotreee kox')
+test.add('oko nub')
 
-times(10, i -> {
-  times(10, j -> {
-    num = num + i * j
-  })
-})
-
-print(num)
+test.each(print)

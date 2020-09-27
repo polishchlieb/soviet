@@ -33,10 +33,12 @@ namespace soviet {
                         );
                         const auto callback = value_cast<FunctionValue>(args[1]);
 
-                        for (unsigned int i = 0; i < times; ++i)
-                            callback->run({
+                        for (unsigned int i = 0; i < times; ++i) {
+                            std::vector<std::shared_ptr<Value>> callbackArgs = {
                                 std::make_shared<NumberValue>(i)
-                            });
+                            };
+                            callback->run(callbackArgs);
+                        }
                         return std::make_shared<Value>(ValueType::UndefinedValue);
                     }
                 )
@@ -61,6 +63,16 @@ namespace soviet {
                         }
 
                         return std::make_shared<ObjectValue>(props);
+                    }
+                )
+            });
+
+            variables.insert({
+                "array",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        if (args.empty()) return std::make_shared<ArrayValue>();
+                        return std::make_shared<ArrayValue>(std::move(args));
                     }
                 )
             });

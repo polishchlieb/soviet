@@ -10,5 +10,6 @@
 #include "StringValue.hpp"
 #include "FunctionValue.hpp"
 #include "ObjectValue.hpp"
+#include "ArrayValue.hpp"
 
 #endif //SOVIET_VALUES_HPP
