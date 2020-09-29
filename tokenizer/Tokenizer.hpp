@@ -14,32 +14,12 @@ namespace soviet {
     class Tokenizer {
     public:
         bool isEmpty() {
-            return this->tokens.empty() && this->lines.empty();
+            return this->tokens.empty() && this->isComplete();
         }
 
-        Token& peekNextToken() {
-            while (tokens.empty()) {
-                if (lines.empty())
-                    throw ParseError("expected a token");
-                tokenize(lines.front());
-                lines.pop();
-            }
-
-            return tokens.front();
-        }
-
-        Token getNextToken() {
-            while (tokens.empty()) {
-                if (lines.empty())
-                    throw ParseError("expected a token");
-                tokenize(lines.front());
-                lines.pop();
-            }
-
-            auto value = tokens.front();
-            tokens.pop();
-            return value;
-        }
+        virtual bool isComplete() = 0;
+        virtual Token& peekNextToken() = 0;
+        virtual Token getNextToken() = 0;
 
         void dump() {
             auto copy = tokens;
@@ -48,10 +28,6 @@ namespace soviet {
                 copy.pop();
                 std::cout << "(" << dumpTokenType(token.type) << ") " << token.value << std::endl;
             }
-        }
-
-        void addLine(std::string&& line) {
-            this->lines.emplace(std::move(line));
         }
 
         void tokenize(const std::string& line) {
@@ -64,10 +40,9 @@ namespace soviet {
                 previous.clear();
             }
         }
-    private:
-        std::queue<std::string> lines;
+    protected:
         std::queue<Token> tokens;
-
+    private:
         Token previous{TokenType::none, ""};
 
         void parseChar(const char c) {

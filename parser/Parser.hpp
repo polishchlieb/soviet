@@ -2,6 +2,7 @@
 #define SOVIET_PARSER_HPP
 
 #include "../tokenizer/Token.hpp"
+#include <utility>
 #include <vector>
 #include "nodes/nodes.hpp"
 #include <memory>
@@ -15,15 +16,21 @@
 
 #include "../util/util.hpp"
 #include "ParseError.hpp"
+#include "../tokenizer/Tokenizer.hpp"
 
 namespace soviet {
+    template<typename T, typename std::enable_if<std::is_base_of<Tokenizer, T>::value>::type* = nullptr>
     class Parser {
     public:
+        template<typename ...Args>
+        explicit Parser(Args... args) : tokenizer{args...}
+        {}
+
         std::shared_ptr<Node> parse() {
             return this->parseExpression();
         }
 
-        Tokenizer tokenizer;
+        T tokenizer;
     private:
         std::shared_ptr<Node> parseExpression() {
             return this->parseAssignmentOrComparison();

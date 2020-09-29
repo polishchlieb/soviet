@@ -27,7 +27,7 @@ namespace soviet {
                 return "[function]";
             }
             case ValueType::UndefinedValue:
-                return "";
+                return "[undefined]";
         }
     }
 }

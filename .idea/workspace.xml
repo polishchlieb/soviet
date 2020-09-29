@@ -55,6 +55,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.soviet">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="soviet_test" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="soviet_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="soviet" RUN_TARGET_NAME="soviet_test" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -89,11 +94,6 @@
     <configuration name="soviet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="soviet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="soviet" RUN_TARGET_NAME="soviet">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
@@ -154,15 +154,17 @@
       <workItem from="1600892354640" duration="5515000" />
       <workItem from="1601050226417" duration="15687000" />
       <workItem from="1601140704440" duration="21355000" />
-      <workItem from="1601230103332" duration="9018000" />
+      <workItem from="1601230103332" duration="10798000" />
+      <workItem from="1601304276856" duration="66000" />
+      <workItem from="1601401244510" duration="8786000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1601236508080">
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1601402940918">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1601236508080" />
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1601402940918" />
     <state x="298" y="196" width="1084" height="738" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598524546726">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -179,22 +181,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="384" key="GridCell.Tab.0.bottom" timestamp="1601163728868">
+    <state width="1657" height="401" key="GridCell.Tab.0.bottom" timestamp="1601413352313">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="384" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1601163728868" />
-    <state width="1657" height="384" key="GridCell.Tab.0.center" timestamp="1601163728867">
+    <state width="1657" height="401" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1601413352313" />
+    <state width="1657" height="401" key="GridCell.Tab.0.center" timestamp="1601413352313">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="384" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1601163728867" />
-    <state width="1657" height="384" key="GridCell.Tab.0.left" timestamp="1601163728865">
+    <state width="1657" height="401" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1601413352313" />
+    <state width="1657" height="401" key="GridCell.Tab.0.left" timestamp="1601413352312">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="384" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1601163728865" />
-    <state width="1657" height="384" key="GridCell.Tab.0.right" timestamp="1601163728867">
+    <state width="1657" height="401" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1601413352312" />
+    <state width="1657" height="401" key="GridCell.Tab.0.right" timestamp="1601413352313">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="384" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1601163728867" />
+    <state width="1657" height="401" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1601413352313" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -215,18 +217,30 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="329" y="173" width="1022" height="737" key="SettingsEditor/0.27.1680.1023@0.27.1680.1023" timestamp="1596485654403" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1601408146457">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.27.1680.1023@0.27.1680.1023" timestamp="1601408146457" />
     <state x="282" y="226" width="1106" height="632" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1600453407923">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="282" y="226" width="1106" height="632" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1680.1023@0.27.1680.1023" timestamp="1600453407923" />
+    <state x="-379" y="455" width="1657" height="979" key="dock-window-1" timestamp="1601405173442">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state x="-379" y="455" width="1657" height="979" key="dock-window-1/0.27.1680.1023@0.27.1680.1023" timestamp="1601405173442" />
+    <state x="-971" y="132" width="1245" height="979" key="dock-window-2" timestamp="1601405704387">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state x="-971" y="132" width="1245" height="979" key="dock-window-2/0.27.1680.1023@0.27.1680.1023" timestamp="1601405704387" />
     <state width="600" height="428" key="javadoc.popup" timestamp="1596576563982">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1596576563982" />
-    <state x="619" y="322" width="432" height="439" key="refactoring.ChangeSignatureDialog" timestamp="1601154459003">
+    <state x="619" y="322" width="432" height="439" key="refactoring.ChangeSignatureDialog" timestamp="1601405811260">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="619" y="322" width="432" height="439" key="refactoring.ChangeSignatureDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1601154459003" />
+    <state x="619" y="322" width="432" height="439" key="refactoring.ChangeSignatureDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1601405811260" />
     <state x="504" y="244" key="run.anything.popup" timestamp="1601152237120">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -239,5 +253,16 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="503" y="251" width="672" height="160" key="search.everywhere.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1600543343120" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tokenizer/Tokenizer.hpp</url>
+          <line>7</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
