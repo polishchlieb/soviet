@@ -22,7 +22,7 @@ namespace soviet {
 
         // TODO: Create a system of prototypes
         // This code is extremely inefficient when creating
-        // a large amount of objects, these lambdas get
+        // a large amount of objects as these lambdas get
         // allocated each time ArrayValue gets constructed
         void registerFunctionality() {
             this->set("at", std::make_shared<FunctionValue>(
