@@ -61,11 +61,6 @@
         <option name="BeforeTestRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="gmock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="gmock" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -157,7 +152,8 @@
       <workItem from="1601230103332" duration="10798000" />
       <workItem from="1601304276856" duration="66000" />
       <workItem from="1601401244510" duration="10697000" />
-      <workItem from="1601499164983" duration="1940000" />
+      <workItem from="1601499164983" duration="2790000" />
+      <workItem from="1601574055478" duration="4115000" />
     </task>
     <servers />
   </component>
@@ -170,10 +166,10 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="298" y="196" width="1084" height="738" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1598524546726" />
-    <state x="557" y="339" width="591" height="406" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601232308182">
+    <state x="557" y="339" width="591" height="406" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601576438763">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="557" y="339" width="591" height="406" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1680.1023@0.27.1680.1023" timestamp="1601232308182" />
+    <state x="557" y="339" width="591" height="406" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1680.1023@0.27.1680.1023" timestamp="1601576438763" />
     <state x="573" y="287" width="524" height="510" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1600633423608">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -182,22 +178,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="401" key="GridCell.Tab.0.bottom" timestamp="1601415310038">
+    <state width="1657" height="401" key="GridCell.Tab.0.bottom" timestamp="1601578005201">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="401" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1601415310038" />
-    <state width="1657" height="401" key="GridCell.Tab.0.center" timestamp="1601415310035">
+    <state width="1657" height="401" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1601578005201" />
+    <state width="1657" height="401" key="GridCell.Tab.0.center" timestamp="1601578005200">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="401" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1601415310035" />
-    <state width="1657" height="401" key="GridCell.Tab.0.left" timestamp="1601415310034">
+    <state width="1657" height="401" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1601578005200" />
+    <state width="1657" height="401" key="GridCell.Tab.0.left" timestamp="1601578005199">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="401" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1601415310034" />
-    <state width="1657" height="401" key="GridCell.Tab.0.right" timestamp="1601415310036">
+    <state width="1657" height="401" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1601578005199" />
+    <state width="1657" height="401" key="GridCell.Tab.0.right" timestamp="1601578005200">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="401" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1601415310036" />
+    <state width="1657" height="401" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1601578005200" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -254,16 +250,5 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="503" y="251" width="672" height="160" key="search.everywhere.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1600543343120" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tokenizer/Tokenizer.hpp</url>
-          <line>7</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

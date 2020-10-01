@@ -35,10 +35,10 @@ namespace soviet {
                 parseChar(c);
             }
 
-            if (!previous.isEmpty()) {
+            if (!previous.isEmpty() && previous.type != TokenType::comment) {
                 tokens.emplace(std::move(previous));
-                previous.clear();
             }
+            previous.clear();
         }
     protected:
         std::queue<Token> tokens;
@@ -65,6 +65,7 @@ namespace soviet {
                 case TokenType::open_curly_bracket: parseOpenCurlyBracket(c); break;
                 case TokenType::close_curly_bracket: parseCloseCurlyBracket(c); break;
                 case TokenType::dot: parseDot(c); break;
+                case TokenType::comment: parseComment(c); break;
                 default:
                     throw std::runtime_error("not implemented (yet)");
             }
@@ -108,6 +109,7 @@ namespace soviet {
                 case TokenType::open_curly_bracket:
                 case TokenType::close_curly_bracket:
                 case TokenType::dot:
+                case TokenType::comment:
                     previous.type = type;
                     previous.value += c;
                     break;
@@ -182,6 +184,11 @@ namespace soviet {
         }
 
         void parseDivOp(const char c) {
+            const auto type = getType(c);
+            if (type == TokenType::div_op) {
+                previous.type = TokenType::comment;
+                return;
+            }
             tokens.emplace(std::move(previous));
             previous.clear();
             parseChar(c);
@@ -253,6 +260,8 @@ namespace soviet {
             previous.clear();
             parseChar(c);
         }
+
+        void parseComment(const char c) {}
     };
 }
 

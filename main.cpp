@@ -20,9 +20,9 @@ static void runREPL() {
 
     for (;;) {
         try {
-           const auto rootNode = parser.parse();
-           const auto value = evaluator.evaluate(rootNode);
-           std::cout << soviet::dumpValue(value) << std::endl;
+            const auto rootNode = parser.parse();
+            const auto value = evaluator.evaluate(rootNode);
+            std::cout << soviet::dumpValue(value) << std::endl;
         } catch (const soviet::Error& e) {
             e.print();
         }
