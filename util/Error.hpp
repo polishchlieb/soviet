@@ -19,10 +19,6 @@ namespace soviet {
                 << name() << ": " << message()
                 << color(Color::RESET) << std::endl;
         }
-
-        const char* what() const noexcept override {
-            return (name() + message()).c_str();
-        }
     };
 }
 

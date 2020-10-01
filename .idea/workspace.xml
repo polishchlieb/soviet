@@ -6,11 +6,11 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="soviet" targetName="gtest" />
-      <config projectName="soviet" targetName="soviet_test" />
       <config projectName="soviet" targetName="gmock" />
-      <config projectName="soviet" targetName="gmock_main" />
-      <config projectName="soviet" targetName="gtest_main" />
       <config projectName="soviet" targetName="soviet" />
+      <config projectName="soviet" targetName="gtest_main" />
+      <config projectName="soviet" targetName="soviet_test" />
+      <config projectName="soviet" targetName="gmock_main" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -55,6 +55,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.soviet">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="soviet_test" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="soviet_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="soviet" RUN_TARGET_NAME="soviet_test" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -153,15 +158,15 @@
       <workItem from="1601304276856" duration="66000" />
       <workItem from="1601401244510" duration="10697000" />
       <workItem from="1601499164983" duration="2790000" />
-      <workItem from="1601574055478" duration="4115000" />
+      <workItem from="1601574055478" duration="7072000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1601402940918">
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1601581261203">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1601402940918" />
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1601581261203" />
     <state x="298" y="196" width="1084" height="738" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598524546726">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>

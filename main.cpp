@@ -31,6 +31,12 @@ static void runREPL() {
 
 static void runFile(const char* fileName) {
     soviet::Parser<soviet::FileTokenizer> parser{fileName};
+    try {
+        parser.tokenizer.initFile();
+    } catch (const soviet::FileReadError& e) {
+        e.print();
+    }
+
     soviet::Evaluator evaluator;
 
     try {
