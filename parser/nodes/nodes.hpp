@@ -15,5 +15,6 @@
 #include "PrototypeNode.hpp"
 #include "BlockNode.hpp"
 #include "DotOpNode.hpp"
+#include "ReturnNode.hpp"
 
 #endif //SOVIET_NODES_HPP

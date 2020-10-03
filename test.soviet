@@ -1,19 +1,17 @@
-pow_result = 0
 pow = (x, n) -> {
     pow_result = 1
     times(n, () -> {
         pow_result = pow_result * x
     })
+    return pow_result
 }
 
-factorial = (x) ->
-    if x == 1
-        then 1
-        else x * factorial(x - 1)
+factorial = (x) -> if x == 1
+   then 1
+   else x * factorial(x - 1)
 
 invert = (bin) -> if bin == 0 then 1 else 0
 
-sin_result = 0
 sin = (x) -> {
     sin_result = 0
 
@@ -22,8 +20,7 @@ sin = (x) -> {
     plus = 1
 
     times(13, () -> {
-        pow(x, current)
-        new_value = (pow_result) / (factorial(current))
+        new_value = (pow(x, current)) / (factorial(current))
         current = current + 2
         if plus == 0
             then result = result - new_value
@@ -31,13 +28,12 @@ sin = (x) -> {
         plus = invert(plus)
     })
 
-    sin_result = result
+    return object('value', result)
 }
-
-pi = 3.14159265359
 
 degrees_to_radians = val -> val * pi / 180
 
-angle = 30
-sin(degrees_to_radians(angle))
-print(sin_result)
+pi = 3.14159265359
+
+angle = degrees_to_radians(30)
+print(sin(angle))

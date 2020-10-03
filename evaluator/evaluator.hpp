@@ -45,16 +45,26 @@ namespace soviet {
                     return evaluateBlockNode(node);
                 case NodeType::DotOpNode:
                     return evaluateDotOpNode(node);
+                case NodeType::ReturnNode:
+                    return evaluateReturnNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
         }
     private:
         std::vector<Scope> currentContext = {GlobalScope{}};
+        std::vector<FunctionValue> callStack = {};
 
         std::shared_ptr<Value> evaluateNumberNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<NumberNode>(node);
             return std::make_shared<NumberValue>(n->value);
+        }
+
+        std::shared_ptr<Value> evaluateReturnNode(const std::shared_ptr<Node>& node) {
+            const auto n = node_cast<ReturnNode>(node);
+            return std::make_shared<ExplicitReturnValue>(
+                evaluate(n->returnValue)
+            );
         }
 
         std::shared_ptr<Value> evaluateNameNode(const std::shared_ptr<Node>& node) {
@@ -198,15 +208,19 @@ namespace soviet {
             return std::make_shared<FunctionValue>(
                 [this, n](const std::vector<std::shared_ptr<Value>>& args) {
                     Scope functionScope;
-                    for (unsigned int i = 0; i < n->args.size(); ++i) {
+                    for (unsigned int i = 0; i < n->args.size(); ++i)
                         functionScope.variables.insert({
                             node_cast<NameNode>(n->args[i])->value,
                             args[i]
                         });
-                    }
                     currentContext.push_back(functionScope);
+
                     auto value = evaluate(n->returnValue);
+                    if (value->type == ValueType::ExplicitReturnValue)
+                        value = value_cast<ExplicitReturnValue>(value)->value;
+
                     currentContext.pop_back();
+
                     return value;
                 }
             );
@@ -215,8 +229,13 @@ namespace soviet {
         std::shared_ptr<Value> evaluateBlockNode(const std::shared_ptr<Node>& node) {
             const auto n = node_cast<BlockNode>(node);
 
-            for (const auto& expr : n->nodes)
-                evaluate(expr);
+            currentContext.push_back(Scope{});
+            for (const auto& expr : n->nodes) {
+                auto value = evaluate(expr);
+                if (value->type == ValueType::ExplicitReturnValue)
+                    return value;
+            }
+            currentContext.pop_back();
 
             return std::make_shared<Value>(ValueType::UndefinedValue);
         }

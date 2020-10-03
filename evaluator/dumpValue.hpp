@@ -28,6 +28,8 @@ namespace soviet {
             }
             case ValueType::UndefinedValue:
                 return "[undefined]";
+            case ValueType::ExplicitReturnValue:
+                return "<explicit return value>";
         }
     }
 }

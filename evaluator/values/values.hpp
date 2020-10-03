@@ -11,5 +11,6 @@
 #include "FunctionValue.hpp"
 #include "ObjectValue.hpp"
 #include "ArrayValue.hpp"
+#include "ExplicitReturnValue.hpp"
 
 #endif //SOVIET_VALUES_HPP

@@ -164,11 +164,19 @@ namespace soviet {
             );
         }
 
+        std::shared_ptr<Node> parseReturn() {
+            return std::make_shared<ReturnNode>(
+                this->parseExpression()
+            );
+        }
+
         std::shared_ptr<Node> parseName() {
             Token token = tokenizer.getNextToken();
 
             if (token.value == "if")
                 return parseIfStatement();
+            if (token.value == "return")
+                return parseReturn();
 
             auto node = std::make_shared<NameNode>(
                 std::move(token.value)
