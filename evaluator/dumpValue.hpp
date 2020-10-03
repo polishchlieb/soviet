@@ -21,7 +21,11 @@ namespace soviet {
                 return v->value;
             }
             case ValueType::ObjectValue: {
-                return "[object]";
+                const auto& v = value_cast<ObjectValue>(value);
+                std::string result = "object(";
+                for (auto [key, value] : v->getProperties())
+                    result += key + " => " + dumpValue(value) + ", ";
+                return result.substr(0, result.length() - 2) + ")";
             }
             case ValueType::FunctionValue: {
                 return "[function]";

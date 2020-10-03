@@ -26,6 +26,10 @@ namespace soviet {
         std::shared_ptr<Value>& get(const std::string& name) {
             return properties[name];
         }
+
+        auto& getProperties() {
+            return properties;
+        }
     };
 }
 
