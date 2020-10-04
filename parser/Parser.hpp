@@ -123,17 +123,19 @@ namespace soviet {
         }
 
         std::shared_ptr<Node> parseNumber() {
-            return std::make_shared<NumberNode>(
+            auto result = std::make_shared<NumberNode>(
                 std::stof(tokenizer.getNextToken().value)
             );
+
+            return result;
         }
 
         std::shared_ptr<Node> parseIfStatement() {
             auto condition = this->parseExpression();
 
-            const auto thenTok = tokenizer.getNextToken(); // eat "then"
-            if (thenTok.type != TokenType::name || thenTok.value != "then")
-                throw ParseError("expected \"then\"");
+//            const auto thenTok = tokenizer.getNextToken(); // eat "then"
+//            if (thenTok.type != TokenType::name || thenTok.value != "then")
+//                throw ParseError("expected \"then\"");
 
             auto body = this->parseExpression();
 
