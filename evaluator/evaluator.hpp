@@ -53,7 +53,6 @@ namespace soviet {
         }
     private:
         std::vector<Scope> currentContext = {GlobalScope{}};
-        std::vector<FunctionValue> callStack = {};
 
         std::shared_ptr<Value> evaluateNumberNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<NumberNode>(node);
@@ -84,9 +83,34 @@ namespace soviet {
 
         std::shared_ptr<Value> evaluateAddOpNode(const std::shared_ptr<Node>& node) {
             const auto& n = node_cast<AddOpNode>(node);
-            const auto left = value_cast<NumberValue>(evaluate(n->left));
-            const auto right = value_cast<NumberValue>(evaluate(n->right));
-            return std::make_shared<NumberValue>(left->value + right->value);
+            const auto left = evaluate(n->left);
+            if (left->type == ValueType::NumberValue) {
+                const auto leftValue = value_cast<NumberValue>(left)->value;
+                const auto right = evaluate(n->right);
+                if (right->type == ValueType::NumberValue) {
+                    const auto rightValue = value_cast<NumberValue>(right)->value;
+                    return std::make_shared<NumberValue>(leftValue + rightValue);
+                } else if (right->type == ValueType::StringValue) {
+                    const auto rightValue = value_cast<StringValue>(right)->value;
+                    return std::make_shared<StringValue>(
+                        std::to_string(leftValue) + rightValue
+                    );
+                }
+            } else if (left->type == ValueType::StringValue) {
+                const auto leftValue = value_cast<StringValue>(left)->value;
+                const auto right = evaluate(n->right);
+                if (right->type == ValueType::NumberValue) {
+                    const auto rightValue = value_cast<NumberValue>(right)->value;
+                    return std::make_shared<StringValue>(
+                        leftValue + std::to_string(rightValue)
+                    );
+                } else if (right->type == ValueType::StringValue) {
+                    const auto rightValue = value_cast<StringValue>(right)->value;
+                    return std::make_shared<StringValue>(leftValue + rightValue);
+                }
+            }
+
+            throw EvaluateError("Unknown operands");
         }
 
         std::shared_ptr<Value> evaluateIfNode(const std::shared_ptr<Node>& node) {
@@ -181,6 +205,20 @@ namespace soviet {
                         leftBool->value == rightBool->value
                     );
                 }
+                case ValueType::StringValue: {
+                    const auto leftString = value_cast<StringValue>(left);
+                    const auto rightString = value_cast<StringValue>(right);
+                    return std::make_shared<BooleanValue>(
+                        leftString->value == rightString->value
+                    );
+                }
+                case ValueType::UndefinedValue:
+                    return std::make_shared<BooleanValue>(true);
+                case ValueType::FunctionValue:
+                case ValueType::ObjectValue:
+                    return std::make_shared<BooleanValue>(left == right);
+                case ValueType::ExplicitReturnValue:
+                    throw EvaluateError("what the fuck is explicit return value");
             }
         }
 

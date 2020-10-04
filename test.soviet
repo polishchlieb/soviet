@@ -1,39 +1,11 @@
-pow = (x, n) -> {
-    pow_result = 1
-    times(n, () -> {
-        pow_result = pow_result * x
-    })
-    return pow_result
-}
+obj = object(
+  'piotreee', 'kox',
+  'chleb', 'nub',
+  'oko', 'nub',
+  'papiesz', 2137,
+  'ruchanie', 69,
+  '1337', 1337,
+  'test', 'dupa1234'
+)
 
-factorial = (x) -> if x == 1
-   then 1
-   else x * factorial(x - 1)
-
-invert = (bin) -> if bin == 0 then 1 else 0
-
-sin = (x) -> {
-    sin_result = 0
-
-    current = 1
-    result = 0
-    plus = 1
-
-    times(13, () -> {
-        new_value = (pow(x, current)) / (factorial(current))
-        current = current + 2
-        if plus == 0
-            then result = result - new_value
-            else result = result + new_value
-        plus = invert(plus)
-    })
-
-    return object('value', result)
-}
-
-degrees_to_radians = val -> val * pi / 180
-
-pi = 3.14159265359
-
-angle = degrees_to_radians(30)
-print(sin(angle))
+print(obj)
