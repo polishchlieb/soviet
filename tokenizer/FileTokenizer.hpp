@@ -41,9 +41,10 @@ namespace soviet {
                 lines.pop();
             }
 
-            auto value = tokens.front();
+            auto value = std::move(tokens.front());
             tokens.pop();
-            return value;
+
+            return std::move(value);
         }
 
         inline bool isComplete() override {
