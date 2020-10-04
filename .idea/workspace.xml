@@ -6,11 +6,11 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="soviet" targetName="gtest" />
-      <config projectName="soviet" targetName="gmock" />
-      <config projectName="soviet" targetName="soviet" />
-      <config projectName="soviet" targetName="gtest_main" />
       <config projectName="soviet" targetName="soviet_test" />
+      <config projectName="soviet" targetName="gmock" />
       <config projectName="soviet" targetName="gmock_main" />
+      <config projectName="soviet" targetName="gtest_main" />
+      <config projectName="soviet" targetName="soviet" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -55,11 +55,6 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.soviet">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="soviet_test" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="soviet_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="soviet" RUN_TARGET_NAME="soviet_test" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -160,7 +155,8 @@
       <workItem from="1601499164983" duration="2790000" />
       <workItem from="1601574055478" duration="7072000" />
       <workItem from="1601758260288" duration="450000" />
-      <workItem from="1601763027042" duration="3811000" />
+      <workItem from="1601763027042" duration="3832000" />
+      <workItem from="1601832870127" duration="6426000" />
     </task>
     <servers />
   </component>
@@ -185,22 +181,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="577" key="GridCell.Tab.0.bottom" timestamp="1601765759357">
+    <state width="1657" height="409" key="GridCell.Tab.0.bottom" timestamp="1601838761073">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="577" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1601765759357" />
-    <state width="1657" height="577" key="GridCell.Tab.0.center" timestamp="1601765759355">
+    <state width="1657" height="409" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1601838761073" />
+    <state width="1657" height="409" key="GridCell.Tab.0.center" timestamp="1601838761073">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="577" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1601765759355" />
-    <state width="1657" height="577" key="GridCell.Tab.0.left" timestamp="1601765759354">
+    <state width="1657" height="409" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1601838761073" />
+    <state width="1657" height="409" key="GridCell.Tab.0.left" timestamp="1601838761073">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="577" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1601765759354" />
-    <state width="1657" height="577" key="GridCell.Tab.0.right" timestamp="1601765759356">
+    <state width="1657" height="409" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1601838761073" />
+    <state width="1657" height="409" key="GridCell.Tab.0.right" timestamp="1601838761073">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="577" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1601765759356" />
+    <state width="1657" height="409" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1601838761073" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -225,10 +221,10 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.27.1680.1023@0.27.1680.1023" timestamp="1601408146457" />
-    <state x="282" y="226" width="1106" height="632" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1600453407923">
+    <state x="282" y="226" width="1106" height="632" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1601834951128">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="282" y="226" width="1106" height="632" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1680.1023@0.27.1680.1023" timestamp="1600453407923" />
+    <state x="282" y="226" width="1106" height="632" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.27.1680.1023@0.27.1680.1023" timestamp="1601834951128" />
     <state x="-379" y="455" width="1657" height="979" key="dock-window-1" timestamp="1601405173442">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -253,9 +249,20 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="630" y="404" width="511" height="411" key="scopes/0.27.1680.1023@0.27.1680.1023" timestamp="1596918069021" />
-    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup" timestamp="1601763521514">
+    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup" timestamp="1601834627470">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1601763521514" />
+    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1601834627470" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/evaluator/GlobalScope.hpp</url>
+          <line>73</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

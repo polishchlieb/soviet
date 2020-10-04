@@ -12,7 +12,7 @@ namespace soviet {
             : fileName(fileName) {}
 
         void initFile() {
-            std::ifstream file(fileName);
+            std::ifstream file{fileName};
             if (!file.good()) {
                 throw FileReadError("kaplica");
             }
