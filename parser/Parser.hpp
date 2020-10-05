@@ -49,8 +49,10 @@ namespace soviet {
                     return parseName();
                 case TokenType::string:
                     return parseString();
-                default:
-                    throw ParseError("unexpected token");
+                default: {
+                    const auto& token = tokenizer.peekNextToken();
+                    throw ParseError("unexpected token " + token.value + " on line " + std::to_string(token.line));
+                }
             }
         }
 
@@ -108,7 +110,7 @@ namespace soviet {
                 );
             }
 
-            return std::move(operand);
+            return operand;
         }
 
         std::shared_ptr<Node> parseCurlyBracketExpression() {
