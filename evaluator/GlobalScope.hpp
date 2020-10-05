@@ -28,7 +28,7 @@ namespace soviet {
                 "times",
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
-                        const auto times = static_cast<int>(
+                        const auto times = static_cast<unsigned int>(
                             value_cast<NumberValue>(args[0])->value
                         );
                         const auto callback = value_cast<FunctionValue>(args[1]);

@@ -31,6 +31,8 @@ namespace soviet {
         }
 
         void tokenize(const std::string& line) {
+            previous.clear(++lineNumber);
+
             for (const char c : line) {
                 parseChar(c);
             }
@@ -38,12 +40,12 @@ namespace soviet {
             if (!previous.isEmpty() && previous.type != TokenType::comment) {
                 tokens.emplace(std::move(previous));
             }
-            previous.clear();
         }
     protected:
         std::queue<Token> tokens;
     private:
-        Token previous{TokenType::none, ""};
+        Token previous{TokenType::none, "", UNDEFINED_LINE};
+        unsigned int lineNumber = UNDEFINED_LINE;
 
         void parseChar(const char c) {
             switch (previous.type) {
@@ -67,7 +69,7 @@ namespace soviet {
                 case TokenType::dot: parseDot(c); break;
                 case TokenType::comment: parseComment(c); break;
                 default:
-                    throw std::runtime_error("not implemented (yet)");
+                    throw ParseError("unexpected token on line " + std::to_string(lineNumber));
             }
         }
 
@@ -127,7 +129,7 @@ namespace soviet {
         void parseString(const char c) {
             if (c == '\'' || c == '"') {
                 tokens.emplace(std::move(previous));
-                previous.clear();
+                previous.clear(lineNumber);
                 return;
             }
 
@@ -142,7 +144,7 @@ namespace soviet {
             }
 
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
@@ -154,13 +156,13 @@ namespace soviet {
             }
 
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseAddOp(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
@@ -173,13 +175,13 @@ namespace soviet {
             }
 
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseMulOp(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
@@ -190,19 +192,19 @@ namespace soviet {
                 return;
             }
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseOpenBracket(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseCloseBracket(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
@@ -215,49 +217,49 @@ namespace soviet {
             }
 
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseDoubleEqualsOp(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseComma(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseArrow(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseGreaterThan(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseOpenCurlyBracket(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseCloseCurlyBracket(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseDot(const char c) {
             tokens.emplace(std::move(previous));
-            previous.clear();
+            previous.clear(lineNumber);
             parseChar(c);
         }
 

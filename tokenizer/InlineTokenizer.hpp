@@ -21,7 +21,12 @@ namespace soviet {
             auto value = std::move(tokens.front());
             tokens.pop();
 
-            return std::move(value);
+            return value;
+        }
+
+        void clear() {
+            while (!tokens.empty())
+                tokens.pop();
         }
 
         inline bool isComplete() override {

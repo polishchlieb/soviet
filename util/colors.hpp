@@ -23,6 +23,8 @@ namespace soviet {
             #else
                 return "";
             #endif
+            default:
+                throw std::runtime_error("Unknown color");
         }
     }
 }

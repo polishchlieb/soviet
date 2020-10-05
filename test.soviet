@@ -1,11 +1,2 @@
-obj = object(
-  'piotreee', 'kox',
-  'chleb', 'nub',
-  'oko', 'nub',
-  'papiesz', 2137,
-  'ruchanie', 69,
-  '1337', 1337,
-  'test', 'dupa1234'
-)
-
-print(obj)
+obj = object('a', 2)
+a = @ + 2

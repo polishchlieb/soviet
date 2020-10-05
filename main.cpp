@@ -25,6 +25,7 @@ static void runREPL() {
             std::cout << soviet::dumpValue(value) << std::endl;
         } catch (const soviet::Error& e) {
             e.print();
+            parser.tokenizer.clear();
         }
     }
 }

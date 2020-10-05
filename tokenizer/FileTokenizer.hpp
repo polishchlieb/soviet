@@ -44,7 +44,7 @@ namespace soviet {
             auto value = std::move(tokens.front());
             tokens.pop();
 
-            return std::move(value);
+            return value;
         }
 
         inline bool isComplete() override {

@@ -39,6 +39,8 @@ namespace soviet {
             case NodeType::BlockNode: return "block_node";
             case NodeType::DotOpNode: return "dot_operator_node";
             case NodeType::ReturnNode: return "return_node";
+            default:
+                throw ParseError("Unknown error");
         }
     }
 }

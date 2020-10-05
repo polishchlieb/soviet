@@ -109,10 +109,18 @@ namespace soviet {
             case NodeType::BlockNode: {
                 const auto n = node_cast<BlockNode>(node);
                 std::cout << times(" ", spacing)
-                    << dumpNodeType(n->type)<< ":" << std::endl;
+                    << dumpNodeType(n->type) << ":" << std::endl;
 
                 for (const auto& expr : n->nodes)
                     dump(expr, spacing + 2);
+                break;
+            }
+            case NodeType::ReturnNode: {
+                const auto n = node_cast<ReturnNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << std::endl;
+
+                dump(n->returnValue, spacing + 2);
                 break;
             }
         }

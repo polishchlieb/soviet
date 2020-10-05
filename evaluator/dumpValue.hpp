@@ -27,13 +27,14 @@ namespace soviet {
                     result += key + " => " + dumpValue(value) + ", ";
                 return result.substr(0, result.length() - 2) + ")";
             }
-            case ValueType::FunctionValue: {
+            case ValueType::FunctionValue:
                 return "[function]";
-            }
             case ValueType::UndefinedValue:
                 return "[undefined]";
             case ValueType::ExplicitReturnValue:
                 return "<explicit return value>";
+            default:
+                return "<wtf>";
         }
     }
 }

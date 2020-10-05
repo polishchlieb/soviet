@@ -6,18 +6,22 @@
 #include <utility>
 
 namespace soviet {
+    static constexpr unsigned int UNDEFINED_LINE = 0;
+
     struct Token {
         TokenType type;
         std::string value;
+        unsigned int line;
         
-        Token(TokenType type, std::string&& value)
-            : type(type), value(std::move(value)) {}
+        Token(TokenType type, std::string&& value, unsigned int line)
+            : type(type), value(std::move(value)), line(line) {}
 
         Token(const Token& other) = default;
 
         Token(Token&& other) noexcept
-          : value(std::move(other.value)),
-          type(std::exchange(other.type, TokenType::undefined)) {}
+          : type(std::exchange(other.type, TokenType::undefined)),
+          value(std::move(other.value)),
+          line(std::exchange(other.line, UNDEFINED_LINE)) {}
 
         Token& operator=(const Token& t) = default;
 
@@ -25,9 +29,10 @@ namespace soviet {
             return this->type == TokenType::none;
         }
 
-        void clear() {
+        void clear(unsigned int line) {
             this->type = TokenType::none;
             this->value = "";
+            this->line = line;
         }
     };
 }

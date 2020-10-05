@@ -219,6 +219,8 @@ namespace soviet {
                     return std::make_shared<BooleanValue>(left == right);
                 case ValueType::ExplicitReturnValue:
                     throw EvaluateError("what the fuck is explicit return value");
+                default:
+                    throw EvaluateError("Unknown error");
             }
         }
 

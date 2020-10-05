@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdexcept>
+#include "../parser/ParseError.hpp"
 
 namespace soviet {
     enum class TokenType {
@@ -52,6 +53,8 @@ namespace soviet {
             case TokenType::close_curly_bracket: return "close_curly_bracket";
             case TokenType::dot: return "dot";
             case TokenType::comment: return "comment";
+            default:
+                throw ParseError("Unknown error");
         }
     }
 }
