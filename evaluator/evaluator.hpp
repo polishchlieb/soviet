@@ -177,10 +177,11 @@ namespace soviet {
                             return value;
                         }
                     }
+                    break;
                 }
-                default:
-                    throw EvaluateError("unexpected node");
             }
+
+            throw EvaluateError("Unexpected node");
         }
 
         std::shared_ptr<Value> evaluateDoubleEqualsOpNode(const std::shared_ptr<Node>& node) {
