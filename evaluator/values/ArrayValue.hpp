@@ -6,54 +6,29 @@
 #include <memory>
 
 namespace soviet {
-    struct ArrayValue : ObjectValue {
+    struct ArrayValue : Value {
+    private:
+        typedef std::vector<std::shared_ptr<Value>> Data;
     public:
-        ArrayValue() : ObjectValue{} {
-            registerFunctionality();
+        explicit ArrayValue(Data data)
+            : Value{ValueType::ArrayValue}, data(std::move(data))
+        {}
+
+        ArrayValue() : Value{ValueType::ArrayValue} {}
+
+        auto add(std::shared_ptr<Value> value) {
+            data.push_back(std::move(value));
         }
 
-        explicit ArrayValue(std::vector<std::shared_ptr<Value>>&& data)
-            : ObjectValue{}, data(std::move(data))
-        {
-            registerFunctionality();
+        auto& at(const unsigned int index) {
+            return data[index];
+        }
+
+        auto& getData() {
+            return data;
         }
     private:
-        std::vector<std::shared_ptr<Value>> data;
-
-        // TODO: Create a system of prototypes
-        // This code is extremely inefficient when creating
-        // a large amount of objects as these lambdas get
-        // allocated each time ArrayValue gets constructed
-        void registerFunctionality() {
-            this->set("at", std::make_shared<FunctionValue>(
-                [this](const std::vector<std::shared_ptr<Value>>& args) {
-                    const auto index = static_cast<unsigned int>(
-                        value_cast<NumberValue>(args[0])->value
-                    );
-                    return data[index];
-                }
-            ));
-
-            this->set("add", std::make_shared<FunctionValue>(
-                [this](const std::vector<std::shared_ptr<Value>>& args) {
-                    for (const auto& arg : args)
-                        data.push_back(arg);
-                    return std::make_shared<Value>(ValueType::UndefinedValue);
-                }
-            ));
-
-            this->set("each", std::make_shared<FunctionValue>(
-                [this](const std::vector<std::shared_ptr<Value>>& args) {
-                    const auto callback = value_cast<FunctionValue>(args[0]);
-                    for (const auto& element : data) {
-                        std::vector<std::shared_ptr<Value>> callbackArgs
-                            = { element };
-                        callback->run(callbackArgs);
-                    }
-                    return std::make_shared<Value>(ValueType::UndefinedValue);
-                }
-            ));
-        }
+        Data data;
     };
 }
 

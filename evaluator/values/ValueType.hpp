@@ -9,7 +9,10 @@ namespace soviet {
         UndefinedValue,
         FunctionValue,
         ObjectValue,
-        ExplicitReturnValue
+        ExplicitReturnValue,
+        PrototypeValue,
+        PrototypeObjectValue,
+        ArrayValue
     };
 }
 

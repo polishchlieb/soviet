@@ -67,12 +67,35 @@ namespace soviet {
                 )
             });
 
+            auto arrayPrototype = new PrototypeValue;
+            arrayPrototype->registerMethod("at", [](
+                std::shared_ptr<Value>& obj,
+                std::vector<std::shared_ptr<Value>>& args
+            ) {
+                const auto array = value_cast<ArrayValue>(obj);
+                const auto index = static_cast<unsigned int>(
+                    value_cast<NumberValue>(args[0])->value
+                );
+
+                return array->at(index);
+            });
+
+            std::cout << arrayPrototype->testName << std::endl;
+
             variables.insert({
                 "array",
                 std::make_shared<FunctionValue>(
-                    [](std::vector<std::shared_ptr<Value>>& args) {
-                        if (args.empty()) return std::make_shared<ArrayValue>();
-                        return std::make_shared<ArrayValue>(std::move(args));
+                    [arrayPrototype](std::vector<std::shared_ptr<Value>>& args) {
+                        if (args.empty())
+                            return std::make_shared<PrototypeObjectValue>(
+                                arrayPrototype,
+                                std::make_shared<ArrayValue>()
+                            );
+
+                        return std::make_shared<PrototypeObjectValue>(
+                            arrayPrototype,
+                            std::make_shared<ArrayValue>(std::move(args))
+                        );
                     }
                 )
             });

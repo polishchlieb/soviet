@@ -5,13 +5,12 @@
 #include <string>
 #include <memory>
 #include "Value.hpp"
+#include "PrototypeValue.hpp"
 
 namespace soviet {
     struct ObjectValue : Value {
     private:
         typedef std::unordered_map<std::string, std::shared_ptr<Value>> Props;
-        Props properties;
-
     public:
         explicit ObjectValue(Props properties)
             : Value{ValueType::ObjectValue}, properties(std::move(properties))
@@ -29,6 +28,27 @@ namespace soviet {
 
         auto& getProperties() {
             return properties;
+        }
+    private:
+        Props properties;
+    };
+
+    struct PrototypeObjectValue : Value {
+        explicit PrototypeObjectValue(PrototypeValue* prototype)
+            : Value{ValueType::PrototypeObjectValue},
+            prototype(prototype) {}
+        PrototypeObjectValue(PrototypeValue* prototype, std::shared_ptr<Value> object)
+            : Value{ValueType::PrototypeObjectValue},
+            prototype(prototype), object(std::move(object)) {}
+
+        PrototypeValue* prototype;
+        std::shared_ptr<Value> object;
+
+        std::shared_ptr<Value> call(
+            const std::string& methodName,
+            std::vector<std::shared_ptr<Value>>& args
+        ) const {
+            return prototype->call(object, methodName, args);
         }
     };
 }

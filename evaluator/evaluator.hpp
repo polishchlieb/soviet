@@ -284,13 +284,28 @@ namespace soviet {
         std::shared_ptr<Value> evaluateDotOpNode(const std::shared_ptr<Node>& node) {
             const auto n = node_cast<DotOpNode>(node);
 
-            const auto& left = node_cast<NameNode>(n->left)->value;
-            const auto& right = node_cast<NameNode>(n->right)->value;
+            const auto left = node_cast<NameNode>(n->left)->value;
+            const auto right = node_cast<NameNode>(n->right)->value;
 
             for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
-                if (i->variables.contains(left))
-                    return value_cast<ObjectValue>(i->variables[left])
-                        ->get(right);
+                if (i->variables.contains(left)) {
+                    auto variable = i->variables[left];
+                    if (variable->type == ValueType::PrototypeObjectValue) {
+                        auto args = std::vector<std::shared_ptr<Value>>{
+                            std::make_shared<NumberValue>(1.0f)
+                        };
+                        return std::make_shared<FunctionValue>([
+                            variable, right
+                        ](
+                            std::vector<std::shared_ptr<Value>>& args
+                        ) {
+                            auto prototypeObject = value_cast<PrototypeObjectValue>(variable);
+                            return prototypeObject->call(right, args);
+                        });
+                    } else if (variable->type == ValueType::ObjectValue) {
+                        return value_cast<ObjectValue>(variable)->get(right);
+                    }
+                }
             }
 
             throw EvaluateError("unknow object: " + left);

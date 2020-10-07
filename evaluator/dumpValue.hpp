@@ -33,6 +33,8 @@ namespace soviet {
                 return "[undefined]";
             case ValueType::ExplicitReturnValue:
                 return "<explicit return value>";
+            case ValueType::PrototypeObjectValue:
+                return "[prototype object value]";
             default:
                 return "<wtf>";
         }
