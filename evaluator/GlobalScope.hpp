@@ -5,6 +5,7 @@
 #include "Scope.hpp"
 #include "values/FunctionValue.hpp"
 #include "dumpValue.hpp"
+#include "EvaluateError.hpp"
 
 namespace soviet {
     class GlobalScope : public Scope {
@@ -79,8 +80,6 @@ namespace soviet {
 
                 return array->at(index);
             });
-
-            std::cout << arrayPrototype->testName << std::endl;
 
             variables.insert({
                 "array",

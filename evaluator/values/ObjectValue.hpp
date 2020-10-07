@@ -22,6 +22,10 @@ namespace soviet {
             properties.insert({ name, value });
         }
 
+        [[nodiscard]] bool has(const std::string& property) const {
+            return properties.contains(property);
+        }
+
         std::shared_ptr<Value>& get(const std::string& name) {
             return properties[name];
         }

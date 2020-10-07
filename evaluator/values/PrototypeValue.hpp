@@ -30,7 +30,9 @@ namespace soviet {
             return methods[methodName](obj, args);
         }
 
-        std::string testName = "prototype";
+        [[nodiscard]] bool hasMethod(const std::string& name) {
+            return methods.contains(name);
+        }
     private:
         std::unordered_map<std::string, Callback> methods;
     };
