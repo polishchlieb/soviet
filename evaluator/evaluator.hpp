@@ -145,7 +145,7 @@ namespace soviet {
                     if (right->type == ValueType::NumberValue) {
                         return std::make_shared<NumberValue>(
                             value_cast<NumberValue>(left)->value
-                            + value_cast<NumberValue>(right)->value
+                            * value_cast<NumberValue>(right)->value
                         );
                     } else if (right->type == ValueType::StringValue) {
                         return std::make_shared<StringValue>(times(
