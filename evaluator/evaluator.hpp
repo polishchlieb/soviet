@@ -58,7 +58,7 @@ namespace soviet {
         std::vector<Scope> currentContext = {GlobalScope{}};
 
         std::shared_ptr<Value> evaluateNumberNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<NumberNode>(node);
+            const auto n = node_cast<NumberNode>(node);
             return std::make_shared<NumberValue>(n->value);
         }
 
@@ -73,24 +73,25 @@ namespace soviet {
             const std::shared_ptr<Node>& node,
             bool require = true
         ) {
-            const auto& n = node_cast<NameNode>(node);
+            const auto n = node_cast<NameNode>(node);
+
             for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
                 if (i->variables.contains(n->value))
                     return i->variables[n->value];
             }
 
-            if (require)
-                throw EvaluateError("unknown name: " + n->value);
+            if (require) throw EvaluateError("unknown name: " + n->value);
             return nullptr;
         }
 
         std::shared_ptr<Value> evaluateStringNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<StringNode>(node);
+            const auto n = node_cast<StringNode>(node);
             return std::make_shared<StringValue>(n->value);
         }
 
         std::shared_ptr<Value> evaluateAddOpNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<AddOpNode>(node);
+            const auto n = node_cast<AddOpNode>(node);
+
             const auto left = evaluate(n->left);
             if (left->type == ValueType::NumberValue) {
                 const auto leftValue = value_cast<NumberValue>(left)->value;
@@ -123,11 +124,13 @@ namespace soviet {
 
         std::shared_ptr<Value> evaluateIfNode(const std::shared_ptr<Node>& node) {
             const auto n = node_cast<IfNode>(node);
+
             const auto condition = value_cast<BooleanValue>(evaluate(n->condition));
             if (condition->value)
                 return evaluate(n->body);
             else if (n->elseBody)
                 return evaluate(n->elseBody);
+
             return std::make_shared<Value>(ValueType::UndefinedValue);
         }
 
@@ -137,41 +140,35 @@ namespace soviet {
         }
 
         std::shared_ptr<Value> evaluateMulOpNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<DivOpNode>(node);
+            const auto n = node_cast<DivOpNode>(node);
+
             const auto left = evaluate(n->left);
-            switch (left->type) {
-                case ValueType::NumberValue: {
-                    const auto right = evaluate(n->right);
-                    if (right->type == ValueType::NumberValue) {
-                        return std::make_shared<NumberValue>(
-                            value_cast<NumberValue>(left)->value
-                            * value_cast<NumberValue>(right)->value
-                        );
-                    } else if (right->type == ValueType::StringValue) {
-                        return std::make_shared<StringValue>(times(
-                            value_cast<StringValue>(right)->value,
-                            static_cast<unsigned int>(
-                                value_cast<NumberValue>(left)->value
-                            )
-                        ));
-                    }
-                    throw EvaluateError("Unknown operands");
+            if (left->type == ValueType::NumberValue) {
+                const auto leftValue = value_cast<NumberValue>(left)->value;
+                const auto right = evaluate(n->right);
+                if (right->type == ValueType::NumberValue) {
+                    return std::make_shared<NumberValue>(
+                        leftValue * value_cast<NumberValue>(right)->value
+                    );
+                } else if (right->type == ValueType::StringValue) {
+                    return std::make_shared<StringValue>(times(
+                        value_cast<StringValue>(right)->value,
+                        static_cast<unsigned int>(leftValue)
+                    ));
                 }
-                case ValueType::StringValue: {
-                    const auto right = evaluate(n->right);
-                    if (right->type == ValueType::NumberValue) {
-                        return std::make_shared<StringValue>(times(
-                            value_cast<StringValue>(left)->value,
-                            static_cast<unsigned int>(
-                                value_cast<NumberValue>(right)->value
-                            )
-                        ));
-                    }
-                    throw EvaluateError("Unknown operands");
+            } else if (left->type == ValueType::StringValue) {
+                const auto right = evaluate(n->right);
+                if (right->type == ValueType::NumberValue) {
+                    return std::make_shared<StringValue>(times(
+                        value_cast<StringValue>(left)->value,
+                        static_cast<unsigned int>(
+                            value_cast<NumberValue>(right)->value
+                        )
+                    ));
                 }
-                default:
-                    throw EvaluateError("Unknown operands");
             }
+
+            throw EvaluateError("Unknown operands");
         }
 
         std::shared_ptr<Value> evaluateDivOpNode(const std::shared_ptr<Node>& node) {
@@ -182,10 +179,13 @@ namespace soviet {
         template<typename T>
         auto getNumberValues(const std::shared_ptr<T>& node) -> std::tuple<float, float> {
             const auto n = node_cast<OperatorNode>(node);
+
             const auto left = evaluate(n->left);
             const auto right = evaluate(n->right);
+
             if (left->type != ValueType::NumberValue || right->type != ValueType::NumberValue)
                 throw EvaluateError("Unknown operands");
+
             return {
                 value_cast<NumberValue>(left)->value,
                 value_cast<NumberValue>(right)->value
@@ -212,8 +212,8 @@ namespace soviet {
                 }
                 case NodeType::DotOpNode: {
                     const auto op = node_cast<DotOpNode>(n->left);
-                    const auto& left = node_cast<NameNode>(op->left)->value;
-                    const auto& right = node_cast<NameNode>(op->right)->value;
+                    const auto left = node_cast<NameNode>(op->left)->value;
+                    const auto right = node_cast<NameNode>(op->right)->value;
 
                     auto value = evaluate(n->right);
 
@@ -235,9 +235,11 @@ namespace soviet {
         }
 
         std::shared_ptr<Value> evaluateDoubleEqualsOpNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<DoubleEqualsOpNode>(node);
+            const auto n = node_cast<DoubleEqualsOpNode>(node);
+
             const auto left = evaluate(n->left);
             const auto right = evaluate(n->right);
+
             if (left->type != right->type)
                 return std::make_shared<BooleanValue>(false);
 
@@ -276,7 +278,8 @@ namespace soviet {
         }
 
         std::shared_ptr<Value> evaluateFuncCallNode(const std::shared_ptr<Node>& node) {
-            const auto& n = node_cast<FuncCallNode>(node);
+            const auto n = node_cast<FuncCallNode>(node);
+
             const auto function = evaluate(n->name);
 
             if (function->type == ValueType::NumberValue) {
