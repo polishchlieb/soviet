@@ -30,9 +30,9 @@ namespace soviet {
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
                         const auto times = static_cast<unsigned int>(
-                            value_cast<NumberValue>(args[0])->value
+                                valueCast<NumberValue>(args[0])->value
                         );
-                        const auto callback = value_cast<FunctionValue>(args[1]);
+                        const auto callback = valueCast<FunctionValue>(args[1]);
 
                         for (unsigned int i = 0; i < times; ++i) {
                             std::vector<std::shared_ptr<Value>> callbackArgs = {
@@ -59,7 +59,7 @@ namespace soviet {
 
                         std::unordered_map<std::string, std::shared_ptr<Value>> props;
                         for (unsigned int i = 0; i < args.size(); i += 2) {
-                            const auto& name = value_cast<StringValue>(args[i])->value;
+                            const auto& name = valueCast<StringValue>(args[i])->value;
                             props.insert({ name, args[i + 1] });
                         }
 
@@ -73,9 +73,9 @@ namespace soviet {
                 std::shared_ptr<Value>& obj,
                 std::vector<std::shared_ptr<Value>>& args
             ) {
-                const auto array = value_cast<ArrayValue>(obj);
+                const auto array = valueCast<ArrayValue>(obj);
                 const auto index = static_cast<unsigned int>(
-                    value_cast<NumberValue>(args[0])->value
+                    valueCast<NumberValue>(args[0])->value
                 );
 
                 return array->at(index);

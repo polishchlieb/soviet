@@ -3,7 +3,7 @@
 
 #include "Value.hpp"
 #include "ValueType.hpp"
-#include "../value_cast.hpp"
+#include "../valueCast.hpp"
 
 #include "NumberValue.hpp"
 #include "BooleanValue.hpp"

@@ -37,15 +37,22 @@ namespace soviet {
                 parseChar(c);
             }
 
-            if (!previous.isEmpty() && previous.type != TokenType::comment) {
+            if (!previous.isEmpty()) {
+                if (previous.type == TokenType::string)
+                    throw ParseError(
+                        "expected string ending on line " + std::to_string(previous.line)
+                    );
+                if (previous.type == TokenType::comment)
+                    return;
+
                 tokens.emplace(std::move(previous));
             }
         }
     protected:
         std::queue<Token> tokens;
+        unsigned int lineNumber = UNDEFINED_LINE;
     private:
         Token previous{TokenType::none, "", UNDEFINED_LINE};
-        unsigned int lineNumber = UNDEFINED_LINE;
 
         void parseChar(const char c) {
             switch (previous.type) {

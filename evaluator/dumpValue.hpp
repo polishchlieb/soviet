@@ -19,24 +19,25 @@ namespace soviet {
             case ValueType::StringValue: return "string";
             case ValueType::UndefinedValue: return "undefined";
         }
+        return "wtf";
     }
 
     std::string dumpValue(const std::shared_ptr<Value>& value) {
         switch (value->type) {
             case ValueType::NumberValue: {
-                const auto v = value_cast<NumberValue>(value);
+                const auto v = valueCast<NumberValue>(value);
                 return std::to_string(v->value);
             }
             case ValueType::BooleanValue: {
-                const auto v = value_cast<BooleanValue>(value);
+                const auto v = valueCast<BooleanValue>(value);
                 return v->value ? "true" : "false";
             }
             case ValueType::StringValue: {
-                const auto v = value_cast<StringValue>(value);
+                const auto v = valueCast<StringValue>(value);
                 return v->value;
             }
             case ValueType::ObjectValue: {
-                const auto v = value_cast<ObjectValue>(value);
+                const auto v = valueCast<ObjectValue>(value);
                 std::string result = "object(";
                 for (auto [key, value] : v->getProperties())
                     result += key + " => " + dumpValue(value) + ", ";
@@ -49,7 +50,7 @@ namespace soviet {
             case ValueType::ExplicitReturnValue:
                 return "<explicit return value>";
             case ValueType::PrototypeObjectValue: {
-                const auto v = value_cast<PrototypeObjectValue>(value);
+                const auto v = valueCast<PrototypeObjectValue>(value);
                 return "prototype<" + dumpValueType(v->object->type) + ">";
             }
             default:

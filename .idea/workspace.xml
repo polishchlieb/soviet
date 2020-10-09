@@ -6,11 +6,11 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="soviet" targetName="gtest" />
-      <config projectName="soviet" targetName="soviet_test" />
       <config projectName="soviet" targetName="gmock" />
-      <config projectName="soviet" targetName="gmock_main" />
-      <config projectName="soviet" targetName="gtest_main" />
       <config projectName="soviet" targetName="soviet" />
+      <config projectName="soviet" targetName="gtest_main" />
+      <config projectName="soviet" targetName="soviet_test" />
+      <config projectName="soviet" targetName="gmock_main" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -59,6 +59,11 @@
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="gmock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="gmock" CONFIG_NAME="Debug">
@@ -186,22 +191,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="333" key="GridCell.Tab.0.bottom" timestamp="1602112344793">
+    <state width="1657" height="333" key="GridCell.Tab.0.bottom" timestamp="1602282769871">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="333" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602112344793" />
-    <state width="1657" height="333" key="GridCell.Tab.0.center" timestamp="1602112344791">
+    <state width="1657" height="333" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602282769871" />
+    <state width="1657" height="333" key="GridCell.Tab.0.center" timestamp="1602282769870">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="333" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602112344791" />
-    <state width="1657" height="333" key="GridCell.Tab.0.left" timestamp="1602112344790">
+    <state width="1657" height="333" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602282769870" />
+    <state width="1657" height="333" key="GridCell.Tab.0.left" timestamp="1602282769870">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="333" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602112344790" />
-    <state width="1657" height="333" key="GridCell.Tab.0.right" timestamp="1602112344792">
+    <state width="1657" height="333" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602282769870" />
+    <state width="1657" height="333" key="GridCell.Tab.0.right" timestamp="1602282769871">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="333" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602112344792" />
+    <state width="1657" height="333" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602282769871" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -250,13 +255,13 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="504" y="244" key="run.anything.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1602109913382" />
-    <state x="630" y="404" width="511" height="411" key="scopes" timestamp="1596918069021">
+    <state x="630" y="404" width="511" height="411" key="scopes" timestamp="1602280682540">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="630" y="404" width="511" height="411" key="scopes/0.27.1680.1023@0.27.1680.1023" timestamp="1596918069021" />
-    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup" timestamp="1601834627470">
+    <state x="630" y="404" width="511" height="411" key="scopes/0.27.1680.1023@0.27.1680.1023" timestamp="1602280682540" />
+    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup" timestamp="1602281724375">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1601834627470" />
+    <state x="503" y="251" width="672" height="160" key="search.everywhere.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1602281724375" />
   </component>
 </project>

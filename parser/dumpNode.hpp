@@ -7,7 +7,7 @@
 #include <iostream>
 #include "nodes/OperatorNode.hpp"
 #include "nodes/LeafNode.hpp"
-#include "node_cast.hpp"
+#include "nodeCast.hpp"
 
 namespace soviet {
     static std::string times(const std::string& str, unsigned int num) {
@@ -19,7 +19,7 @@ namespace soviet {
 
     template<typename T>
     static void dumpLeafNode(const std::shared_ptr<Node>& node, unsigned int spacing = 0) {
-        const auto& leafNode = node_cast<LeafNode<T>>(node);
+        const auto& leafNode = nodeCast<LeafNode<T>>(node);
         std::cout << times(" ", spacing)
             << dumpNodeType(node->type) << ": " << leafNode->value << std::endl;
     }
@@ -33,7 +33,7 @@ namespace soviet {
             case NodeType::EqualsOpNode:
             case NodeType::DoubleEqualsOpNode:
             case NodeType::DotOpNode: {
-                const auto& operatorNode = node_cast<OperatorNode>(node);
+                const auto& operatorNode = nodeCast<OperatorNode>(node);
 
                 std::cout << times(" ", spacing)
                           << dumpNodeType(node->type) << ":" << std::endl;
@@ -49,7 +49,7 @@ namespace soviet {
                 dumpLeafNode<std::string>(node, spacing);
                 break;
             case NodeType::FuncCallNode: {
-                const auto& funcNode = node_cast<FuncCallNode>(node);
+                const auto& funcNode = nodeCast<FuncCallNode>(node);
 
                 std::cout << times(" ", spacing)
                     << dumpNodeType(node->type) << ":" << std::endl
@@ -64,7 +64,7 @@ namespace soviet {
                 break;
             }
             case NodeType::IfNode: {
-                const auto n = node_cast<IfNode>(node);
+                const auto n = nodeCast<IfNode>(node);
                 std::cout << times(" ", spacing)
                     << dumpNodeType(node->type) << ":" << std::endl
 
@@ -89,7 +89,7 @@ namespace soviet {
                 break;
             }
             case NodeType::PrototypeNode: {
-                const auto n = node_cast<PrototypeNode>(node);
+                const auto n = nodeCast<PrototypeNode>(node);
                 std::cout << times(" ", spacing)
                     << dumpNodeType(node->type) << ":" << std::endl
 
@@ -107,7 +107,7 @@ namespace soviet {
                 break;
             }
             case NodeType::BlockNode: {
-                const auto n = node_cast<BlockNode>(node);
+                const auto n = nodeCast<BlockNode>(node);
                 std::cout << times(" ", spacing)
                     << dumpNodeType(n->type) << ":" << std::endl;
 
@@ -116,7 +116,7 @@ namespace soviet {
                 break;
             }
             case NodeType::ReturnNode: {
-                const auto n = node_cast<ReturnNode>(node);
+                const auto n = nodeCast<ReturnNode>(node);
                 std::cout << times(" ", spacing)
                     << dumpNodeType(n->type) << ":" << std::endl;
 

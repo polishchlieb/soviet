@@ -34,6 +34,8 @@ namespace soviet {
         }
     private:
         std::string getInput() {
+            lineNumber = UNDEFINED_LINE;
+
             std::cout << ">>> ";
             std::string line;
             std::getline(std::cin, line);
