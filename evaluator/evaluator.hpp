@@ -54,8 +54,10 @@ namespace soviet {
                     throw EvaluateError("Unexpected node");
             }
         }
-    private:
+
         std::vector<Scope> currentContext = {GlobalScope{}};
+    private:
+//        std::vector<Scope> currentContext = {GlobalScope{}};
 
         static auto evaluateNumberNode(const std::shared_ptr<Node>& node)
           -> std::shared_ptr<Value> {

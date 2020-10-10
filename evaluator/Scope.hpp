@@ -9,6 +9,15 @@
 namespace soviet {
     class Scope {
     public:
+        void merge(Scope& other) {
+            for (const auto& [name, value] : other.variables)
+                variables.insert({ name, value });
+        }
+        void merge(Scope* other) {
+            for (const auto& [name, value] : other->variables)
+                variables.insert({ name, value });
+        }
+
         std::unordered_map<std::string, std::shared_ptr<Value>> variables;
     };
 }

@@ -30,7 +30,7 @@ namespace soviet {
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
                         const auto times = static_cast<unsigned int>(
-                                valueCast<NumberValue>(args[0])->value
+                            valueCast<NumberValue>(args[0])->value
                         );
                         const auto callback = valueCast<FunctionValue>(args[1]);
 

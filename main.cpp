@@ -4,6 +4,9 @@
 #include "tokenizer/FileTokenizer.hpp"
 #include "tokenizer/InlineTokenizer.hpp"
 
+#include <filesystem>
+#include "evaluator/moduleLoader.hpp"
+
 #include <fstream>
 
 #ifdef DEBUG
@@ -17,6 +20,28 @@ static void runREPL() {
 
     soviet::Parser<soviet::InlineTokenizer> parser;
     soviet::Evaluator evaluator;
+
+//    soviet::Scope sinScope;
+//    sinScope.variables.insert({
+//        "sin",
+//        std::make_shared<soviet::FunctionValue>([](
+//            const std::vector<std::shared_ptr<soviet::Value>>& args
+//        ) {
+//            if (args.size() != 1)
+//                throw soviet::EvaluateError("");
+//            if (args[0]->type != soviet::ValueType::NumberValue)
+//                throw soviet::EvaluateError("");
+//
+//            const auto value = soviet::valueCast<soviet::NumberValue>(args[0])->value;
+//
+//            return std::make_shared<soviet::NumberValue>(std::sin(value));
+//        })
+//    });
+//    evaluator.currentContext[0].merge(sinScope);
+    for (const auto& entry : std::filesystem::directory_iterator("soviet-lib/")) {
+        auto module = loadModule(entry.path().c_str());
+        evaluator.currentContext[0].merge(module);
+    }
 
     for (;;) {
         try {
