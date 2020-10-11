@@ -174,13 +174,33 @@ namespace soviet {
             );
         }
 
+        std::shared_ptr<Node> parseImport() {
+            auto moduleName = tokenizer.getNextToken();
+            if (!isIn(moduleName.type, TokenType::name, TokenType::string))
+                throw ParseError("expected a name or a string");
+
+            std::shared_ptr<Node> module;
+            switch (moduleName.type) {
+                case TokenType::name:
+                    module = std::make_shared<NameNode>(std::move(moduleName.value));
+                    break;
+                case TokenType::string:
+                    module = std::make_shared<StringNode>(std::move(moduleName.value));
+                    break;
+            }
+
+            return std::make_shared<ImportNode>(std::move(module));
+        }
+
         std::shared_ptr<Node> parseName() {
-            Token token = tokenizer.getNextToken();
+            auto token = tokenizer.getNextToken();
 
             if (token.value == "if")
                 return parseIfStatement();
             if (token.value == "return")
                 return parseReturn();
+            if (token.value == "import")
+                return parseImport();
 
             auto node = std::make_shared<NameNode>(
                 std::move(token.value)

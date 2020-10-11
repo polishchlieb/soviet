@@ -46,7 +46,7 @@
     <property name="cf.advertisement.text.has.clang-format" value="true" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="IgnoreLang" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -164,15 +164,16 @@
       <workItem from="1602151966304" duration="1948000" />
       <workItem from="1602348517473" duration="6711000" />
       <workItem from="1602366522635" duration="3874000" />
-      <workItem from="1602439667236" duration="1246000" />
+      <workItem from="1602439667236" duration="7828000" />
+      <workItem from="1602451303131" duration="1213000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1602367686306">
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions" timestamp="1602450737270">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1602367686306" />
+    <state x="435" y="200" width="800" height="684" key="#New_File_Extensions/0.27.1680.1023@0.27.1680.1023" timestamp="1602450737270" />
     <state x="298" y="196" width="1084" height="738" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602058022180">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -185,26 +186,30 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="573" y="287" width="524" height="510" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1600633423608" />
+    <state x="100" y="127" width="1480" height="823" key="DiffContextDialog" timestamp="1602445226906">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state x="100" y="127" width="1480" height="823" key="DiffContextDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1602445226906" />
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog" timestamp="1596918716023">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="828" height="333" key="GridCell.Tab.0.bottom" timestamp="1602442378718">
+    <state width="1657" height="269" key="GridCell.Tab.0.bottom" timestamp="1602452339793">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="828" height="333" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
-    <state width="828" height="333" key="GridCell.Tab.0.center" timestamp="1602442378718">
+    <state width="1657" height="269" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602452339793" />
+    <state width="1657" height="269" key="GridCell.Tab.0.center" timestamp="1602452339793">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="828" height="333" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
-    <state width="828" height="333" key="GridCell.Tab.0.left" timestamp="1602442378718">
+    <state width="1657" height="269" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602452339793" />
+    <state width="1657" height="269" key="GridCell.Tab.0.left" timestamp="1602452339792">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="828" height="333" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
-    <state width="828" height="333" key="GridCell.Tab.0.right" timestamp="1602442378718">
+    <state width="1657" height="269" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602452339792" />
+    <state width="1657" height="269" key="GridCell.Tab.0.right" timestamp="1602452339793">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="828" height="333" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
+    <state width="1657" height="269" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602452339793" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -221,10 +226,10 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state width="1657" height="328" key="GridCell.Tab.1.right/0.27.1680.1023@0.27.1680.1023" timestamp="1600638078307" />
-    <state x="329" y="173" width="1022" height="737" key="SettingsEditor" timestamp="1596485654403">
+    <state x="515" y="27" width="1022" height="737" key="SettingsEditor" timestamp="1602443969705">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="329" y="173" width="1022" height="737" key="SettingsEditor/0.27.1680.1023@0.27.1680.1023" timestamp="1596485654403" />
+    <state x="515" y="27" width="1022" height="737" key="SettingsEditor/0.27.1680.1023@0.27.1680.1023" timestamp="1602443969705" />
     <state width="498" height="446" key="SwitcherDM" timestamp="1601408146457">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -249,10 +254,10 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="619" y="322" width="432" height="439" key="refactoring.ChangeSignatureDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1601764420240" />
-    <state x="504" y="244" key="run.anything.popup" timestamp="1602109913382">
+    <state x="504" y="244" key="run.anything.popup" timestamp="1602451012597">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="504" y="244" key="run.anything.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1602109913382" />
+    <state x="504" y="244" key="run.anything.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1602451012597" />
     <state x="630" y="404" width="511" height="411" key="scopes" timestamp="1602280682540">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>

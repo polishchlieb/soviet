@@ -123,6 +123,14 @@ namespace soviet {
                 dump(n->returnValue, spacing + 2);
                 break;
             }
+            case NodeType::ImportNode: {
+                const auto n = nodeCast<ImportNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << std::endl;
+
+                dump(n->module, spacing + 2);
+                break;
+            }
         }
     }
 }

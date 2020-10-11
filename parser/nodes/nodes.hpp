@@ -16,5 +16,6 @@
 #include "BlockNode.hpp"
 #include "DotOpNode.hpp"
 #include "ReturnNode.hpp"
+#include "ImportNode.hpp"
 
 #endif //SOVIET_NODES_HPP
