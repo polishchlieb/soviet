@@ -6,11 +6,11 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
       <config projectName="soviet" targetName="gtest" />
-      <config projectName="soviet" targetName="gmock" />
-      <config projectName="soviet" targetName="soviet" />
-      <config projectName="soviet" targetName="gtest_main" />
       <config projectName="soviet" targetName="soviet_test" />
+      <config projectName="soviet" targetName="gmock" />
       <config projectName="soviet" targetName="gmock_main" />
+      <config projectName="soviet" targetName="gtest_main" />
+      <config projectName="soviet" targetName="soviet" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -59,11 +59,6 @@
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="gmock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="gmock" CONFIG_NAME="Debug">
@@ -168,7 +163,8 @@
       <workItem from="1602107393168" duration="4946000" />
       <workItem from="1602151966304" duration="1948000" />
       <workItem from="1602348517473" duration="6711000" />
-      <workItem from="1602366522635" duration="3825000" />
+      <workItem from="1602366522635" duration="3874000" />
+      <workItem from="1602439667236" duration="1246000" />
     </task>
     <servers />
   </component>
@@ -193,22 +189,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="817" height="333" key="GridCell.Tab.0.bottom" timestamp="1602370342490">
+    <state width="828" height="333" key="GridCell.Tab.0.bottom" timestamp="1602442378718">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="817" height="333" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602370342490" />
-    <state width="817" height="333" key="GridCell.Tab.0.center" timestamp="1602370342490">
+    <state width="828" height="333" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
+    <state width="828" height="333" key="GridCell.Tab.0.center" timestamp="1602442378718">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="817" height="333" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602370342490" />
-    <state width="817" height="333" key="GridCell.Tab.0.left" timestamp="1602370342490">
+    <state width="828" height="333" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
+    <state width="828" height="333" key="GridCell.Tab.0.left" timestamp="1602442378718">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="817" height="333" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602370342490" />
-    <state width="817" height="333" key="GridCell.Tab.0.right" timestamp="1602370342490">
+    <state width="828" height="333" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
+    <state width="828" height="333" key="GridCell.Tab.0.right" timestamp="1602442378718">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="817" height="333" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602370342490" />
+    <state width="828" height="333" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602442378718" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
