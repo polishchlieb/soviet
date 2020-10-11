@@ -14,6 +14,7 @@
 #include "dumpValue.hpp"
 #include "Scope.hpp"
 #include "GlobalScope.hpp"
+#include "moduleLoader.hpp"
 
 namespace soviet {
     class Evaluator {
@@ -50,14 +51,14 @@ namespace soviet {
                     return evaluateDotOpNode(node);
                 case NodeType::ReturnNode:
                     return evaluateReturnNode(node);
+                case NodeType::ImportNode:
+                    return evaluateImportNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
         }
-
-        std::vector<Scope> currentContext = {GlobalScope{}};
     private:
-//        std::vector<Scope> currentContext = {GlobalScope{}};
+        std::vector<Scope> currentContext = {GlobalScope{}};
 
         static auto evaluateNumberNode(const std::shared_ptr<Node>& node)
           -> std::shared_ptr<Value> {
@@ -71,6 +72,22 @@ namespace soviet {
             return std::make_shared<ExplicitReturnValue>(
                 evaluate(n->returnValue)
             );
+        }
+
+        auto evaluateImportNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<ImportNode>(node);
+            if (n->module->type == NodeType::NameNode) {
+                const auto name = nodeCast<NameNode>(n->module);
+                const auto fileName = "soviet-lib/" + name->value + ".so";
+                auto module = loadModule(fileName.c_str());
+                currentContext[0].merge(module);
+                delete module;
+            } else {
+                throw EvaluateError("string module import not implemented");
+            }
+
+            return std::make_shared<Value>(ValueType::UndefinedValue);
         }
 
         auto evaluateNameNode(

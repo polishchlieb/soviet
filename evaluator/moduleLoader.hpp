@@ -5,7 +5,7 @@
 #include "Scope.hpp"
 
 auto loadModule(const char* path) -> soviet::Scope* {
-    void* handle = dlopen(path, RTLD_LAZY);
+    auto handle = dlopen(path, RTLD_LAZY);
     auto create = reinterpret_cast<soviet::Scope* (*)()>(
         dlsym(handle, "createObject")
     );

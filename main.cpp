@@ -4,9 +4,6 @@
 #include "tokenizer/FileTokenizer.hpp"
 #include "tokenizer/InlineTokenizer.hpp"
 
-#include <filesystem>
-#include "evaluator/moduleLoader.hpp"
-
 #include <fstream>
 
 #ifdef DEBUG
@@ -21,16 +18,9 @@ static void runREPL() {
     soviet::Parser<soviet::InlineTokenizer> parser;
     soviet::Evaluator evaluator;
 
-    for (const auto& entry : std::filesystem::directory_iterator("soviet-lib/")) {
-        auto module = loadModule(entry.path().c_str());
-        evaluator.currentContext[0].merge(module);
-        delete module;
-    }
-
     for (;;) {
         try {
             const auto rootNode = parser.parse();
-            soviet::dump(rootNode);
             const auto value = evaluator.evaluate(rootNode);
             std::cout << soviet::dumpValue(value) << std::endl;
         } catch (const soviet::Error& e) {
