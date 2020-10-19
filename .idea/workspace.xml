@@ -86,17 +86,12 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="CMake Application.soviet" />
       <item itemvalue="CMake Application.gmock" />
       <item itemvalue="CMake Application.gmock_main" />
       <item itemvalue="CMake Application.gtest" />
       <item itemvalue="CMake Application.gtest_main" />
+      <item itemvalue="CMake Application.soviet" />
       <item itemvalue="Google Test.soviet_test" />
     </list>
   </component>
@@ -167,7 +162,14 @@
       <workItem from="1602439667236" duration="7828000" />
       <workItem from="1602451303131" duration="1265000" />
       <workItem from="1602454648347" duration="742000" />
-      <workItem from="1602482857981" duration="428000" />
+      <workItem from="1602482857981" duration="2544000" />
+      <workItem from="1602534775767" duration="2563000" />
+      <workItem from="1602629136947" duration="440000" />
+      <workItem from="1602878537986" duration="515000" />
+      <workItem from="1602879141039" duration="605000" />
+      <workItem from="1602971786982" duration="16000" />
+      <workItem from="1603138047232" duration="1293000" />
+      <workItem from="1603143939678" duration="935000" />
     </task>
     <servers />
   </component>
@@ -196,22 +198,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="269" key="GridCell.Tab.0.bottom" timestamp="1602455389812">
+    <state width="1657" height="171" key="GridCell.Tab.0.bottom" timestamp="1603144856208">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="269" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1602455389812" />
-    <state width="1657" height="269" key="GridCell.Tab.0.center" timestamp="1602455389812">
+    <state width="1657" height="171" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1603144856208" />
+    <state width="1657" height="171" key="GridCell.Tab.0.center" timestamp="1603144856207">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="269" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1602455389812" />
-    <state width="1657" height="269" key="GridCell.Tab.0.left" timestamp="1602455389811">
+    <state width="1657" height="171" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1603144856207" />
+    <state width="1657" height="171" key="GridCell.Tab.0.left" timestamp="1603144856206">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="269" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1602455389811" />
-    <state width="1657" height="269" key="GridCell.Tab.0.right" timestamp="1602455389812">
+    <state width="1657" height="171" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1603144856206" />
+    <state width="1657" height="171" key="GridCell.Tab.0.right" timestamp="1603144856207">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="269" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1602455389812" />
+    <state width="1657" height="171" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1603144856207" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
