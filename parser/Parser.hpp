@@ -282,7 +282,8 @@ namespace soviet {
             auto operand1 = this->parseAdditive();
             while (!tokenizer.isEmpty() && isIn(
                 tokenizer.peekNextToken().type,
-                TokenType::double_equals_op, TokenType::equals_op
+                TokenType::double_equals_op, TokenType::equals_op,
+                TokenType::greater_than
             )) {
                 const auto op = tokenizer.getNextToken();
                 auto operand2 = parseAdditive();
@@ -296,6 +297,13 @@ namespace soviet {
                     }
                     case TokenType::equals_op: {
                         operand1 = std::make_shared<EqualsOpNode>(
+                            std::move(operand1),
+                            std::move(operand2)
+                        );
+                        break;
+                    }
+                    case TokenType::greater_than: {
+                        operand1 = std::make_shared<GreaterThanOpNode>(
                             std::move(operand1),
                             std::move(operand2)
                         );

@@ -9,6 +9,7 @@ namespace soviet {
         Token& peekNextToken() override {
             while (tokens.empty()) {
                 tokenize(getInput());
+                dump();
             }
             return tokens.front();
         }
@@ -16,6 +17,7 @@ namespace soviet {
         Token getNextToken() override {
             while (tokens.empty()) {
                 tokenize(getInput());
+                dump();
             }
 
             auto value = std::move(tokens.front());

@@ -32,7 +32,8 @@ namespace soviet {
             case NodeType::DivOpNode:
             case NodeType::EqualsOpNode:
             case NodeType::DoubleEqualsOpNode:
-            case NodeType::DotOpNode: {
+            case NodeType::DotOpNode:
+            case NodeType::GreaterThanOpNode: {
                 const auto& operatorNode = nodeCast<OperatorNode>(node);
 
                 std::cout << times(" ", spacing)

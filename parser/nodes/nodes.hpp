@@ -17,5 +17,6 @@
 #include "DotOpNode.hpp"
 #include "ReturnNode.hpp"
 #include "ImportNode.hpp"
+#include "GreaterThanOpNode.hpp"
 
 #endif //SOVIET_NODES_HPP

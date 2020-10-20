@@ -53,12 +53,32 @@ namespace soviet {
                     return evaluateReturnNode(node);
                 case NodeType::ImportNode:
                     return evaluateImportNode(node);
+                case NodeType::GreaterThanOpNode:
+                    return evaluateGreaterThanOpNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
         }
     private:
         std::vector<Scope> currentContext = {GlobalScope{}};
+
+        auto evaluateGreaterThanOpNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<GreaterThanOpNode>(node);
+
+            const auto left = evaluate(n->left);
+            const auto right = evaluate(n->right);
+            if (left->type != ValueType::NumberValue
+              || right->type != left->type) {
+                throw EvaluateError("unknown operands");
+            }
+
+            const auto leftValue = valueCast<NumberValue>(left)->value;
+            const auto rightValue = valueCast<NumberValue>(right)->value;
+            return std::make_shared<BooleanValue>(
+                 leftValue > rightValue
+            );
+        }
 
         static auto evaluateNumberNode(const std::shared_ptr<Node>& node)
           -> std::shared_ptr<Value> {
