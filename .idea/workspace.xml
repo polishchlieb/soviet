@@ -54,7 +54,7 @@
       <recent name="$PROJECT_DIR$/evaluator/values" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.soviet">
+  <component name="RunManager" selected="Google Test.soviet_test">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
@@ -64,6 +64,11 @@
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="gmock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="gmock" CONFIG_NAME="Debug">
@@ -89,11 +94,6 @@
     <configuration name="soviet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="soviet" TARGET_NAME="soviet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="soviet" RUN_TARGET_NAME="soviet">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
@@ -210,22 +210,22 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="880" y="422" width="304" height="501" key="EnvironmentVariablesDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1596918716023" />
-    <state width="1657" height="375" key="GridCell.Tab.0.bottom" timestamp="1603230927489">
+    <state width="1657" height="375" key="GridCell.Tab.0.bottom" timestamp="1603314686093">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="375" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1603230927489" />
-    <state width="1657" height="375" key="GridCell.Tab.0.center" timestamp="1603230927488">
+    <state width="1657" height="375" key="GridCell.Tab.0.bottom/0.27.1680.1023@0.27.1680.1023" timestamp="1603314686093" />
+    <state width="1657" height="375" key="GridCell.Tab.0.center" timestamp="1603314686093">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="375" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1603230927488" />
-    <state width="1657" height="375" key="GridCell.Tab.0.left" timestamp="1603230927487">
+    <state width="1657" height="375" key="GridCell.Tab.0.center/0.27.1680.1023@0.27.1680.1023" timestamp="1603314686093" />
+    <state width="1657" height="375" key="GridCell.Tab.0.left" timestamp="1603314686092">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="375" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1603230927487" />
-    <state width="1657" height="375" key="GridCell.Tab.0.right" timestamp="1603230927488">
+    <state width="1657" height="375" key="GridCell.Tab.0.left/0.27.1680.1023@0.27.1680.1023" timestamp="1603314686092" />
+    <state width="1657" height="375" key="GridCell.Tab.0.right" timestamp="1603314686093">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state width="1657" height="375" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1603230927488" />
+    <state width="1657" height="375" key="GridCell.Tab.0.right/0.27.1680.1023@0.27.1680.1023" timestamp="1603314686093" />
     <state width="1657" height="328" key="GridCell.Tab.1.bottom" timestamp="1600638078307">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
@@ -270,10 +270,10 @@
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
     <state x="619" y="322" width="432" height="439" key="refactoring.ChangeSignatureDialog/0.27.1680.1023@0.27.1680.1023" timestamp="1603229856872" />
-    <state x="504" y="244" key="run.anything.popup" timestamp="1603230798624">
+    <state x="504" y="244" key="run.anything.popup" timestamp="1603314556082">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
-    <state x="504" y="244" key="run.anything.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1603230798624" />
+    <state x="504" y="244" key="run.anything.popup/0.27.1680.1023@0.27.1680.1023" timestamp="1603314556082" />
     <state x="630" y="404" width="511" height="411" key="scopes" timestamp="1602280682540">
       <screen x="0" y="27" width="1680" height="1023" />
     </state>
