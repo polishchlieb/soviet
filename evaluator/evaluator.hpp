@@ -55,12 +55,26 @@ namespace soviet {
                     return evaluateImportNode(node);
                 case NodeType::GreaterThanOpNode:
                     return evaluateGreaterThanOpNode(node);
+                case NodeType::NegationNode:
+                    return evaluateNegationNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
         }
     private:
         std::vector<Scope> currentContext = {GlobalScope{}};
+
+        auto evaluateNegationNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<NegationNode>(node);
+
+            const auto expression = evaluate(n->expression);
+            if (expression->type != ValueType::BooleanValue)
+                throw EvaluateError("jakas dziwna liczba mi sie tu dzieje");
+
+            const auto v = valueCast<BooleanValue>(expression);
+            return std::make_shared<BooleanValue>(!v->value);
+        }
 
         auto evaluateGreaterThanOpNode(const std::shared_ptr<Node>& node)
           -> std::shared_ptr<Value> {

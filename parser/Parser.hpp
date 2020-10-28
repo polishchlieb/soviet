@@ -33,7 +33,7 @@ namespace soviet {
         T tokenizer;
     private:
         std::shared_ptr<Node> parseExpression() {
-            return this->parseAssignmentOrComparison();
+            return this->parseAssignment();
         }
 
         std::shared_ptr<Node> parsePrimary() {
@@ -49,11 +49,18 @@ namespace soviet {
                     return parseName();
                 case TokenType::string:
                     return parseString();
+                case TokenType::negation:
+                    return parseNegation();
                 default: {
                     const auto& token = tokenizer.peekNextToken();
                     throw ParseError("unexpected token " + token.value + " on line " + std::to_string(token.line));
                 }
             }
+        }
+
+        std::shared_ptr<Node> parseNegation() {
+            tokenizer.getNextToken();
+            return std::make_shared<NegationNode>(parsePrimary());
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
@@ -278,11 +285,11 @@ namespace soviet {
             return result;
         }
 
-        std::shared_ptr<Node> parseAssignmentOrComparison() {
+        std::shared_ptr<Node> parseComparison() {
             auto operand1 = this->parseAdditive();
             while (!tokenizer.isEmpty() && isIn(
                 tokenizer.peekNextToken().type,
-                TokenType::double_equals_op, TokenType::equals_op,
+                TokenType::double_equals_op,
                 TokenType::greater_than
             )) {
                 const auto op = tokenizer.getNextToken();
@@ -295,22 +302,30 @@ namespace soviet {
                         );
                         break;
                     }
-                    case TokenType::equals_op: {
-                        operand1 = std::make_shared<EqualsOpNode>(
-                            std::move(operand1),
-                            std::move(operand2)
-                        );
-                        break;
-                    }
                     case TokenType::greater_than: {
                         operand1 = std::make_shared<GreaterThanOpNode>(
                             std::move(operand1),
                             std::move(operand2)
                         );
+                        break;
                     }
                     default:
                         break;
                 }
+            }
+            return operand1;
+        }
+
+        std::shared_ptr<Node> parseAssignment() {
+            auto operand1 = this->parseComparison();
+            while (!tokenizer.isEmpty()
+              && tokenizer.peekNextToken().type == TokenType::equals_op) {
+//                const auto op = tokenizer.getNextToken();
+                auto operand2 = parseComparison();
+                operand1 = std::make_shared<EqualsOpNode>(
+                    std::move(operand1),
+                    std::move(operand2)
+                );
             }
             return operand1;
         }
