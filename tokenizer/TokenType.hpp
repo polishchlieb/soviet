@@ -29,7 +29,9 @@ namespace soviet {
         dot,
         comment,
         negation,
-        less_than
+        less_than_op,
+        greater_than_or_equal_op,
+        less_than_or_equal_op
     };
 
     std::string dumpTokenType(const TokenType type) {
@@ -56,7 +58,9 @@ namespace soviet {
             case TokenType::dot: return "dot";
             case TokenType::comment: return "comment";
             case TokenType::negation: return "negation";
-            case TokenType::less_than: return "less_than";
+            case TokenType::less_than_op: return "less_than";
+            case TokenType::greater_than_or_equal_op: return "greater_than_or_equal_op";
+            case TokenType::less_than_or_equal_op: return "less_than_or_equal_op";
             default:
                 throw ParseError("Unknown error");
         }

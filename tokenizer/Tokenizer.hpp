@@ -76,7 +76,9 @@ namespace soviet {
                 case TokenType::dot: parseDot(c); break;
                 case TokenType::comment: parseComment(c); break;
                 case TokenType::negation: parseNegation(c); break;
-                case TokenType::less_than: parseLessThan(c); break;
+                case TokenType::less_than_op: parseLessThan(c); break;
+                case TokenType::greater_than_or_equal_op: parseGreaterThanOrEqual(c); break;
+                case TokenType::less_than_or_equal_op: parseLessThanOrEqual(c); break;
                 default:
                     throw ParseError("unexpected token on line " + std::to_string(lineNumber));
             }
@@ -96,7 +98,7 @@ namespace soviet {
             if (c == '=') return TokenType::equals_op;
             if (c == ',') return TokenType::comma;
             if (c == '>') return TokenType::greater_than;
-            if (c == '<') return TokenType::less_than;
+            if (c == '<') return TokenType::less_than_op;
             if (c == '{') return TokenType::open_curly_bracket;
             if (c == '}') return TokenType::close_curly_bracket;
             if (c == '.') return TokenType::dot;
@@ -119,7 +121,9 @@ namespace soviet {
                 case TokenType::equals_op:
                 case TokenType::comma:
                 case TokenType::greater_than:
-                case TokenType::less_than:
+                case TokenType::less_than_op:
+                case TokenType::greater_than_or_equal_op:
+                case TokenType::less_than_or_equal_op:
                 case TokenType::open_curly_bracket:
                 case TokenType::close_curly_bracket:
                 case TokenType::dot:
@@ -253,12 +257,38 @@ namespace soviet {
         }
 
         void parseGreaterThan(const char c) {
+            const auto type = getType(c);
+            if (type == TokenType::equals_op) {
+                previous.type = TokenType::greater_than_or_equal_op;
+                previous.value += c;
+                return;
+            }
+
             tokens.emplace(std::move(previous));
             previous.clear(lineNumber);
             parseChar(c);
         }
 
         void parseLessThan(const char c) {
+            const auto type = getType(c);
+            if (type == TokenType::equals_op) {
+                previous.type = TokenType::less_than_or_equal_op;
+                previous.value += c;
+                return;
+            }
+
+            tokens.emplace(std::move(previous));
+            previous.clear(lineNumber);
+            parseChar(c);
+        }
+
+        void parseGreaterThanOrEqual(const char c) {
+            tokens.emplace(std::move(previous));
+            previous.clear(lineNumber);
+            parseChar(c);
+        }
+
+        void parseLessThanOrEqual(const char c) {
             tokens.emplace(std::move(previous));
             previous.clear(lineNumber);
             parseChar(c);

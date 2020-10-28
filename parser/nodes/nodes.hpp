@@ -20,5 +20,7 @@
 #include "GreaterThanOpNode.hpp"
 #include "NegationNode.hpp"
 #include "LessThanOpNode.hpp"
+#include "GreaterThanOrEqualOpNode.hpp"
+#include "LessThanOrEqualOpNode.hpp"
 
 #endif //SOVIET_NODES_HPP

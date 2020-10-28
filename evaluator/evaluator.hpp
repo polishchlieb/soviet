@@ -59,6 +59,10 @@ namespace soviet {
                     return evaluateNegationNode(node);
                 case NodeType::LessThanOpNode:
                     return evaluateLessThanOpNode(node);
+                case NodeType::GreaterThanOrEqualOpNode:
+                    return evaluateGreaterThanOrEqualOpNode(node);
+                case NodeType::LessThanOrEqualOpNode:
+                    return evaluateLessThanOrEqualOpNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -81,6 +85,42 @@ namespace soviet {
             const auto rightValue = valueCast<NumberValue>(right)->value;
             return std::make_shared<BooleanValue>(
                 leftValue < rightValue
+            );
+        }
+
+        auto evaluateGreaterThanOrEqualOpNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<GreaterThanOrEqualOpNode>(node);
+
+            const auto left = evaluate(n->left);
+            const auto right = evaluate(n->right);
+            if (left->type != ValueType::NumberValue
+                || right->type != left->type) {
+                throw EvaluateError("unknown operands");
+            }
+
+            const auto leftValue = valueCast<NumberValue>(left)->value;
+            const auto rightValue = valueCast<NumberValue>(right)->value;
+            return std::make_shared<BooleanValue>(
+                leftValue >= rightValue
+            );
+        }
+
+        auto evaluateLessThanOrEqualOpNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<LessThanOrEqualOpNode>(node);
+
+            const auto left = evaluate(n->left);
+            const auto right = evaluate(n->right);
+            if (left->type != ValueType::NumberValue
+                || right->type != left->type) {
+                throw EvaluateError("unknown operands");
+            }
+
+            const auto leftValue = valueCast<NumberValue>(left)->value;
+            const auto rightValue = valueCast<NumberValue>(right)->value;
+            return std::make_shared<BooleanValue>(
+                leftValue <= rightValue
             );
         }
 
