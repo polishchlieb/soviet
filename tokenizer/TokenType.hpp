@@ -27,7 +27,8 @@ namespace soviet {
         open_curly_bracket,
         close_curly_bracket,
         dot,
-        comment
+        comment,
+        negation
     };
 
     std::string dumpTokenType(const TokenType type) {
@@ -53,6 +54,7 @@ namespace soviet {
             case TokenType::close_curly_bracket: return "close_curly_bracket";
             case TokenType::dot: return "dot";
             case TokenType::comment: return "comment";
+            case TokenType::negation: return "negation";
             default:
                 throw ParseError("Unknown error");
         }

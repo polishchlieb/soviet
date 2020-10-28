@@ -21,7 +21,8 @@ namespace soviet {
         DotOpNode,
         ReturnNode,
         ImportNode,
-        GreaterThanOpNode
+        GreaterThanOpNode,
+        NegationNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -43,6 +44,7 @@ namespace soviet {
             case NodeType::ReturnNode: return "return_node";
             case NodeType::ImportNode: return "import_node";
             case NodeType::GreaterThanOpNode: return "greater_than_operator_node";
+            case NodeType::NegationNode: return "negation_node";
             default:
                 throw ParseError("Unknown error");
         }

@@ -132,6 +132,14 @@ namespace soviet {
                 dump(n->module, spacing + 2);
                 break;
             }
+            case NodeType::NegationNode: {
+                const auto n = nodeCast<NegationNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << std::endl;
+
+                dump(n->expression, spacing + 2);
+                break;
+            }
         }
     }
 }
