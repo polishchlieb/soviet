@@ -49,18 +49,11 @@ namespace soviet {
                     return parseName();
                 case TokenType::string:
                     return parseString();
-                case TokenType::negation:
-                    return parseNegation();
                 default: {
                     const auto& token = tokenizer.peekNextToken();
                     throw ParseError("unexpected token " + token.value + " on line " + std::to_string(token.line));
                 }
             }
-        }
-
-        std::shared_ptr<Node> parseNegation() {
-            tokenizer.getNextToken();
-            return std::make_shared<NegationNode>(parsePrimary());
         }
 
         std::shared_ptr<Node> parseBracketExpression() {
@@ -108,7 +101,7 @@ namespace soviet {
                 throw ParseError("expected \")\"");
 
             if (!tokenizer.isEmpty()
-              && tokenizer.peekNextToken().type == TokenType::arrow) {
+                && tokenizer.peekNextToken().type == TokenType::arrow) {
                 tokenizer.getNextToken(); // eat ->
 
                 return std::make_shared<PrototypeNode>(
@@ -142,15 +135,11 @@ namespace soviet {
         std::shared_ptr<Node> parseIfStatement() {
             auto condition = this->parseExpression();
 
-//            const auto thenTok = tokenizer.getNextToken(); // eat "then"
-//            if (thenTok.type != TokenType::name || thenTok.value != "then")
-//                throw ParseError("expected \"then\"");
-
             auto body = this->parseExpression();
 
             if (!tokenizer.isEmpty()
-              && tokenizer.peekNextToken().type == TokenType::name
-              && tokenizer.peekNextToken().value == "else") { // "else"
+                && tokenizer.peekNextToken().type == TokenType::name
+                && tokenizer.peekNextToken().value == "else") { // "else"
                 const auto elseTok = tokenizer.getNextToken(); // eat "else"
                 if (elseTok.type != TokenType::name || elseTok.value != "else")
                     throw ParseError("expected \"else\"");
@@ -238,8 +227,8 @@ namespace soviet {
             auto result = parsePrimary();
 
             while (!tokenizer.isEmpty() && isIn(
-              tokenizer.peekNextToken().type,
-              TokenType::open_bracket, TokenType::dot
+                tokenizer.peekNextToken().type,
+                TokenType::open_bracket, TokenType::dot
             )) {
                 switch (tokenizer.getNextToken().type) {
                     case TokenType::open_bracket: {
@@ -263,8 +252,8 @@ namespace soviet {
                             throw ParseError("expected \")\"");
 
                         result = std::make_shared<FuncCallNode>(
-                            std::move(result),
-                            std::move(args)
+                                std::move(result),
+                                std::move(args)
                         );
                         break;
                     }
@@ -272,8 +261,8 @@ namespace soviet {
                         auto operand2 = parseName();
 
                         result = std::make_shared<DotOpNode>(
-                            std::move(result),
-                            std::move(operand2)
+                                std::move(result),
+                                std::move(operand2)
                         );
                         break;
                     }
@@ -285,12 +274,23 @@ namespace soviet {
             return result;
         }
 
+        std::shared_ptr<Node> parseAssignment() {
+            auto operand1 = parseComparison();
+            while (!tokenizer.isEmpty() && tokenizer.peekNextToken().type == TokenType::equals_op) {
+                const auto op = tokenizer.getNextToken();
+                auto operand2 = parseComparison();
+                operand1 = std::make_shared<EqualsOpNode>(
+                    std::move(operand1), std::move(operand2)
+                );
+            }
+            return operand1;
+        }
+
         std::shared_ptr<Node> parseComparison() {
             auto operand1 = this->parseAdditive();
             while (!tokenizer.isEmpty() && isIn(
                 tokenizer.peekNextToken().type,
-                TokenType::double_equals_op,
-                TokenType::greater_than
+                TokenType::double_equals_op, TokenType::greater_than
             )) {
                 const auto op = tokenizer.getNextToken();
                 auto operand2 = parseAdditive();
@@ -307,25 +307,10 @@ namespace soviet {
                             std::move(operand1),
                             std::move(operand2)
                         );
-                        break;
                     }
                     default:
                         break;
                 }
-            }
-            return operand1;
-        }
-
-        std::shared_ptr<Node> parseAssignment() {
-            auto operand1 = this->parseComparison();
-            while (!tokenizer.isEmpty()
-              && tokenizer.peekNextToken().type == TokenType::equals_op) {
-//                const auto op = tokenizer.getNextToken();
-                auto operand2 = parseComparison();
-                operand1 = std::make_shared<EqualsOpNode>(
-                    std::move(operand1),
-                    std::move(operand2)
-                );
             }
             return operand1;
         }
