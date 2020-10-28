@@ -19,5 +19,6 @@
 #include "ImportNode.hpp"
 #include "GreaterThanOpNode.hpp"
 #include "NegationNode.hpp"
+#include "LessThanOpNode.hpp"
 
 #endif //SOVIET_NODES_HPP

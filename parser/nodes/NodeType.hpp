@@ -22,7 +22,8 @@ namespace soviet {
         ReturnNode,
         ImportNode,
         GreaterThanOpNode,
-        NegationNode
+        NegationNode,
+        LessThanOpNode
     };
 
     std::string dumpNodeType(const NodeType type) {
