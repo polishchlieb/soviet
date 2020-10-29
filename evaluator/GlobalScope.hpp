@@ -30,7 +30,7 @@ namespace soviet {
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
                         std::string result;
-                        std::cin >> result;
+                        std::getline(std::cin, result);
                         return std::make_shared<StringValue>(result);
                     }
                 )
