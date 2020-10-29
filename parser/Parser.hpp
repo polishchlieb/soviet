@@ -49,6 +49,8 @@ namespace soviet {
                     return parseName();
                 case TokenType::string:
                     return parseString();
+                case TokenType::negation:
+                    return parseNegation();
                 default: {
                     const auto& token = tokenizer.peekNextToken();
                     throw ParseError("unexpected token " + token.value + " on line " + std::to_string(token.line));
@@ -274,10 +276,16 @@ namespace soviet {
             return result;
         }
 
+        std::shared_ptr<Node> parseNegation() {
+            tokenizer.getNextToken(); // eat !
+            return std::make_shared<NegationNode>(parseExpression());
+        }
+
         std::shared_ptr<Node> parseAssignment() {
             auto operand1 = parseComparison();
-            while (!tokenizer.isEmpty() && tokenizer.peekNextToken().type == TokenType::equals_op) {
-                const auto op = tokenizer.getNextToken();
+            while (!tokenizer.isEmpty()
+              && tokenizer.peekNextToken().type == TokenType::equals_op) {
+                tokenizer.getNextToken(); // eat =
                 auto operand2 = parseComparison();
                 operand1 = std::make_shared<EqualsOpNode>(
                     std::move(operand1), std::move(operand2)
