@@ -254,8 +254,8 @@ namespace soviet {
                             throw ParseError("expected \")\"");
 
                         result = std::make_shared<FuncCallNode>(
-                                std::move(result),
-                                std::move(args)
+                            std::move(result),
+                            std::move(args)
                         );
                         break;
                     }
@@ -263,8 +263,8 @@ namespace soviet {
                         auto operand2 = parseName();
 
                         result = std::make_shared<DotOpNode>(
-                                std::move(result),
-                                std::move(operand2)
+                            std::move(result),
+                            std::move(operand2)
                         );
                         break;
                     }

@@ -86,11 +86,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="CMake Application.gmock" />
       <item itemvalue="CMake Application.gmock_main" />
@@ -182,7 +177,8 @@
       <workItem from="1603873747631" duration="1017000" />
       <workItem from="1603909655720" duration="3109000" />
       <workItem from="1603922053604" duration="8114000" />
-      <workItem from="1603956477093" duration="1615000" />
+      <workItem from="1603956477093" duration="3065000" />
+      <workItem from="1603997434656" duration="2277000" />
     </task>
     <servers />
   </component>
