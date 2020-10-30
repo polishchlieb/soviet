@@ -2,6 +2,7 @@
 #define SOVIET_NODETYPE_HPP
 
 #include <string>
+#include "../ParseError.hpp"
 
 namespace soviet {
     enum class NodeType {
