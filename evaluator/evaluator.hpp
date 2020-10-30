@@ -63,6 +63,8 @@ namespace soviet {
                     return evaluateGreaterThanOrEqualOpNode(node);
                 case NodeType::LessThanOrEqualOpNode:
                     return evaluateLessThanOrEqualOpNode(node);
+                case NodeType::BooleanNode:
+                    return evaluateBooleanNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -465,6 +467,12 @@ namespace soviet {
             currentContext.pop_back();
 
             return std::make_shared<Value>(ValueType::UndefinedValue);
+        }
+
+        static auto evaluateBooleanNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<BooleanNode>(node);
+            return std::make_shared<BooleanValue>(n->value);
         }
 
         auto evaluateDotOpNode(const std::shared_ptr<Node>& node)

@@ -25,7 +25,8 @@ namespace soviet {
         NegationNode,
         LessThanOpNode,
         GreaterThanOrEqualOpNode,
-        LessThanOrEqualOpNode
+        LessThanOrEqualOpNode,
+        BooleanNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -50,6 +51,7 @@ namespace soviet {
             case NodeType::NegationNode: return "negation_node";
             case NodeType::GreaterThanOrEqualOpNode: return "greater_than_or_equal_operator_node";
             case NodeType::LessThanOrEqualOpNode: return "less_than_or_equal_operator_node";
+            case NodeType::BooleanNode: return "boolean_node";
             default:
                 throw ParseError("Unknown error");
         }

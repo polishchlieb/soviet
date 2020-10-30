@@ -199,6 +199,10 @@ namespace soviet {
                 return parseReturn();
             if (token.value == "import")
                 return parseImport();
+            if (token.value == "true")
+                return std::make_shared<BooleanNode>(true);
+            if (token.value == "false")
+                return std::make_shared<BooleanNode>(false);
 
             auto node = std::make_shared<NameNode>(
                 std::move(token.value)
