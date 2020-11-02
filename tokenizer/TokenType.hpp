@@ -31,7 +31,9 @@ namespace soviet {
         negation,
         less_than_op,
         greater_than_or_equal_op,
-        less_than_or_equal_op
+        less_than_or_equal_op,
+        open_square_bracket,
+        close_square_bracket
     };
 
     std::string dumpTokenType(const TokenType type) {
@@ -61,6 +63,8 @@ namespace soviet {
             case TokenType::less_than_op: return "less_than";
             case TokenType::greater_than_or_equal_op: return "greater_than_or_equal_op";
             case TokenType::less_than_or_equal_op: return "less_than_or_equal_op";
+            case TokenType::open_square_bracket: return "open_square_bracket";
+            case TokenType::close_square_bracket: return "close_square_bracket";
             default:
                 throw ParseError("Unknown error");
         }

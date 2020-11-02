@@ -79,6 +79,8 @@ namespace soviet {
                 case TokenType::less_than_op: parseLessThan(c); break;
                 case TokenType::greater_than_or_equal_op: parseGreaterThanOrEqual(c); break;
                 case TokenType::less_than_or_equal_op: parseLessThanOrEqual(c); break;
+                case TokenType::open_square_bracket: parseOpenSquareBracket(c); break;
+                case TokenType::close_square_bracket: parseCloseSquareBracket(c); break;
                 default:
                     throw ParseError("unexpected token on line " + std::to_string(lineNumber));
             }
@@ -103,6 +105,8 @@ namespace soviet {
             if (c == '}') return TokenType::close_curly_bracket;
             if (c == '.') return TokenType::dot;
             if (c == '!') return TokenType::negation;
+            if (c == '[') return TokenType::open_square_bracket;
+            if (c == ']') return TokenType::close_square_bracket;
             return TokenType::unknown;
         }
 
@@ -129,6 +133,8 @@ namespace soviet {
                 case TokenType::dot:
                 case TokenType::comment:
                 case TokenType::negation:
+                case TokenType::open_square_bracket:
+                case TokenType::close_square_bracket:
                     previous.type = type;
                     previous.value += c;
                     break;
@@ -315,6 +321,18 @@ namespace soviet {
         void parseComment(const char c) {}
 
         void parseNegation(const char c) {
+            tokens.emplace(std::move(previous));
+            previous.clear(lineNumber);
+            parseChar(c);
+        }
+
+        void parseOpenSquareBracket(const char c) {
+            tokens.emplace(std::move(previous));
+            previous.clear(lineNumber);
+            parseChar(c);
+        }
+
+        void parseCloseSquareBracket(const char c) {
             tokens.emplace(std::move(previous));
             previous.clear(lineNumber);
             parseChar(c);

@@ -119,6 +119,15 @@ namespace soviet {
                     dump(expr, spacing + 2);
                 break;
             }
+            case NodeType::ArrayNode: {
+                const auto n = nodeCast<ArrayNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << std::endl;
+
+                for (const auto& expr : n->elements)
+                    dump(expr, spacing + 2);
+                break;
+            }
             case NodeType::ReturnNode: {
                 const auto n = nodeCast<ReturnNode>(node);
                 std::cout << times(" ", spacing)

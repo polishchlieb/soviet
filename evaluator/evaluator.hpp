@@ -65,6 +65,8 @@ namespace soviet {
                     return evaluateLessThanOrEqualOpNode(node);
                 case NodeType::BooleanNode:
                     return evaluateBooleanNode(node);
+                case NodeType::ArrayNode:
+                    return evaluateArrayNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -87,6 +89,19 @@ namespace soviet {
             const auto rightValue = valueCast<NumberValue>(right)->value;
             return std::make_shared<BooleanValue>(
                 leftValue < rightValue
+            );
+        }
+
+        auto evaluateArrayNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<ArrayNode>(node);
+
+            std::vector<std::shared_ptr<Value>> elements;
+            for (const auto& elementNode : n->elements)
+                elements.push_back(evaluate(elementNode));
+
+            return std::make_shared<ArrayValue>(
+                std::move(elements)
             );
         }
 

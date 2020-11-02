@@ -51,6 +51,8 @@ namespace soviet {
                     return parseString();
                 case TokenType::negation:
                     return parseNegation();
+                case TokenType::open_square_bracket:
+                    return parseSquareBracketExpression();
                 default: {
                     const auto& token = tokenizer.peekNextToken();
                     throw ParseError("unexpected token " + token.value + " on line " + std::to_string(token.line));
@@ -113,6 +115,28 @@ namespace soviet {
             }
 
             return operand;
+        }
+
+        std::shared_ptr<Node> parseSquareBracketExpression() {
+            tokenizer.getNextToken(); // eat square bracket
+
+            std::vector<std::shared_ptr<Node>> elements;
+            if (tokenizer.peekNextToken().type == TokenType::close_square_bracket) {
+                tokenizer.getNextToken(); // eat close square bracket
+                return std::make_shared<ArrayNode>(std::move(elements));
+            }
+
+            while (true) {
+                elements.push_back(this->parseExpression());
+
+                if (tokenizer.peekNextToken().type == TokenType::close_square_bracket)
+                    break;
+                if (tokenizer.getNextToken().type != TokenType::comma)
+                    throw ParseError("expected a comma");
+            }
+
+            tokenizer.getNextToken(); // eat close square bracket
+            return std::make_shared<ArrayNode>(std::move(elements));
         }
 
         std::shared_ptr<Node> parseCurlyBracketExpression() {
