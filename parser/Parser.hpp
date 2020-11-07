@@ -184,6 +184,15 @@ namespace soviet {
             );
         }
 
+        std::shared_ptr<Node> parseWhileLoop() {
+            auto condition = parseExpression();
+            auto command = parseExpression();
+            return std::make_shared<WhileLoopNode>(
+                std::move(condition),
+                std::move(command)
+            );
+        }
+
         std::shared_ptr<Node> parseString() {
             return std::make_shared<StringNode>(
                 std::move(tokenizer.getNextToken().value)
@@ -227,6 +236,8 @@ namespace soviet {
                 return std::make_shared<BooleanNode>(true);
             if (token.value == "false")
                 return std::make_shared<BooleanNode>(false);
+            if (token.value == "while")
+                return parseWhileLoop();
 
             auto node = std::make_shared<NameNode>(
                 std::move(token.value)
@@ -366,6 +377,7 @@ namespace soviet {
                             std::move(operand1),
                             std::move(operand2)
                         );
+                        break;
                     }
                     default:
                         break;

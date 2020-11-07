@@ -152,6 +152,17 @@ namespace soviet {
                 dump(n->expression, spacing + 2);
                 break;
             }
+            case NodeType::WhileLoopNode: {
+                const auto n = nodeCast<WhileLoopNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << std::endl;
+
+                std::cout << times(" ", spacing + 2) << "condition:" << std::endl;
+                dump(n->condition, spacing + 4);
+                std::cout << times(" ", spacing + 2) << "body:" << std::endl;
+                dump(n->body, spacing + 4);
+                break;
+            }
         }
     }
 }

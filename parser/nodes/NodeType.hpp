@@ -28,7 +28,8 @@ namespace soviet {
         GreaterThanOrEqualOpNode,
         LessThanOrEqualOpNode,
         BooleanNode,
-        ArrayNode
+        ArrayNode,
+        WhileLoopNode
     };
 
     std::string dumpNodeType(const NodeType type) {
@@ -50,11 +51,13 @@ namespace soviet {
             case NodeType::ReturnNode: return "return_node";
             case NodeType::ImportNode: return "import_node";
             case NodeType::GreaterThanOpNode: return "greater_than_operator_node";
+            case NodeType::LessThanOpNode: return "less_than_operator_node";
             case NodeType::NegationNode: return "negation_node";
             case NodeType::GreaterThanOrEqualOpNode: return "greater_than_or_equal_operator_node";
             case NodeType::LessThanOrEqualOpNode: return "less_than_or_equal_operator_node";
             case NodeType::BooleanNode: return "boolean_node";
             case NodeType::ArrayNode: return "array_node";
+            case NodeType::WhileLoopNode: return "while_loop_node";
             default:
                 throw ParseError("Unknown error");
         }

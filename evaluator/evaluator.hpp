@@ -67,6 +67,8 @@ namespace soviet {
                     return evaluateBooleanNode(node);
                 case NodeType::ArrayNode:
                     return evaluateArrayNode(node);
+                case NodeType::WhileLoopNode:
+                    return evaluateWhileLoopNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
@@ -265,6 +267,23 @@ namespace soviet {
                 return evaluate(n->body);
             else if (n->elseBody)
                 return evaluate(n->elseBody);
+
+            return std::make_shared<Value>(ValueType::UndefinedValue);
+        }
+
+        auto evaluateWhileLoopNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<WhileLoopNode>(node);
+
+            while (true) {
+                const auto condition = evaluate(n->condition);
+                if (condition->type != ValueType::BooleanValue)
+                    throw EvaluateError("while loop condition has to be a boolean");
+                const auto value = valueCast<BooleanValue>(condition)->value;
+                if (!value)
+                    break;
+                evaluate(n->body);
+            }
 
             return std::make_shared<Value>(ValueType::UndefinedValue);
         }

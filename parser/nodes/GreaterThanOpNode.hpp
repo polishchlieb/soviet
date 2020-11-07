@@ -6,8 +6,7 @@
 
 namespace soviet {
     struct GreaterThanOpNode : Node {
-        std::shared_ptr<Node> left;
-        std::shared_ptr<Node> right;
+        std::shared_ptr<Node> left, right;
 
         GreaterThanOpNode(
             std::shared_ptr<Node>&& left,

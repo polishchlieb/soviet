@@ -24,5 +24,6 @@
 #include "LessThanOrEqualOpNode.hpp"
 #include "BooleanNode.hpp"
 #include "ArrayNode.hpp"
+#include "WhileLoopNode.hpp"
 
 #endif //SOVIET_NODES_HPP
