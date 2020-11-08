@@ -25,5 +25,6 @@
 #include "BooleanNode.hpp"
 #include "ArrayNode.hpp"
 #include "WhileLoopNode.hpp"
+#include "ObjectNode.hpp"
 
 #endif //SOVIET_NODES_HPP

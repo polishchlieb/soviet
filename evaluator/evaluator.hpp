@@ -69,12 +69,27 @@ namespace soviet {
                     return evaluateArrayNode(node);
                 case NodeType::WhileLoopNode:
                     return evaluateWhileLoopNode(node);
+                case NodeType::ObjectNode:
+                    return evaluateObjectNode(node);
                 default:
                     throw EvaluateError("Unexpected node");
             }
         }
     private:
         std::vector<Scope> currentContext = {GlobalScope{}};
+
+        auto evaluateObjectNode(const std::shared_ptr<Node>& node)
+          -> std::shared_ptr<Value> {
+            const auto n = nodeCast<ObjectNode>(node);
+            std::unordered_map<std::string, std::shared_ptr<Value>> properties;
+            for (const auto& [key, value] : n->properties) {
+                properties.insert({
+                    nodeCast<StringNode>(key)->value,
+                    evaluate(value)
+                });
+            }
+            return std::make_shared<ObjectValue>(properties);
+        }
 
         auto evaluateLessThanOpNode(const std::shared_ptr<Node>& node)
           -> std::shared_ptr<Value> {

@@ -238,6 +238,8 @@ namespace soviet {
                 return std::make_shared<BooleanNode>(false);
             if (token.value == "while")
                 return parseWhileLoop();
+            if (token.value == "object")
+                return parseObject();
 
             auto node = std::make_shared<NameNode>(
                 std::move(token.value)
@@ -431,6 +433,42 @@ namespace soviet {
                 }
             }
             return operand1;
+        }
+
+        std::shared_ptr<Node> parseObject() {
+            const auto curlyBracket = tokenizer.getNextToken();
+            if (curlyBracket.type != TokenType::open_curly_bracket)
+                throw ParseError("object kaput");
+
+            std::unordered_map<std::shared_ptr<Node>, std::shared_ptr<Node>> properties;
+
+            while (tokenizer.peekNextToken().type != TokenType::close_curly_bracket) {
+                auto key = tokenizer.getNextToken();
+                if (key.type != TokenType::name && key.type != TokenType::string)
+                    throw ParseError("chuj");
+
+                const auto colon = tokenizer.getNextToken();
+                if (colon.type != TokenType::colon)
+                    throw ParseError("chuj");
+
+                const auto value = parseExpression();
+
+                properties.insert({
+                    std::make_shared<StringNode>(std::move(key.value)),
+                    value
+                });
+
+                if (tokenizer.peekNextToken().type == TokenType::comma)
+                    tokenizer.getNextToken();
+                else if (tokenizer.peekNextToken().type != TokenType::close_curly_bracket)
+                    throw ParseError("chuj");
+            }
+
+            tokenizer.getNextToken(); // eat close curly bracket
+
+            return std::make_shared<ObjectNode>(
+                std::move(properties)
+            );
         }
     };
 }

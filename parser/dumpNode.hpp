@@ -163,6 +163,17 @@ namespace soviet {
                 dump(n->body, spacing + 4);
                 break;
             }
+            case NodeType::ObjectNode: {
+                const auto n = nodeCast<ObjectNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << std::endl;
+
+                for (const auto [key, value] : n->properties) {
+                    std::cout << times(" ", spacing + 2) << "key/value:" << std::endl;
+                    dump(key, spacing + 4);
+                    dump(value, spacing + 4);
+                }
+            }
         }
     }
 }
