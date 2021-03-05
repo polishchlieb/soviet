@@ -149,21 +149,18 @@
     <ClCompile Include="test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="evaluator\ClassObject.hpp" />
     <ClInclude Include="evaluator\dumpValue.hpp" />
     <ClInclude Include="evaluator\EvaluateError.hpp" />
     <ClInclude Include="evaluator\evaluator.hpp" />
     <ClInclude Include="evaluator\GlobalScope.hpp" />
-    <ClInclude Include="evaluator\Class.hpp" />
     <ClInclude Include="evaluator\Scope.hpp" />
     <ClInclude Include="evaluator\valueCast.hpp" />
     <ClInclude Include="evaluator\values\ArrayValue.hpp" />
     <ClInclude Include="evaluator\values\BooleanValue.hpp" />
     <ClInclude Include="evaluator\values\ExplicitReturnValue.hpp" />
     <ClInclude Include="evaluator\values\FunctionValue.hpp" />
+    <ClInclude Include="evaluator\values\MapValue.hpp" />
     <ClInclude Include="evaluator\values\NumberValue.hpp" />
-    <ClInclude Include="evaluator\values\ObjectValue.hpp" />
-    <ClInclude Include="evaluator\values\PrototypeValue.hpp" />
     <ClInclude Include="evaluator\values\StringValue.hpp" />
     <ClInclude Include="evaluator\values\Value.hpp" />
     <ClInclude Include="evaluator\values\values.hpp" />

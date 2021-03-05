@@ -27,8 +27,6 @@
     <ClInclude Include="evaluator\values\ExplicitReturnValue.hpp" />
     <ClInclude Include="evaluator\values\FunctionValue.hpp" />
     <ClInclude Include="evaluator\values\NumberValue.hpp" />
-    <ClInclude Include="evaluator\values\ObjectValue.hpp" />
-    <ClInclude Include="evaluator\values\PrototypeValue.hpp" />
     <ClInclude Include="evaluator\values\StringValue.hpp" />
     <ClInclude Include="evaluator\values\Value.hpp" />
     <ClInclude Include="evaluator\values\values.hpp" />
@@ -38,8 +36,7 @@
     <ClInclude Include="parser\ParseError.hpp" />
     <ClInclude Include="parser\Parser.hpp" />
     <ClInclude Include="parser\nodes.hpp" />
-    <ClInclude Include="evaluator\Class.hpp" />
-    <ClInclude Include="evaluator\ClassObject.hpp" />
+    <ClInclude Include="evaluator\values\MapValue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

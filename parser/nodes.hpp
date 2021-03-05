@@ -32,7 +32,6 @@ namespace soviet {
 		BooleanNode,
 		ArrayNode,
 		WhileLoopNode,
-		ObjectNode,
 		BinOpNode
 	};
 
@@ -66,7 +65,6 @@ namespace soviet {
 			case NodeType::BooleanNode: return "boolean_node";
 			case NodeType::ArrayNode: return "array_node";
 			case NodeType::WhileLoopNode: return "while_loop_node";
-			case NodeType::ObjectNode: return "object_node";
 			case NodeType::BinOpNode: return "bin_op_node";
 			default:
 				throw ParseError("Unknown error");
@@ -198,12 +196,6 @@ namespace soviet {
 			body(std::move(body)) {}
 	};
 
-	struct ImportNode : Node {
-		std::shared_ptr<Node> module;
-		explicit ImportNode(std::shared_ptr<Node>&& module)
-			: Node{ NodeType::ImportNode }, module(module) {}
-	};
-
 	template<typename T>
 	struct LeafNode : Node {
 		T value;
@@ -253,13 +245,6 @@ namespace soviet {
 
 		explicit NegationNode(std::shared_ptr<Node>&& expression)
 			: Node{ NodeType::NegationNode }, expression(expression) {}
-	};
-
-	struct ObjectNode : Node {
-		std::unordered_map<std::shared_ptr<Node>, std::shared_ptr<Node>> properties;
-
-		explicit ObjectNode(std::unordered_map<std::shared_ptr<Node>, std::shared_ptr<Node>>&& properties)
-			: Node{ NodeType::ObjectNode }, properties(std::move(properties)) {}
 	};
 
 	struct OperatorNode : Node {

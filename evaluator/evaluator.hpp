@@ -35,8 +35,6 @@ namespace soviet {
 					return evaluateBlockNode(node);
 				case NodeType::ReturnNode:
 					return evaluateReturnNode(node);
-				case NodeType::ImportNode:
-					return evaluateImportNode(node);
 				case NodeType::NegationNode:
 					return evaluateNegationNode(node);
 				case NodeType::BooleanNode:
@@ -45,8 +43,6 @@ namespace soviet {
 					return evaluateArrayNode(node);
 				case NodeType::WhileLoopNode:
 					return evaluateWhileLoopNode(node);
-				case NodeType::ObjectNode:
-					return evaluateObjectNode(node);
 				case NodeType::BinOpNode:
 					return evaluateBinOpNode(node);
 				default:
@@ -87,19 +83,6 @@ namespace soviet {
 
 			std::cout << "bin op node" << std::endl;
 			return std::make_shared<NumberValue>(1.0f);
-		}
-
-		auto evaluateObjectNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
-			const auto n = nodeCast<ObjectNode>(node);
-			std::unordered_map<std::string, std::shared_ptr<Value>> properties;
-			for (const auto& [key, value] : n->properties) {
-				properties.insert({
-					nodeCast<StringNode>(key)->value,
-					evaluate(value)
-				});
-			}
-			return std::make_shared<ObjectValue>(properties);
 		}
 
 		auto evaluateLessThanOpNode(const std::shared_ptr<BinOpNode>& node)
@@ -205,18 +188,6 @@ namespace soviet {
 			);
 		}
 
-		auto evaluateImportNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
-			const auto n = nodeCast<ImportNode>(node);
-			if (n->type == NodeType::NameNode) {
-				
-			} else {
-				throw EvaluateError("string module import not implemented");
-			}
-
-			return std::make_shared<Value>(ValueType::UndefinedValue);
-		}
-
 		auto evaluateNameNode(
 			const std::shared_ptr<Node>& node,
 			bool require = true
@@ -280,7 +251,7 @@ namespace soviet {
 			else if (n->elseBody)
 				return evaluate(n->elseBody);
 
-			return std::make_shared<Value>(ValueType::UndefinedValue);
+			return std::make_shared<UndefinedValue>();
 		}
 
 		auto evaluateWhileLoopNode(const std::shared_ptr<Node>& node)
@@ -297,7 +268,7 @@ namespace soviet {
 				evaluate(n->body);
 			}
 
-			return std::make_shared<Value>(ValueType::UndefinedValue);
+			return std::make_shared<UndefinedValue>();
 		}
 
 		auto evaluateSubOpNode(const std::shared_ptr<BinOpNode>& node)
@@ -379,7 +350,7 @@ namespace soviet {
 					});
 					return value;
 				}
-				case NodeType::BinOpNode: {
+				/* case NodeType::BinOpNode: {
 					const auto op = nodeCast<BinOpNode>(node->left);
 					const auto left = nodeCast<NameNode>(op->left)->value;
 					const auto right = nodeCast<NameNode>(op->right)->value;
@@ -395,7 +366,7 @@ namespace soviet {
 						}
 					}
 					break;
-				}
+				} */
 				default:
 					throw EvaluateError("Unknown operands");
 			}
@@ -416,7 +387,8 @@ namespace soviet {
 					const auto leftNum = valueCast<NumberValue>(left);
 					const auto rightNum = valueCast<NumberValue>(right);
 					return std::make_shared<BooleanValue>(
-						leftNum->value == rightNum->value
+						// leftNum->value == rightNum->value
+						leftNum->equals(rightNum)
 					);
 				}
 				case ValueType::BooleanValue: {
@@ -436,8 +408,8 @@ namespace soviet {
 				case ValueType::UndefinedValue:
 					return std::make_shared<BooleanValue>(true);
 				case ValueType::FunctionValue:
-				case ValueType::ObjectValue:
-					return std::make_shared<BooleanValue>(left == right);
+				/* case ValueType::ObjectValue:
+					return std::make_shared<BooleanValue>(left == right); */
 				case ValueType::ExplicitReturnValue:
 					throw EvaluateError("what the fuck is explicit return value");
 				default:
@@ -506,7 +478,7 @@ namespace soviet {
 			}
 			currentContext.pop_back();
 
-			return std::make_shared<Value>(ValueType::UndefinedValue);
+			return std::make_shared<UndefinedValue>();
 		}
 
 		static auto evaluateBooleanNode(const std::shared_ptr<Node>& node)
@@ -520,26 +492,6 @@ namespace soviet {
 			const auto right = nodeCast<NameNode>(node->right)->value;
 
 			auto variable = evaluate(node->left);
-			if (variable->type == ValueType::PrototypeObjectValue) {
-				auto prototypeObject = valueCast<PrototypeObjectValue>(variable);
-
-				if (prototypeObject->prototype->hasMethod(right))
-					return std::make_shared<FunctionValue>([prototypeObject, right](
-						std::vector<std::shared_ptr<Value>>& args
-					) {
-						return prototypeObject->call(right, args);
-					});
-
-				if (prototypeObject->object->type == ValueType::ObjectValue) {
-					auto obj = valueCast<ObjectValue>(prototypeObject->object);
-					if (obj->has(right))
-						return obj->get(right);
-				}
-
-				return std::make_shared<Value>(ValueType::UndefinedValue);
-			} else if (variable->type == ValueType::ObjectValue) {
-				return valueCast<ObjectValue>(variable)->get(right);
-			}
 
 			const auto left = nodeCast<NameNode>(node->left)->value;
 			throw EvaluateError("unknow object: " + left);

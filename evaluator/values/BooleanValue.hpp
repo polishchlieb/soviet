@@ -4,9 +4,18 @@
 #include "Value.hpp"
 
 namespace soviet {
-    struct BooleanValue : Value {
+    class BooleanValue : public Value {
+    public:
         bool value;
-        explicit BooleanValue(bool value) : Value{ValueType::BooleanValue}, value(value) {}
+        explicit BooleanValue(bool value)
+            : Value{ValueType::BooleanValue}, value(value) {}
+
+        bool equals(const std::shared_ptr<Value>& other) {
+            if (other->type != this->type)
+                return false;
+            const auto otherValue = valueCast<BooleanValue>(other);
+            return otherValue->value == value;
+        }
     };
 }
 

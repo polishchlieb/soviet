@@ -4,9 +4,18 @@
 #include "Value.hpp"
 
 namespace soviet {
-    struct NumberValue : Value {
+    class NumberValue : public Value {
+    public:
         float value;
-        explicit NumberValue(float value) : Value{ValueType::NumberValue}, value(value) {}
+        explicit NumberValue(float value)
+            : Value{ValueType::NumberValue}, value(value) {}
+
+        bool equals(const std::shared_ptr<Value>& other) override {
+            if (other->type != this->type)
+                return false;
+            const auto otherValue = valueCast<NumberValue>(other);
+            return otherValue->value == this->value;
+        }
     };
 }
 

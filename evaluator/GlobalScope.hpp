@@ -11,7 +11,7 @@ namespace soviet {
     class GlobalScope : public Scope {
     public:
         GlobalScope() {
-            std::ios_base::sync_with_stdio(false);
+            // std::ios_base::sync_with_stdio(false);
 
             variables.insert({
                 "print",
@@ -20,7 +20,7 @@ namespace soviet {
                         for (const auto& arg : args)
                             std::cout << dumpValue(arg) << " ";
                         std::cout << "\n";
-                        return std::make_shared<Value>(ValueType::UndefinedValue);
+                        return std::make_shared<UndefinedValue>();
                     }
                 )
             });
@@ -51,56 +51,64 @@ namespace soviet {
                             };
                             callback->run(callbackArgs);
                         }
-                        return std::make_shared<Value>(ValueType::UndefinedValue);
+                        return std::make_shared<UndefinedValue>();
                     }
                 )
-            });
-
-            variables.insert({
-                "object",
-                std::make_shared<FunctionValue>(
-                    [](const std::vector<std::shared_ptr<Value>>& args) {
-                        if (args.size() % 2 != 0)
-                            throw EvaluateError("object(): Args have to group in pairs");
-
-                        std::unordered_map<std::string, std::shared_ptr<Value>> props;
-                        for (unsigned int i = 0; i < args.size(); i += 2) {
-                            const auto& name = valueCast<StringValue>(args[i])->value;
-                            props.insert({ name, args[i + 1] });
-                        }
-
-                        return std::make_shared<ObjectValue>(props);
-                    }
-                )
-            });
-
-            auto arrayPrototype = new PrototypeValue;
-            arrayPrototype->registerMethod("at", [](
-                std::shared_ptr<Value>& obj,
-                std::vector<std::shared_ptr<Value>>& args
-            ) {
-                const auto array = valueCast<ArrayValue>(obj);
-                const auto index = static_cast<unsigned int>(
-                    valueCast<NumberValue>(args[0])->value
-                );
-
-                return array->at(index);
             });
 
             variables.insert({
                 "array",
                 std::make_shared<FunctionValue>(
-                    [arrayPrototype](std::vector<std::shared_ptr<Value>>& args) {
-                        if (args.empty())
-                            return std::make_shared<PrototypeObjectValue>(
-                                arrayPrototype,
-                                std::make_shared<ArrayValue>()
-                            );
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        if (args.size() == 0)
+                            return std::make_shared<ArrayValue>();
 
-                        return std::make_shared<PrototypeObjectValue>(
-                            arrayPrototype,
-                            std::make_shared<ArrayValue>(std::move(args))
-                        );
+                        auto result = std::make_shared<ArrayValue>();
+                        for (const auto& arg : args)
+                            result->add(arg);
+                        return result;
+                    }
+                )
+            });
+
+            variables.insert({
+                "map",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        if (args.size() == 0)
+                            return std::make_shared<MapValue>();
+
+                        auto result = std::make_shared<MapValue>();
+                        for (const auto& arg : args) {
+                            if (arg->type != ValueType::ArrayValue)
+                                throw EvaluateError("map constructor is kaput");
+                            const auto entry = valueCast<ArrayValue>(arg);
+                            if (entry->size() != 2)
+                                throw EvaluateError("map constructor is kaput");
+
+                            result->set(entry->at(0), entry->at(1));
+                        }
+                        return result;
+                    }
+                )
+            });
+
+            variables.insert({
+                "map_set",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        const auto map = valueCast<MapValue>(args[0])->clone();
+                        map->set(args[1], args[2]);
+                        return map;
+                    }
+                )
+            });
+
+            variables.insert({
+                "map_at",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        return valueCast<MapValue>(args[0])->get(args[1]);
                     }
                 )
             });

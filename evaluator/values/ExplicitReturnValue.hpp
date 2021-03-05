@@ -5,11 +5,16 @@
 #include "Value.hpp"
 
 namespace soviet {
-    struct ExplicitReturnValue : Value {
+    class ExplicitReturnValue : public Value {
+    public:
         std::shared_ptr<Value> value;
 
         explicit ExplicitReturnValue(std::shared_ptr<Value>&& value)
             : Value{ValueType::ExplicitReturnValue}, value(std::move(value)) {}
+
+        bool equals(const std::shared_ptr<Value>& other) {
+            return false;
+        }
     };
 }
 

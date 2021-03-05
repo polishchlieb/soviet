@@ -6,12 +6,17 @@
 #include <memory>
 
 namespace soviet {
-    struct FunctionValue : Value {
+    class FunctionValue : public Value {
+    public:
         std::function<std::shared_ptr<Value>(std::vector<std::shared_ptr<Value>>&)> run;
         explicit FunctionValue(
             std::function<std::shared_ptr<Value>(std::vector<std::shared_ptr<Value>>&)> run
         )
             : Value{ValueType::FunctionValue}, run(std::move(run)) {}
+
+        bool equals(const std::shared_ptr<Value>& other) {
+            return false;
+        }
     };
 }
 

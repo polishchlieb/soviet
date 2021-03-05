@@ -13,11 +13,9 @@ namespace soviet {
             case ValueType::ExplicitReturnValue: return "explicit_return_value";
             case ValueType::FunctionValue: return "function";
             case ValueType::NumberValue: return "number";
-            case ValueType::ObjectValue: return "object";
-            case ValueType::PrototypeValue: return "prototype";
-            case ValueType::PrototypeObjectValue: return "prototype_object";
             case ValueType::StringValue: return "string";
             case ValueType::UndefinedValue: return "undefined";
+            case ValueType::MapValue: return "map";
         }
         return "wtf";
     }
@@ -35,15 +33,6 @@ namespace soviet {
             case ValueType::StringValue: {
                 const auto v = valueCast<StringValue>(value);
                 return v->value;
-            }
-            case ValueType::ObjectValue: {
-                const auto v = valueCast<ObjectValue>(value);
-                std::string result = "object(";
-                for (auto [key, value] : v->getProperties())
-                    result += key + " => " + dumpValue(value) + ", ";
-                if (v->getProperties().size() == 0)
-                    return result + ")";
-                else return result.substr(0, result.length() - 2) + ")";
             }
             case ValueType::ArrayValue: {
                 const auto v = valueCast<ArrayValue>(value);
@@ -66,9 +55,14 @@ namespace soviet {
                 return "[undefined]";
             case ValueType::ExplicitReturnValue:
                 return "<explicit return value>";
-            case ValueType::PrototypeObjectValue: {
-                const auto v = valueCast<PrototypeObjectValue>(value);
-                return "prototype<" + dumpValueType(v->object->type) + ">";
+            case ValueType::MapValue: {
+                const auto v = valueCast<MapValue>(value);
+                std::string result = "map(";
+                for (const auto& [key, value] : v->entries())
+                    result += dumpValue(key) + " => " + dumpValue(value) + ", ";
+                if (v->size() == 0)
+                    return result + ")";
+                else return result.substr(0, result.length() - 2) + ")";
             }
             default:
                 return "<wtf>";

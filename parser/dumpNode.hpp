@@ -124,14 +124,6 @@ namespace soviet {
                 dump(n->returnValue, spacing + 2);
                 break;
             }
-            case NodeType::ImportNode: {
-                const auto n = nodeCast<ImportNode>(node);
-                std::cout << times(" ", spacing)
-                    << dumpNodeType(n->type) << ":" << std::endl;
-
-                dump(n->module, spacing + 2);
-                break;
-            }
             case NodeType::NegationNode: {
                 const auto n = nodeCast<NegationNode>(node);
                 std::cout << times(" ", spacing)
@@ -150,17 +142,6 @@ namespace soviet {
                 std::cout << times(" ", spacing + 2) << "body:" << std::endl;
                 dump(n->body, spacing + 4);
                 break;
-            }
-            case NodeType::ObjectNode: {
-                const auto n = nodeCast<ObjectNode>(node);
-                std::cout << times(" ", spacing)
-                    << dumpNodeType(n->type) << ":" << std::endl;
-
-                for (const auto [key, value] : n->properties) {
-                    std::cout << times(" ", spacing + 2) << "key/value:" << std::endl;
-                    dump(key, spacing + 4);
-                    dump(value, spacing + 4);
-                }
             }
         }
     }

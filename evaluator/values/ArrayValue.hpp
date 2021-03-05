@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace soviet {
-    struct ArrayValue : Value {
+    class ArrayValue : public Value {
     private:
         typedef std::vector<std::shared_ptr<Value>> Data;
     public:
@@ -26,6 +26,23 @@ namespace soviet {
 
         auto& getData() {
             return data;
+        }
+
+        size_t size() const {
+            return data.size();
+        }
+
+        bool equals(const std::shared_ptr<Value>& other) override {
+            if (other->type != this->type)
+                return false;
+            const auto otherValue = valueCast<ArrayValue>(other);
+            if (this->size() != otherValue->size())
+                return false;
+            for (size_t i = 0; i < this->size(); ++i) {
+                if (!this->at(i)->equals(otherValue->at(i)))
+                    return false;
+            }
+            return true;
         }
     private:
         Data data;
