@@ -85,7 +85,7 @@ namespace soviet {
             return true;
         }
 
-        std::shared_ptr<MapValue> clone() {
+        std::shared_ptr<Value> clone() override {
             auto result = std::make_shared<MapValue>();
 
             for (const auto& [key, value] : data)

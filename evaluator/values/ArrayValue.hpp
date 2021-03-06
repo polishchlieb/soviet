@@ -38,11 +38,18 @@ namespace soviet {
             const auto otherValue = valueCast<ArrayValue>(other);
             if (this->size() != otherValue->size())
                 return false;
-            for (size_t i = 0; i < this->size(); ++i) {
+            for (unsigned int i = 0; i < this->size(); ++i) {
                 if (!this->at(i)->equals(otherValue->at(i)))
                     return false;
             }
             return true;
+        }
+
+        std::shared_ptr<Value> clone() override {
+            std::shared_ptr<ArrayValue> result;
+            for (const auto& element : data)
+                result->add(element->clone());
+            return result;
         }
     private:
         Data data;

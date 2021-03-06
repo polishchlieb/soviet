@@ -11,16 +11,19 @@ namespace soviet {
         explicit Value(ValueType type) : type(type) {}
 
         virtual bool equals(const std::shared_ptr<Value>&) = 0;
+        virtual std::shared_ptr<Value> clone() = 0;
     };
 
     class UndefinedValue : public Value {
     public:
-        ValueType type;
-
         UndefinedValue() : Value{ValueType::UndefinedValue} {}
 
         bool equals(const std::shared_ptr<Value>& other) {
             return other->type == type;
+        }
+
+        std::shared_ptr<Value> clone() override {
+            return std::make_shared<UndefinedValue>();
         }
     };
 }

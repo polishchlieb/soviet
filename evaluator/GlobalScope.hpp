@@ -97,7 +97,9 @@ namespace soviet {
                 "map_set",
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
-                        const auto map = valueCast<MapValue>(args[0])->clone();
+                        const auto map = valueCast<MapValue>(
+                            valueCast<MapValue>(args[0])->clone()
+                        );
                         map->set(args[1], args[2]);
                         return map;
                     }

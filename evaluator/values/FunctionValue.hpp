@@ -17,6 +17,10 @@ namespace soviet {
         bool equals(const std::shared_ptr<Value>& other) {
             return false;
         }
+
+        std::shared_ptr<Value> clone() override {
+            return std::make_shared<FunctionValue>(run);
+        }
     };
 }
 

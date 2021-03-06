@@ -17,6 +17,10 @@ namespace soviet {
             const auto rightValue = valueCast<StringValue>(other)->value;
             return rightValue == value;
         }
+
+        std::shared_ptr<Value> clone() override {
+            return std::make_shared<StringValue>(value);
+        }
     };
 }
 

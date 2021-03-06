@@ -16,6 +16,10 @@ namespace soviet {
             const auto otherValue = valueCast<NumberValue>(other);
             return otherValue->value == this->value;
         }
+
+        std::shared_ptr<Value> clone() override {
+            return std::make_shared<NumberValue>(value);
+        }
     };
 }
 
