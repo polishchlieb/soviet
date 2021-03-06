@@ -37,6 +37,11 @@
     <ClInclude Include="parser\Parser.hpp" />
     <ClInclude Include="parser\nodes.hpp" />
     <ClInclude Include="evaluator\values\MapValue.hpp" />
+    <ClInclude Include="evaluator\modules\Map.hpp" />
+    <ClInclude Include="evaluator\modules\Module.hpp" />
+    <ClInclude Include="evaluator\modules\Array.hpp" />
+    <ClInclude Include="evaluator\modules\IO.hpp" />
+    <ClInclude Include="evaluator\modules\Misc.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

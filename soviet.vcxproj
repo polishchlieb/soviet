@@ -153,6 +153,11 @@
     <ClInclude Include="evaluator\EvaluateError.hpp" />
     <ClInclude Include="evaluator\evaluator.hpp" />
     <ClInclude Include="evaluator\GlobalScope.hpp" />
+    <ClInclude Include="evaluator\modules\Array.hpp" />
+    <ClInclude Include="evaluator\modules\IO.hpp" />
+    <ClInclude Include="evaluator\modules\Map.hpp" />
+    <ClInclude Include="evaluator\modules\Misc.hpp" />
+    <ClInclude Include="evaluator\modules\Module.hpp" />
     <ClInclude Include="evaluator\Scope.hpp" />
     <ClInclude Include="evaluator\valueCast.hpp" />
     <ClInclude Include="evaluator\values\ArrayValue.hpp" />
