@@ -6,9 +6,11 @@
 namespace soviet {
 	class MapModule : public Module {
 	public:
+        std::string name = "Map";
+
 		MapModule() {
             variables.insert({
-                "map",
+                "new",
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
                         if (args.size() == 0)
@@ -30,7 +32,7 @@ namespace soviet {
             });
 
             variables.insert({
-                "map_set",
+                "set",
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
                         const auto map = valueCast<MapValue>(
@@ -43,7 +45,7 @@ namespace soviet {
             });
 
             variables.insert({
-                "map_at",
+                "at",
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
                         return valueCast<MapValue>(args[0])->get(args[1]);

@@ -188,10 +188,8 @@ namespace soviet {
 			);
 		}
 
-		auto evaluateNameNode(
-			const std::shared_ptr<Node>& node,
-			bool require = true
-		) -> std::shared_ptr<Value> {
+		auto evaluateNameNode(const std::shared_ptr<Node>& node)
+		  -> std::shared_ptr<Value> {
 			const auto n = nodeCast<NameNode>(node);
 
 			for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
@@ -199,8 +197,7 @@ namespace soviet {
 					return i->variables[n->value];
 			}
 
-			if (require) throw EvaluateError("unknown name: " + n->value);
-			return nullptr;
+			throw EvaluateError("unknow name");
 		}
 
 		static auto evaluateStringNode(const std::shared_ptr<Node>& node)
@@ -489,11 +486,20 @@ namespace soviet {
 
 		auto evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node)
 		  -> std::shared_ptr<Value> {
-			const auto right = nodeCast<NameNode>(node->right)->value;
-
-			auto variable = evaluate(node->left);
+			if (node->left->type != NodeType::NameNode)
+				throw EvaluateError("tf?!?!");
 
 			const auto left = nodeCast<NameNode>(node->left)->value;
+			for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+				if (i->modules.contains(left)) {
+					auto m = i->modules[left];
+
+					const auto right = nodeCast<NameNode>(node->right)->value;
+					if (m->variables.contains(right))
+						return m->variables[right];
+				}
+			}
+
 			throw EvaluateError("unknow object: " + left);
 		}
 	};

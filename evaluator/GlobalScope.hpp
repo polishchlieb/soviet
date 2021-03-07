@@ -18,10 +18,10 @@ namespace soviet {
     class GlobalScope : public Scope {
     public:
         GlobalScope() {
-            const std::array<Module*, 4> modules =
-                {new ArrayModule, new IOModule, new MapModule, new MiscModule};
-            for (const auto& m : modules)
-                this->merge(m);
+            modules.insert({"Array", new ArrayModule});
+            modules.insert({"Map", new MapModule});
+            modules.insert({"IO", new IOModule});
+            modules.insert({"Misc", new MiscModule});
         }
     };
 }

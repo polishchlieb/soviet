@@ -5,6 +5,8 @@
 namespace soviet {
 	class MiscModule : public Module {
 	public:
+        std::string name = "Misc";
+
 		MiscModule() {
             variables.insert({
                 "times",

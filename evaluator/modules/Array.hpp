@@ -5,9 +5,11 @@
 namespace soviet {
 	class ArrayModule : public Module {
 	public:
+        std::string name = "Array";
+
 		ArrayModule() {
             variables.insert({
-                "array",
+                "new",
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
                         if (args.size() == 0)

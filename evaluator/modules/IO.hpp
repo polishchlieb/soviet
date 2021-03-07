@@ -7,6 +7,8 @@
 namespace soviet {
 	class IOModule : public Module {
 	public:
+        std::string name = "IO";
+
 		IOModule() {
             // std::ios_base::sync_with_stdio(false);
 
