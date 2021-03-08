@@ -32,7 +32,7 @@ namespace soviet {
             return (*iterator).second;
         }
 
-        void _delete(const std::shared_ptr<Value>& key) {
+        void remove(const std::shared_ptr<Value>& key) {
             const auto iterator = std::find_if(
                 std::begin(data), std::end(data),
                 [&key](const std::pair<std::shared_ptr<Value>, std::shared_ptr<Value>>& entry) {

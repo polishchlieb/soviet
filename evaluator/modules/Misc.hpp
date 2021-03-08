@@ -27,6 +27,15 @@ namespace soviet {
                     }
                 )
             });
+
+            variables.insert({
+                "to_string",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        return std::make_shared<StringValue>(dumpValue(args[0]));
+                    }
+                )
+            });
 		}
 	};
 }

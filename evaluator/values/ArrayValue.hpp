@@ -46,10 +46,25 @@ namespace soviet {
         }
 
         std::shared_ptr<Value> clone() override {
-            std::shared_ptr<ArrayValue> result;
+            auto result = std::make_shared<ArrayValue>();
             for (const auto& element : data)
                 result->add(element->clone());
             return result;
+        }
+
+        void removeAt(unsigned int index) {
+            data.erase(data.begin() + index);
+        }
+
+        void remove(const std::shared_ptr<Value>& element) {
+            const auto iterator = std::find_if(
+                data.begin(), data.end(),
+                [&element](const std::shared_ptr<Value>& curr) {
+                    return curr->equals(element);
+                }
+            );
+            if (iterator != data.end())
+                data.erase(iterator);
         }
     private:
         Data data;

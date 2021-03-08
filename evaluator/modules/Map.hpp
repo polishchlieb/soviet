@@ -35,10 +35,19 @@ namespace soviet {
                 "set",
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
-                        const auto map = valueCast<MapValue>(
-                            valueCast<MapValue>(args[0])->clone()
-                        );
+                        const auto map = valueCast<MapValue>(args[0]->clone());
                         map->set(args[1], args[2]);
+                        return map;
+                    }
+                )
+            });
+
+            variables.insert({
+                "remove",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        const auto map = valueCast<MapValue>(args[0]->clone());
+                        map->remove(args[1]);
                         return map;
                     }
                 )
@@ -49,6 +58,53 @@ namespace soviet {
                 std::make_shared<FunctionValue>(
                     [](std::vector<std::shared_ptr<Value>>& args) {
                         return valueCast<MapValue>(args[0])->get(args[1]);
+                    }
+                )
+            });
+
+            variables.insert({
+                "entries",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        const auto map = valueCast<MapValue>(args[0]);
+                        const auto result = std::make_shared<ArrayValue>();
+
+                        for (const auto& [key, value] : map->entries())
+                            result->add(std::make_shared<ArrayValue>(std::vector{key, value}));
+
+                        return result;
+                    }
+                )
+            });
+
+            variables.insert({
+                "keys",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        const auto map = valueCast<MapValue>(args[0]);
+                        return std::make_shared<ArrayValue>(map->keys());
+                    }
+                )
+            });
+
+
+            variables.insert({
+                "values",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        const auto map = valueCast<MapValue>(args[0]);
+                        return std::make_shared<ArrayValue>(map->values());
+                    }
+                )
+            });
+
+
+            variables.insert({
+                "size",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        const auto map = valueCast<MapValue>(args[0]);
+                        return std::make_shared<NumberValue>(map->size());
                     }
                 )
             });
