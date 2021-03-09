@@ -66,6 +66,16 @@ namespace soviet {
             if (iterator != data.end())
                 data.erase(iterator);
         }
+
+        void concat(const std::shared_ptr<ArrayValue>& other) {
+            for (auto element : other->getData()) {
+                data.push_back(element);
+            }
+        }
+
+        void reverse() {
+            std::reverse(data.begin(), data.end());
+        }
     private:
         Data data;
     };

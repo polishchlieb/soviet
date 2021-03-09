@@ -21,6 +21,10 @@ namespace soviet {
         std::shared_ptr<Value> clone() override {
             return std::make_shared<StringValue>(value);
         }
+
+        void append(const std::string& str) {
+            value += str;
+        }
     };
 }
 

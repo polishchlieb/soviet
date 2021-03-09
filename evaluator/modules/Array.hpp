@@ -264,9 +264,13 @@ namespace soviet {
 
 						const auto result = std::make_shared<ArrayValue>();
 						for (const auto& arr : arrays->getData()) {
-							const auto value = valueCast<ArrayValue>(arr);
-							for (const auto& element : value->getData())
-								result->add(element);
+							if (arr->type == ValueType::ArrayValue) {
+								const auto value = valueCast<ArrayValue>(arr);
+								for (const auto& element : value->getData())
+									result->add(element);
+							} else {
+								result->add(arr);
+							}
 						}
 
 						return result;
@@ -287,7 +291,11 @@ namespace soviet {
 								element,
 								std::make_shared<NumberValue>(i)
 							};
-							if (callback->run(args))
+							const auto value = callback->run(args);
+							if (value->type != ValueType::BooleanValue)
+								throw EvaluateError("some callback result must be a boolean");
+							const auto isTrue = valueCast<BooleanValue>(value)->value;
+							if (isTrue)
 								return std::make_shared<BooleanValue>(true);
 						}
 
@@ -313,6 +321,119 @@ namespace soviet {
 					}
 				)
 			});
+
+			variables.insert({
+				"flat",
+				std::make_shared<FunctionValue>(
+					[this](std::vector<std::shared_ptr<Value>>& args) {
+						const auto arr = valueCast<ArrayValue>(args[0]->clone());
+						return flat(arr);
+					}
+				)
+			});
+
+			variables.insert({
+				"is_array",
+				std::make_shared<FunctionValue>(
+					[](std::vector<std::shared_ptr<Value>>& args) {
+						return std::make_shared<BooleanValue>(
+							args[0]->type == ValueType::ArrayValue
+						);
+					}
+				)
+			});
+
+			variables.insert({
+				"reduce",
+				std::make_shared<FunctionValue>(
+					[](std::vector<std::shared_ptr<Value>>& args) {
+						const auto arr = valueCast<ArrayValue>(args[0]);
+						const auto callback = valueCast<FunctionValue>(args[1]);
+						const auto defaultValue = args[2];
+
+						auto acc = defaultValue;
+						for (const auto& element : arr->getData()) {
+							std::vector<std::shared_ptr<Value>> args{
+								acc,
+								element
+							};
+							acc = callback->run(args);
+						}
+
+						return acc;
+					}
+				)
+			});
+
+			variables.insert({
+				"reverse",
+				std::make_shared<FunctionValue>(
+					[](std::vector<std::shared_ptr<Value>>& args) {
+						const auto arr = valueCast<ArrayValue>(args[0]->clone());
+						arr->reverse();
+						return arr;
+					}
+				)
+			});
+
+			variables.insert({
+				"reduce_right",
+				std::make_shared<FunctionValue>(
+					[](std::vector<std::shared_ptr<Value>>& args) {
+						const auto arr = valueCast<ArrayValue>(args[0]);
+						const auto callback = valueCast<FunctionValue>(args[1]);
+						const auto defaultValue = args[2];
+
+						auto acc = defaultValue;
+						for (auto it = arr->getData().rbegin(); it != arr->getData().rend(); ++it) {
+							std::vector<std::shared_ptr<Value>> args{
+								acc,
+								*it
+							};
+							acc = callback->run(args);
+						}
+
+						return acc;
+					}
+				)
+			});
+
+			variables.insert({
+				"join",
+				std::make_shared<FunctionValue>(
+					[](std::vector<std::shared_ptr<Value>>& args) {
+						const auto arr = valueCast<ArrayValue>(args[0]);
+						const auto separator = valueCast<StringValue>(args[1])->value;
+						
+						auto result = std::make_shared<StringValue>("");
+						const auto arrSize = arr->size();
+
+						for (unsigned int i = 0; i < arrSize; ++i) {
+							result->append(dumpValue(arr->at(i)));
+							if (i != arrSize - 1)
+								result->append(separator);
+						}
+
+						return result;
+					}
+				)
+			});
+		}
+
+	private:
+		std::shared_ptr<ArrayValue> flat(std::shared_ptr<ArrayValue> value) {
+			auto acc = std::make_shared<ArrayValue>();
+
+			for (const auto& element : value->getData()) {
+				if (element->type == ValueType::ArrayValue) {
+					const auto arr = valueCast<ArrayValue>(element);
+					acc->concat(flat(arr));
+				} else {
+					acc->add(element);
+				}
+			}
+
+			return acc;
 		}
 	};
 }

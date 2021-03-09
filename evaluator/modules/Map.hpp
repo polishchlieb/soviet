@@ -108,6 +108,17 @@ namespace soviet {
                     }
                 )
             });
+
+            variables.insert({
+                "is_map",
+                std::make_shared<FunctionValue>(
+                    [](std::vector<std::shared_ptr<Value>>& args) {
+                        return std::make_shared<BooleanValue>(
+                            args[0]->type == ValueType::MapValue
+                        );
+                    }
+                )
+            });
 		}
 	};
 }
