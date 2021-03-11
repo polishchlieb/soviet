@@ -42,6 +42,7 @@
     <ClInclude Include="evaluator\modules\Array.hpp" />
     <ClInclude Include="evaluator\modules\IO.hpp" />
     <ClInclude Include="evaluator\modules\Misc.hpp" />
+    <ClInclude Include="evaluator\modules\String.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

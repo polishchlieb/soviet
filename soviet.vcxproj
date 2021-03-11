@@ -158,6 +158,7 @@
     <ClInclude Include="evaluator\modules\Map.hpp" />
     <ClInclude Include="evaluator\modules\Misc.hpp" />
     <ClInclude Include="evaluator\modules\Module.hpp" />
+    <ClInclude Include="evaluator\modules\String.hpp" />
     <ClInclude Include="evaluator\Scope.hpp" />
     <ClInclude Include="evaluator\valueCast.hpp" />
     <ClInclude Include="evaluator\values\ArrayValue.hpp" />

@@ -197,7 +197,7 @@ namespace soviet {
 					return i->variables[n->value];
 			}
 
-			throw EvaluateError("unknow name");
+			throw EvaluateError("unknow name: " + n->value);
 		}
 
 		static auto evaluateStringNode(const std::shared_ptr<Node>& node)

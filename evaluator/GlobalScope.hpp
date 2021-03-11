@@ -13,6 +13,7 @@
 #include "modules/IO.hpp"
 #include "modules/Map.hpp"
 #include "modules/Misc.hpp"
+#include "modules/String.hpp"
 
 namespace soviet {
     class GlobalScope : public Scope {
@@ -22,6 +23,7 @@ namespace soviet {
             modules.insert({"Map", new MapModule});
             modules.insert({"IO", new IOModule});
             modules.insert({"Misc", new MiscModule});
+            modules.insert({"String", new StringModule});
         }
     };
 }
