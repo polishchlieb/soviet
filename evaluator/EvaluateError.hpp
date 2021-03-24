@@ -5,17 +5,16 @@
 #include "../util/Error.hpp"
 
 namespace soviet {
-    class EvaluateError : public Error {
+    class EvaluateError {
     public:
-        explicit EvaluateError(std::string&& value) {
-            this->value = value;
-        }
+        explicit EvaluateError(std::string value)
+            : value(std::move(value)) {}
 
-        [[nodiscard]] const char* name() const noexcept override {
+        const char* name() const noexcept {
             return "EvaluateError";
         }
 
-        [[nodiscard]] std::string message() const noexcept override {
+        std::string message() const noexcept {
             return this->value;
         }
     private:

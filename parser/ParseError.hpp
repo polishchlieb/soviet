@@ -4,17 +4,16 @@
 #include "../util/Error.hpp"
 
 namespace soviet {
-    class ParseError : public Error {
+    class ParseError {
     public:
-        explicit ParseError(std::string&& value) {
-            this->value = value;
-        }
+        explicit ParseError(std::string value)
+            : value(std::move(value)) {}
 
-        [[nodiscard]] const char* name() const noexcept override {
+        const char* name() const noexcept {
             return "ParseError";
         }
 
-        [[nodiscard]] std::string message() const noexcept override {
+        std::string message() const noexcept {
             return this->value;
         }
     private:

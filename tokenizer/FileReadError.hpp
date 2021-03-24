@@ -5,17 +5,16 @@
 #include "../util/Error.hpp"
 
 namespace soviet {
-    class FileReadError : public Error {
+    class FileReadError {
     public:
-        explicit FileReadError(std::string&& value) {
-            this->value = value;
-        }
+        explicit FileReadError(std::string value)
+            : value(std::move(value)) {}
 
-        [[nodiscard]] const char* name() const noexcept override {
+        const char* name() const noexcept {
             return "FileReadError";
         }
 
-        [[nodiscard]] std::string message() const noexcept override {
+        std::string message() const noexcept {
             return this->value;
         }
     private:

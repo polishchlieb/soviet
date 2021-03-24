@@ -178,11 +178,9 @@
     <ClInclude Include="parser\Parser.hpp" />
     <ClInclude Include="tokenizer\dumpTokens.hpp" />
     <ClInclude Include="tokenizer\FileReadError.hpp" />
-    <ClInclude Include="tokenizer\FileTokenizer.hpp" />
-    <ClInclude Include="tokenizer\InlineTokenizer.hpp" />
-    <ClInclude Include="tokenizer\TestTokenizer.hpp" />
     <ClInclude Include="tokenizer\Token.hpp" />
     <ClInclude Include="tokenizer\Tokenizer.hpp" />
+    <ClInclude Include="tokenizer\TokenList.hpp" />
     <ClInclude Include="tokenizer\TokenType.hpp" />
     <ClInclude Include="util\colors.hpp" />
     <ClInclude Include="util\Error.hpp" />

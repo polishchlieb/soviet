@@ -8,10 +8,23 @@
 #include "colors.hpp"
 
 namespace soviet {
+    enum class ErrorType {
+        no_tokens
+    };
+
     class Error : public std::exception {
     public:
-        [[nodiscard]] virtual const char* name() const noexcept = 0;
-        [[nodiscard]] virtual std::string message() const noexcept = 0;
+        Error(ErrorType type) : type(type) {}
+
+        ErrorType type;
+
+        const char* name() const {
+            return "Error";
+        }
+
+        std::string message() const {
+            return "";
+        }
 
         void print() const {
             std::cout

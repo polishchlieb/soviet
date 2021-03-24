@@ -9,27 +9,11 @@
 #include "../parser/ParseError.hpp"
 #include <queue>
 #include "../util/util.hpp"
+#include "TokenList.hpp"
 
 namespace soviet {
     class Tokenizer {
     public:
-        bool isEmpty() {
-            return this->tokens.empty() && this->isComplete();
-        }
-
-        virtual bool isComplete() = 0;
-        virtual Token& peekNextToken() = 0;
-        virtual Token getNextToken() = 0;
-
-        void dump() {
-            auto copy = tokens;
-            while (!copy.empty()) {
-                const auto token = copy.front();
-                copy.pop();
-                std::cout << "(" << dumpTokenType(token.type) << ") " << token.value << std::endl;
-            }
-        }
-
         void tokenize(const std::string& line) {
             previous.clear(++lineNumber);
 
@@ -48,10 +32,13 @@ namespace soviet {
                 tokens.emplace(std::move(previous));
             }
         }
-    protected:
+
+        TokenList getTokens() {
+            return {tokens};
+        }
+    private:
         std::queue<Token> tokens;
         unsigned int lineNumber = UNDEFINED_LINE;
-    private:
         Token previous{TokenType::none, "", UNDEFINED_LINE};
 
         void parseChar(const char c) {
