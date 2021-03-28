@@ -13,7 +13,6 @@
     <ClInclude Include="util\colors.hpp" />
     <ClInclude Include="util\Error.hpp" />
     <ClInclude Include="util\util.hpp" />
-    <ClInclude Include="evaluator\dumpValue.hpp" />
     <ClInclude Include="evaluator\EvaluateError.hpp" />
     <ClInclude Include="evaluator\evaluator.hpp" />
     <ClInclude Include="evaluator\GlobalScope.hpp" />

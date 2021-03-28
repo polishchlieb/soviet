@@ -149,7 +149,6 @@
     <ClCompile Include="test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="evaluator\dumpValue.hpp" />
     <ClInclude Include="evaluator\EvaluateError.hpp" />
     <ClInclude Include="evaluator\evaluator.hpp" />
     <ClInclude Include="evaluator\GlobalScope.hpp" />

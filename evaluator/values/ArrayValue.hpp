@@ -76,6 +76,20 @@ namespace soviet {
         void reverse() {
             std::reverse(data.begin(), data.end());
         }
+
+        std::string dump() const override {
+            std::string result = "[";
+            const auto max = data.size() - 1;
+            for (uint32_t i = 0; i < max + 1; ++i) {
+                const auto& element = data[i];
+                if (i == max) {
+                    result += element->dump();
+                } else {
+                    result += element->dump() + ", ";
+                }
+            }
+            return result + "]";
+        }
     private:
         Data data;
     };

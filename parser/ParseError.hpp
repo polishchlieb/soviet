@@ -4,7 +4,7 @@
 #include "../util/Error.hpp"
 
 namespace soviet {
-    class ParseError {
+    class ParseError : public std::exception {
     public:
         explicit ParseError(std::string value)
             : value(std::move(value)) {}

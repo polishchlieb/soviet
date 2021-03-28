@@ -5,7 +5,7 @@
 namespace soviet {
 	class TokenList {
 	public:
-        TokenList(std::queue<Token> tokens)
+        explicit TokenList(std::queue<Token> tokens)
             : tokens(std::move(tokens)) {}
         
         void dump() {

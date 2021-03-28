@@ -409,7 +409,7 @@ namespace soviet {
 						const auto arrSize = arr->size();
 
 						for (unsigned int i = 0; i < arrSize; ++i) {
-							result->append(dumpValue(arr->at(i)));
+							result->append(arr->at(i)->dump());
 							if (i != arrSize - 1)
 								result->append(separator);
 						}

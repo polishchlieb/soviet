@@ -2,12 +2,6 @@
 #define SOVIET_GLOBALSCOPE_HPP
 
 #include "Scope.hpp"
-#include "values/FunctionValue.hpp"
-#include "dumpValue.hpp"
-#include "EvaluateError.hpp"
-
-#include <array>
-
 #include "modules/Module.hpp"
 #include "modules/Array.hpp"
 #include "modules/IO.hpp"

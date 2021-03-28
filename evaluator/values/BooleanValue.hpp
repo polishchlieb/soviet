@@ -20,6 +20,10 @@ namespace soviet {
         std::shared_ptr<Value> clone() override {
             return std::make_shared<BooleanValue>(value);
         }
+
+        std::string dump() const override {
+            return value ? "true" : "false";
+        }
     };
 }
 

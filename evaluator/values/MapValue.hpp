@@ -93,6 +93,16 @@ namespace soviet {
 
             return result;
         }
+
+        std::string dump() const override {
+            std::string result = "map(";
+            for (const auto& [key, value] : entries())
+                result += key->dump() + " => " + value->dump() + ", ";
+            if (size() == 0)
+                return result + ")";
+            else
+                return result.substr(0, result.length() - 2) + ")";
+        }
     };
 }
 

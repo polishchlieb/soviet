@@ -12,6 +12,9 @@ namespace soviet {
 
         virtual bool equals(const std::shared_ptr<Value>&) = 0;
         virtual std::shared_ptr<Value> clone() = 0;
+        virtual std::string dump() const = 0; /* {
+            return "<wtf>";
+        } */
     };
 
     class UndefinedValue : public Value {
@@ -24,6 +27,10 @@ namespace soviet {
 
         std::shared_ptr<Value> clone() override {
             return std::make_shared<UndefinedValue>();
+        }
+
+        std::string dump() const override {
+            return "<undefined>";
         }
     };
 }

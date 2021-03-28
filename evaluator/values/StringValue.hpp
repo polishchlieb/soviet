@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Value.hpp"
+#include <algorithm>
 
 namespace soviet {
     class StringValue : public Value {
@@ -44,6 +45,10 @@ namespace soviet {
     
         void toLowerCase() {
             std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+        }
+
+        std::string dump() const override {
+            return value;
         }
     };
 }

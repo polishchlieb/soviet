@@ -11,8 +11,7 @@ namespace soviet {
         std::function<std::shared_ptr<Value>(std::vector<std::shared_ptr<Value>>&)> run;
         explicit FunctionValue(
             std::function<std::shared_ptr<Value>(std::vector<std::shared_ptr<Value>>&)> run
-        )
-            : Value{ValueType::FunctionValue}, run(std::move(run)) {}
+        ) : Value{ValueType::FunctionValue}, run(std::move(run)) {}
 
         bool equals(const std::shared_ptr<Value>& other) {
             return false;
@@ -20,6 +19,10 @@ namespace soviet {
 
         std::shared_ptr<Value> clone() override {
             return std::make_shared<FunctionValue>(run);
+        }
+
+        std::string dump() const override {
+            return "<function>";
         }
     };
 }

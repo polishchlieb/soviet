@@ -10,7 +10,6 @@
 #include "../parser/dumpNode.hpp"
 #include <unordered_map>
 #include <cfloat>
-#include "dumpValue.hpp"
 #include "Scope.hpp"
 #include "GlobalScope.hpp"
  
@@ -334,7 +333,7 @@ namespace soviet {
 		  -> std::shared_ptr<Value> {
 			switch (node->left->type) {
 				case NodeType::NameNode: {
-					const auto& name = nodeCast<NameNode>(node->left)->value;
+					const auto name = nodeCast<NameNode>(node->left)->value;
 					auto value = evaluate(node->right);
 
 					// resolve name
@@ -347,23 +346,23 @@ namespace soviet {
 					});
 					return value;
 				}
-				/* case NodeType::BinOpNode: {
-					const auto op = nodeCast<BinOpNode>(node->left);
-					const auto left = nodeCast<NameNode>(op->left)->value;
-					const auto right = nodeCast<NameNode>(op->right)->value;
+				case NodeType::ArrayNode: {
+					if (node->right->type != NodeType::ArrayNode)
+						throw EvaluateError("value destructured to an array must be an array");
+					
+					const auto left = nodeCast<ArrayNode>(node->left);
+					const auto right = nodeCast<ArrayNode>(node->right);
+					if (left->elements.size() != right->elements.size())
+						throw EvaluateError("arrays have to be the same length when destructuring");
 
-					auto value = evaluate(node->right);
-
-					// resolve name
-					for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
-						if (i->variables.contains(left)) {
-							valueCast<ObjectValue>(i->variables[left])
-								->set(right, value);
-							return value;
-						}
+					std::vector<std::shared_ptr<Value>> result;
+					for (size_t i = 0; i < left->elements.size(); ++i) {
+						// assign resolve(left) = evaluate(right)
 					}
-					break;
-				} */
+
+					return std::make_shared<ArrayValue>(result);
+				}
+				// add objects and their destructuring
 				default:
 					throw EvaluateError("Unknown operands");
 			}

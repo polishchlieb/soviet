@@ -19,6 +19,10 @@ namespace soviet {
         std::shared_ptr<Value> clone() override {
             return std::make_shared<ExplicitReturnValue>(value->clone());
         }
+
+        std::string dump() const override {
+            return "<explicit return value>";
+        }
     };
 }
 

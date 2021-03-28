@@ -11,7 +11,7 @@ namespace soviet {
     enum class ErrorType {
         no_tokens
     };
-
+    
     class Error : public std::exception {
     public:
         Error(ErrorType type) : type(type) {}

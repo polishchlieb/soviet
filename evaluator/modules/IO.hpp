@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.hpp"
 #include "../values/values.hpp"
-#include "../dumpValue.hpp"
 #include <iostream>
 
 namespace soviet {
@@ -17,7 +16,7 @@ namespace soviet {
                 std::make_shared<FunctionValue>(
                     [](const std::vector<std::shared_ptr<Value>>& args) {
                         for (const auto& arg : args)
-                            std::cout << dumpValue(arg) << " ";
+                            std::cout << arg->dump() << " ";
                         std::cout << "\n";
                         return std::make_shared<UndefinedValue>();
                     }

@@ -34,7 +34,7 @@ namespace soviet {
         }
 
         TokenList getTokens() {
-            return {tokens};
+            return TokenList{tokens};
         }
     private:
         std::queue<Token> tokens;
