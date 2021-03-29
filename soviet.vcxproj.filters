@@ -40,6 +40,7 @@
     <ClInclude Include="evaluator\modules\Misc.hpp" />
     <ClInclude Include="evaluator\modules\String.hpp" />
     <ClInclude Include="tokenizer\TokenList.hpp" />
+    <ClInclude Include="parser\NoTokensError.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

@@ -18,41 +18,41 @@ namespace soviet {
 	public:
 		auto evaluate(const std::shared_ptr<Node>& node) {
 			switch (node->type) {
-				case NodeType::NumberNode:
-					return evaluateNumberNode(node);
-				case NodeType::NameNode:
-					return evaluateNameNode(node);
-				case NodeType::StringNode:
-					return evaluateStringNode(node);
-				case NodeType::FuncCallNode:
-					return evaluateFuncCallNode(node);
-				case NodeType::IfNode:
-					return evaluateIfNode(node);
-				case NodeType::PrototypeNode:
-					return evaluatePrototypeNode(node);
-				case NodeType::BlockNode:
-					return evaluateBlockNode(node);
-				case NodeType::ReturnNode:
-					return evaluateReturnNode(node);
-				case NodeType::NegationNode:
-					return evaluateNegationNode(node);
-				case NodeType::BooleanNode:
-					return evaluateBooleanNode(node);
-				case NodeType::ArrayNode:
-					return evaluateArrayNode(node);
-				case NodeType::WhileLoopNode:
-					return evaluateWhileLoopNode(node);
-				case NodeType::BinOpNode:
-					return evaluateBinOpNode(node);
-				default:
-					throw EvaluateError("Unexpected node");
+			case NodeType::NumberNode:
+				return evaluateNumberNode(node);
+			case NodeType::NameNode:
+				return evaluateNameNode(node);
+			case NodeType::StringNode:
+				return evaluateStringNode(node);
+			case NodeType::FuncCallNode:
+				return evaluateFuncCallNode(node);
+			case NodeType::IfNode:
+				return evaluateIfNode(node);
+			case NodeType::PrototypeNode:
+				return evaluatePrototypeNode(node);
+			case NodeType::BlockNode:
+				return evaluateBlockNode(node);
+			case NodeType::ReturnNode:
+				return evaluateReturnNode(node);
+			case NodeType::NegationNode:
+				return evaluateNegationNode(node);
+			case NodeType::BooleanNode:
+				return evaluateBooleanNode(node);
+			case NodeType::ArrayNode:
+				return evaluateArrayNode(node);
+			case NodeType::WhileLoopNode:
+				return evaluateWhileLoopNode(node);
+			case NodeType::BinOpNode:
+				return evaluateBinOpNode(node);
+			default:
+				throw EvaluateError("Unexpected node");
 			}
 		}
 	private:
-		std::vector<Scope> currentContext = {GlobalScope{}};
+		std::vector<Scope> currentContext = { GlobalScope{} };
 
 		auto evaluateBinOpNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<BinOpNode>(node);
 
 			switch (n->binOpType) {
@@ -85,7 +85,7 @@ namespace soviet {
 		}
 
 		auto evaluateLessThanOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 			if (left->type != ValueType::NumberValue
@@ -101,7 +101,7 @@ namespace soviet {
 		}
 
 		auto evaluateArrayNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<ArrayNode>(node);
 
 			std::vector<std::shared_ptr<Value>> elements;
@@ -114,7 +114,7 @@ namespace soviet {
 		}
 
 		auto evaluateGreaterThanOrEqualOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 			if (left->type != ValueType::NumberValue
@@ -130,7 +130,7 @@ namespace soviet {
 		}
 
 		auto evaluateLessThanOrEqualOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 			if (left->type != ValueType::NumberValue
@@ -146,7 +146,7 @@ namespace soviet {
 		}
 
 		auto evaluateNegationNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<NegationNode>(node);
 
 			const auto expression = evaluate(n->expression);
@@ -158,29 +158,29 @@ namespace soviet {
 		}
 
 		auto evaluateGreaterThanOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 			if (left->type != ValueType::NumberValue
-			  || right->type != left->type) {
+				|| right->type != left->type) {
 				throw EvaluateError("unknown operands");
 			}
 
 			const auto leftValue = valueCast<NumberValue>(left)->value;
 			const auto rightValue = valueCast<NumberValue>(right)->value;
 			return std::make_shared<BooleanValue>(
-				 leftValue > rightValue
+				leftValue > rightValue
 			);
 		}
 
 		static auto evaluateNumberNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<NumberNode>(node);
 			return std::make_shared<NumberValue>(n->value);
 		}
 
 		auto evaluateReturnNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<ReturnNode>(node);
 			return std::make_shared<ExplicitReturnValue>(
 				evaluate(n->returnValue)
@@ -188,7 +188,7 @@ namespace soviet {
 		}
 
 		auto evaluateNameNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<NameNode>(node);
 
 			for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
@@ -200,13 +200,13 @@ namespace soviet {
 		}
 
 		static auto evaluateStringNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<StringNode>(node);
 			return std::make_shared<StringValue>(n->value);
 		}
 
 		auto evaluateAddOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value>{
+			-> std::shared_ptr<Value> {
 			const auto left = evaluate(node->left);
 			if (left->type == ValueType::NumberValue) {
 				const auto leftValue = valueCast<NumberValue>(left)->value;
@@ -220,7 +220,8 @@ namespace soviet {
 						std::to_string(leftValue) + rightValue
 					);
 				}
-			} else if (left->type == ValueType::StringValue) {
+			}
+			else if (left->type == ValueType::StringValue) {
 				const auto leftValue = valueCast<StringValue>(left)->value;
 				const auto right = evaluate(node->right);
 				if (right->type == ValueType::NumberValue) {
@@ -238,7 +239,7 @@ namespace soviet {
 		}
 
 		auto evaluateIfNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<IfNode>(node);
 
 			const auto condition = valueCast<BooleanValue>(evaluate(n->condition));
@@ -251,7 +252,7 @@ namespace soviet {
 		}
 
 		auto evaluateWhileLoopNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto n = nodeCast<WhileLoopNode>(node);
 
 			while (true) {
@@ -268,13 +269,13 @@ namespace soviet {
 		}
 
 		auto evaluateSubOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto [left, right] = getNumberValues(node);
 			return std::make_shared<NumberValue>(left - right);
 		}
 
 		auto evaluateMulOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto left = evaluate(node->left);
 			if (left->type == ValueType::NumberValue) {
 				const auto leftValue = valueCast<NumberValue>(left)->value;
@@ -283,13 +284,15 @@ namespace soviet {
 					return std::make_shared<NumberValue>(
 						leftValue * valueCast<NumberValue>(right)->value
 					);
-				} else if (right->type == ValueType::StringValue) {
+				}
+				else if (right->type == ValueType::StringValue) {
 					return std::make_shared<StringValue>(times(
 						valueCast<StringValue>(right)->value,
 						static_cast<unsigned int>(leftValue)
 					));
 				}
-			} else if (left->type == ValueType::StringValue) {
+			}
+			else if (left->type == ValueType::StringValue) {
 				const auto right = evaluate(node->right);
 				if (right->type == ValueType::NumberValue) {
 					return std::make_shared<StringValue>(times(
@@ -305,7 +308,7 @@ namespace soviet {
 		}
 
 		auto evaluateDivOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+			-> std::shared_ptr<Value> {
 			const auto [left, right] = getNumberValues(node);
 			if (std::fabs(right) < DBL_EPSILON)
 				return std::make_shared<StringValue>(":)");
@@ -314,7 +317,7 @@ namespace soviet {
 
 		template<typename T>
 		auto getNumberValues(const std::shared_ptr<T>& node)
-		  -> std::tuple<float, float> {
+			-> std::tuple<float, float> {
 			const auto n = nodeCast<OperatorNode>(node);
 
 			const auto left = evaluate(n->left);
@@ -329,6 +332,17 @@ namespace soviet {
 			};
 		}
 
+		std::shared_ptr<Value> setVariable(const std::string& name, std::shared_ptr<Value> value) {
+			for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
+				if (i->variables.contains(name))
+					return i->variables[name] = value;
+			}
+			currentContext[currentContext.size() - 1].variables.insert({
+				name, value
+			});
+			return value;
+		}
+
 		auto evaluateEqualsOpNode(const std::shared_ptr<BinOpNode>& node)
 		  -> std::shared_ptr<Value> {
 			switch (node->left->type) {
@@ -336,15 +350,7 @@ namespace soviet {
 					const auto name = nodeCast<NameNode>(node->left)->value;
 					auto value = evaluate(node->right);
 
-					// resolve name
-					for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
-						if (i->variables.contains(name))
-							return i->variables[name] = value;
-					}
-					currentContext[currentContext.size() - 1].variables.insert({
-						name, value
-					});
-					return value;
+					return setVariable(name, value);
 				}
 				case NodeType::ArrayNode: {
 					if (node->right->type != NodeType::ArrayNode)
@@ -357,7 +363,10 @@ namespace soviet {
 
 					std::vector<std::shared_ptr<Value>> result;
 					for (size_t i = 0; i < left->elements.size(); ++i) {
-						// assign resolve(left) = evaluate(right)
+						const auto name = nodeCast<NameNode>(left->elements[i])->value;
+						const auto value = evaluate(right->elements[i]);
+						setVariable(name, value);
+						result.push_back(value);
 					}
 
 					return std::make_shared<ArrayValue>(result);

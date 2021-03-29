@@ -9,7 +9,9 @@
 
 namespace soviet {
     enum class ErrorType {
-        no_tokens
+        NoTokens,
+        Evaluate,
+        Parse
     };
     
     class Error : public std::exception {

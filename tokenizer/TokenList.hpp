@@ -19,13 +19,13 @@ namespace soviet {
 
         Token& peekNextToken() {
             if (tokens.empty())
-                throw Error(ErrorType::no_tokens);
+                throw Error(ErrorType::NoTokens);
             return tokens.front();
         }
 
         Token getNextToken() {
             if (tokens.empty())
-                throw Error(ErrorType::no_tokens);
+                throw Error(ErrorType::NoTokens);
             auto token = std::move(tokens.front());
             tokens.pop();
             return token;

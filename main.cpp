@@ -12,16 +12,20 @@ static void getline(soviet::Evaluator& evaluator, std::string initial = "") {
 	line = initial + line;
 
 	soviet::Tokenizer tokenizer;
-	tokenizer.tokenize(line);
+	try {
+		tokenizer.tokenize(line);
+	} catch (const soviet::Error& error) {
+		std::cerr << "[oostszeszenie cos poszlo nie tak] " << error.what() << std::endl;
+		return;
+	}
 
 	soviet::Parser parser{ tokenizer.getTokens() };
 
 	std::shared_ptr<soviet::Node> tree;
 	try {
 		tree = parser.parse();
-	}
-	catch (const soviet::Error& error) {
-		if (error.type == soviet::ErrorType::no_tokens) {
+	} catch (const soviet::Error& error) {
+		if (error.type == soviet::ErrorType::NoTokens) {
 			getline(evaluator, line);
 			return;
 		}
@@ -30,8 +34,7 @@ static void getline(soviet::Evaluator& evaluator, std::string initial = "") {
 	try {
 		const auto value = evaluator.evaluate(tree);
 		std::cout << value->dump() << std::endl;
-	}
-	catch (const std::exception& error) {
+	} catch (const std::exception& error) {
 		std::cerr << "[oostszeszenie cos poszlo nie tak] " << error.what() << std::endl;
 	}
 }
@@ -44,7 +47,12 @@ static void getfileline(soviet::Evaluator& evaluator, std::ifstream& file, std::
 	line = initial + line;
 
 	soviet::Tokenizer tokenizer;
-	tokenizer.tokenize(line);
+	try {
+		tokenizer.tokenize(line);
+	} catch (const soviet::Error& error) {
+		std::cerr << "[oostszeszenie cos poszlo nie tak] " << error.what() << std::endl;
+		return;
+	}
 
 	soviet::Parser parser{tokenizer.getTokens()};
 
@@ -52,7 +60,7 @@ static void getfileline(soviet::Evaluator& evaluator, std::ifstream& file, std::
 	try {
 		tree = parser.parse();
 	} catch (const soviet::Error& error) {
-		if (error.type == soviet::ErrorType::no_tokens) {
+		if (error.type == soviet::ErrorType::NoTokens) {
 			getline(evaluator, line);
 			return;
 		}
