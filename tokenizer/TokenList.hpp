@@ -1,6 +1,6 @@
 #pragma once
 #include <queue>
-#include "Token.hpp"
+#include "NoTokensError.hpp"
 
 namespace soviet {
 	class TokenList {
@@ -19,13 +19,13 @@ namespace soviet {
 
         Token& peekNextToken() {
             if (tokens.empty())
-                throw Error(ErrorType::NoTokens);
+                throw NoTokensError{};
             return tokens.front();
         }
 
         Token getNextToken() {
             if (tokens.empty())
-                throw Error(ErrorType::NoTokens);
+                throw NoTokensError{};
             auto token = std::move(tokens.front());
             tokens.pop();
             return token;

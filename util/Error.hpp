@@ -19,17 +19,11 @@ namespace soviet {
         Error(ErrorType type) : type(type) {}
 
         ErrorType type;
-
-        const char* name() const {
-            return "Error";
-        }
-
-        std::string message() const {
-            return "";
-        }
+        virtual std::string name() const = 0;
+        virtual std::string message() const = 0;
 
         void print() const {
-            std::cout
+            std::cerr
                 << color(Color::RED)
                 << name() << ": " << message()
                 << color(Color::RESET) << std::endl;

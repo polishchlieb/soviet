@@ -5,27 +5,17 @@
 #include "../util/Error.hpp"
 
 namespace soviet {
-    class EvaluateError : public std::exception {
+    class EvaluateError : public Error {
     public:
         explicit EvaluateError(std::string value)
-            : value(std::move(value)) {}
+            : Error{ErrorType::Evaluate}, value(std::move(value)) {}
 
-        const char* name() const noexcept {
+        std::string name() const noexcept {
             return "EvaluateError";
         }
 
         std::string message() const noexcept {
             return this->value;
-        }
-
-        const char* what() const noexcept override {
-            std::string result;
-            char* _result = _strdup(this->name());
-            result += _result;
-            result += ": ";
-            char* message = _strdup(this->message().c_str());
-            result += message;
-            return _strdup(result.c_str());
         }
     private:
         std::string value;
