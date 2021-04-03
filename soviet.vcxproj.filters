@@ -41,6 +41,8 @@
     <ClInclude Include="evaluator\modules\String.hpp" />
     <ClInclude Include="tokenizer\TokenList.hpp" />
     <ClInclude Include="tokenizer\NoTokensError.hpp" />
+    <ClInclude Include="file.hpp" />
+    <ClInclude Include="repl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

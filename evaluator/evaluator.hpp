@@ -498,16 +498,21 @@ namespace soviet {
 				throw EvaluateError("tf?!?!");
 
 			const auto left = nodeCast<NameNode>(node->left)->value;
+			const auto right = nodeCast<NameNode>(node->right)->value;
+
+			bool objectExists = false;
 			for (auto i = currentContext.rbegin(); i != currentContext.rend(); ++i) {
 				if (i->modules.contains(left)) {
-					auto m = i->modules[left];
+					objectExists = true;
 
-					const auto right = nodeCast<NameNode>(node->right)->value;
+					auto m = i->modules[left];
 					if (m->variables.contains(right))
 						return m->variables[right];
 				}
 			}
-
+			
+			if (objectExists)
+				throw EvaluateError("object " + left + " has no property: " + right);
 			throw EvaluateError("unknow object: " + left);
 		}
 	};

@@ -1,83 +1,15 @@
-#include <string>
-#include "tokenizer/Tokenizer.hpp"
-#include "parser/Parser.hpp"
-#include "evaluator/evaluator.hpp"
-
-static void getline(soviet::Evaluator& evaluator, std::string initial = "") {
-	// TODO: do sth with tokenizer, parser maybe
-	std::cout << ">>> ";
-
-	std::string line;
-	std::getline(std::cin, line);
-	line = initial + line;
-
-	soviet::Tokenizer tokenizer;
-	try {
-		tokenizer.tokenize(line);
-	} catch (const soviet::Error& error) {
-		error.print();
-		return;
-	}
-
-	soviet::Parser parser{ tokenizer.getTokens() };
-
-	std::shared_ptr<soviet::Node> tree;
-	try {
-		tree = parser.parse();
-	} catch (const soviet::Error& error) {
-		if (error.type == soviet::ErrorType::NoTokens) {
-			getline(evaluator, line);
-		} else {
-			error.print();
-		}
-		return;
-	}
-
-	try {
-		const auto value = evaluator.evaluate(tree);
-		std::cout << value->dump() << std::endl;
-	} catch (const soviet::Error& error) {
-		error.print();
-	}
-}
-
-#include <fstream>
-
-static void getfileline(soviet::Evaluator& evaluator, std::ifstream& file, std::string initial = "") {
-	std::string line;
-	std::getline(file, line);
-	line = initial + line;
-
-	soviet::Tokenizer tokenizer;
-	try {
-		tokenizer.tokenize(line);
-	} catch (const soviet::Error& error) {
-		error.print();
-		return;
-	}
-
-	soviet::Parser parser{tokenizer.getTokens()};
-
-	std::shared_ptr<soviet::Node> tree;
-	try {
-		tree = parser.parse();
-	} catch (const soviet::Error& error) {
-		if (error.type == soviet::ErrorType::NoTokens) {
-			getline(evaluator, line);
-		} else {
-			error.print();
-		}
-		return;
-	}
-
-	try {
-		evaluator.evaluate(tree);
-	} catch (const soviet::Error& error) {
-		error.print();
-	}
-}
+#ifdef RUN_TESTS
+#define CATCH_CONFIG_RUNNER
+#include <catch.hpp>
+#else
+#include "repl.hpp"
+#include "file.hpp"
+#endif
 
 int main(int argc, char** argv) {
+#ifdef RUN_TESTS
+	Catch::Session().run(1, argv);
+#else
 	if (argc == 1) { // REPL
 		std::cout << "wellCUM to soviet 2.0 REPL (Really Epic Program Launcher)" << std::endl
 			<< std::endl;
@@ -86,7 +18,7 @@ int main(int argc, char** argv) {
 		while (true) {
 			getline(evaluator);
 		}
-	} else { // argc >= 2 => file
+	} else {
 		std::ifstream file{argv[1]};
 		if (!file.is_open()) {
 			std::cerr << "no i dupa! cos sie zesralo z plikiem" << std::endl;
@@ -98,4 +30,5 @@ int main(int argc, char** argv) {
 			getfileline(evaluator, file);
 		}
 	}
+#endif
 }

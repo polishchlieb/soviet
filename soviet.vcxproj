@@ -80,9 +80,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\chleb\Desktop\projekty\soviet\lib\catch;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\chleb\Desktop\projekty\soviet\lib\catch;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -170,9 +172,11 @@
     <ClInclude Include="evaluator\values\Value.hpp" />
     <ClInclude Include="evaluator\values\values.hpp" />
     <ClInclude Include="evaluator\values\ValueType.hpp" />
+    <ClInclude Include="file.hpp" />
     <ClInclude Include="parser\dumpNode.hpp" />
     <ClInclude Include="parser\nodeCast.hpp" />
     <ClInclude Include="parser\nodes.hpp" />
+    <ClInclude Include="repl.hpp" />
     <ClInclude Include="tokenizer\NoTokensError.hpp" />
     <ClInclude Include="parser\ParseError.hpp" />
     <ClInclude Include="parser\Parser.hpp" />
