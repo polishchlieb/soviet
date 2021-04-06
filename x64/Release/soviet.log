@@ -5,6 +5,7 @@ C:\Users\chleb\Desktop\projekty\soviet\evaluator\modules\Array.hpp(168,27): warn
 C:\Users\chleb\Desktop\projekty\soviet\evaluator\modules\String.hpp(32,1): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
 C:\Users\chleb\Desktop\projekty\soviet\evaluator\modules\String.hpp(64,55): warning C4244: 'argument': conversion from 'const float' to 'const unsigned __int64', possible loss of data
 C:\Users\chleb\Desktop\projekty\soviet\evaluator\modules\String.hpp(109,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\chleb\Desktop\projekty\soviet\evaluator\evaluator.hpp(371,1): warning C4267: 'argument': conversion from 'size_t' to 'const unsigned int', possible loss of data
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xmemory(230,33): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(1563): message : see reference to function template instantiation 'void std::_Construct_in_place<_Ty,unsigned int&>(_Ty &,unsigned int &) noexcept(false)' being compiled
           with
@@ -43,9 +44,9 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.2
               _Ty=soviet::NumberValue
           ]
 C:\Users\chleb\Desktop\projekty\soviet\evaluator\modules\Array.hpp(182): message : see reference to function template instantiation 'std::shared_ptr<soviet::NumberValue> std::make_shared<soviet::NumberValue,size_t>(size_t &&)' being compiled
-  test.cpp
   Generating code
-  Compiler switch has changed, fall back to full compilation.
-  All 3363 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 3363 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   soviet.vcxproj -> C:\Users\chleb\Desktop\projekty\soviet\x64\Release\soviet.exe

@@ -353,25 +353,29 @@ namespace soviet {
 					return setVariable(name, value);
 				}
 				case NodeType::ArrayNode: {
-					if (node->right->type != NodeType::ArrayNode)
-						throw EvaluateError("value destructured to an array must be an array");
+					// if (node->right->type != NodeType::ArrayNode)
+					//	throw EvaluateError("value destructured to an array must be an array");
 					
 					const auto left = nodeCast<ArrayNode>(node->left);
-					const auto right = nodeCast<ArrayNode>(node->right);
-					if (left->elements.size() != right->elements.size())
+					const auto _right = evaluate(node->right);
+					if (_right->type != ValueType::ArrayValue)
+						throw EvaluateError("value destructured to an array must be an array");
+
+					const auto right = valueCast<ArrayValue>(_right);
+					if (left->elements.size() != right->size())
 						throw EvaluateError("arrays have to be the same length when destructuring");
 
 					std::vector<std::shared_ptr<Value>> result;
 					for (size_t i = 0; i < left->elements.size(); ++i) {
 						const auto name = nodeCast<NameNode>(left->elements[i])->value;
-						const auto value = evaluate(right->elements[i]);
+						const auto value = right->at(i);
 						setVariable(name, value);
 						result.push_back(value);
 					}
 
 					return std::make_shared<ArrayValue>(result);
 				}
-				// add objects and their destructuring
+				// add objects (maps) and their destructuring
 				default:
 					throw EvaluateError("Unknown operands");
 			}
