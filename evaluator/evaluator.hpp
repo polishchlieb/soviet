@@ -61,13 +61,9 @@ namespace soviet {
 			}
 		}
 
-		auto callFunction(const std::shared_ptr<FunctionValue>& function, const std::vector<std::shared_ptr<Node>>& arguments) {
-			if (function->isNative) {
-				std::vector<std::shared_ptr<Value>> args;
-				for (const auto& arg : arguments)
-					args.push_back(evaluate(arg));
-				return function->run(*this, args);
-			}
+		auto callFunction(const std::shared_ptr<FunctionValue>& function, std::vector<std::shared_ptr<Value>>& arguments) {
+			if (function->isNative)
+				return function->run(*this, arguments);
 
 			if (arguments.size() != function->prototype->args.size()) {
 				const auto expectedArgs = std::to_string(function->prototype->args.size());
@@ -87,7 +83,7 @@ namespace soviet {
 			auto functionScope = std::make_shared<Scope>(*this);
 			for (int i = 0; i < function->prototype->args.size(); ++i) {
 				const auto& argName = nodeCast<NameNode>(function->prototype->args[i])->value;
-				const auto& argValue = evaluate(arguments[i]);
+				const auto& argValue = arguments[i];
 				functionScope->variables[argName] = argValue;
 			}
 			currentContext.push_back(std::move(functionScope));
@@ -522,33 +518,16 @@ namespace soviet {
 				throw EvaluateError("You can only call a function");
 
 			auto function = valueCast<FunctionValue>(functionValue);
-			return callFunction(function, n->arguments);
+
+			std::vector<std::shared_ptr<Value>> args;
+			for (const auto& argument : n->arguments)
+				args.push_back(evaluate(argument));
+
+			return callFunction(function, args);
 		}
 
-		auto evaluatePrototypeNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluatePrototypeNode(const std::shared_ptr<Node>& node) {
 			auto n = nodeCast<PrototypeNode>(node);
-
-			/*return std::make_shared<FunctionValue>(
-				[this, n](Evaluator& evaluator, const std::vector<std::shared_ptr<Value>>& args) {
-					auto functionScope = std::make_shared<Scope>(evaluator);
-					for (unsigned int i = 0; i < n->args.size(); ++i)
-						functionScope->variables.insert({
-							nodeCast<NameNode>(n->args[i])->value,
-							args[i]
-						});
-					evaluator.currentContext.push_back(functionScope);
-
-					auto value = evaluator.evaluate(n->returnValue);
-					if (value->type == ValueType::ExplicitReturnValue)
-						value = valueCast<ExplicitReturnValue>(value)->value;
-
-					evaluator.currentContext.pop_back();
-
-					return value;
-				},
-				currentContext
-			); */
 			return std::make_shared<FunctionValue>(n, currentContext);
 		}
 
@@ -629,8 +608,7 @@ namespace soviet {
 				const auto f = valueCast<FunctionValue>(function);
 
 				std::vector<std::shared_ptr<Value>> args{std::move(value)};
-				// return f->run(*this, args);
-				throw EvaluateError("not implemented");
+				return callFunction(f, args);
 			}
 		}
 

@@ -5,7 +5,7 @@ namespace soviet {
 		evaluator = std::make_unique<Evaluator>(*this);
 
 		thread = std::thread{ [this, function]() {
-			std::vector<std::shared_ptr<Node>> args;
+			std::vector<std::shared_ptr<Value>> args;
 			evaluator->callFunction(function, args);
 		} };
 	}
