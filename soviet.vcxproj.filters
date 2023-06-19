@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="test\test.cpp" />
+    <ClCompile Include="evaluator\modules\ThreadModule.cpp" />
+    <ClCompile Include="evaluator\Thread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tokenizer\FileReadError.hpp" />
+    <ClInclude Include="tokenizer\Token.hpp" />
+    <ClInclude Include="tokenizer\Tokenizer.hpp" />
+    <ClInclude Include="tokenizer\TokenType.hpp" />
+    <ClInclude Include="util\colors.hpp" />
+    <ClInclude Include="util\Error.hpp" />
+    <ClInclude Include="util\util.hpp" />
+    <ClInclude Include="evaluator\EvaluateError.hpp" />
+    <ClInclude Include="evaluator\evaluator.hpp" />
+    <ClInclude Include="evaluator\GlobalScope.hpp" />
+    <ClInclude Include="evaluator\Scope.hpp" />
+    <ClInclude Include="evaluator\valueCast.hpp" />
+    <ClInclude Include="evaluator\values\ArrayValue.hpp" />
+    <ClInclude Include="evaluator\values\BooleanValue.hpp" />
+    <ClInclude Include="evaluator\values\ExplicitReturnValue.hpp" />
+    <ClInclude Include="evaluator\values\FunctionValue.hpp" />
+    <ClInclude Include="evaluator\values\NumberValue.hpp" />
+    <ClInclude Include="evaluator\values\StringValue.hpp" />
+    <ClInclude Include="evaluator\values\Value.hpp" />
+    <ClInclude Include="evaluator\values\values.hpp" />
+    <ClInclude Include="evaluator\values\ValueType.hpp" />
+    <ClInclude Include="parser\dumpNode.hpp" />
+    <ClInclude Include="parser\nodeCast.hpp" />
+    <ClInclude Include="parser\ParseError.hpp" />
+    <ClInclude Include="parser\Parser.hpp" />
+    <ClInclude Include="parser\nodes.hpp" />
+    <ClInclude Include="evaluator\values\MapValue.hpp" />
+    <ClInclude Include="evaluator\modules\Map.hpp" />
+    <ClInclude Include="evaluator\modules\Module.hpp" />
+    <ClInclude Include="evaluator\modules\Array.hpp" />
+    <ClInclude Include="evaluator\modules\IO.hpp" />
+    <ClInclude Include="evaluator\modules\String.hpp" />
+    <ClInclude Include="tokenizer\TokenList.hpp" />
+    <ClInclude Include="tokenizer\NoTokensError.hpp" />
+    <ClInclude Include="file.hpp" />
+    <ClInclude Include="repl.hpp" />
+    <ClInclude Include="evaluator\modules\Math.hpp" />
+    <ClInclude Include="evaluator\values\RangeValue.hpp" />
+    <ClInclude Include="evaluator\Frame.hpp" />
+    <ClInclude Include="evaluator\modules\ThreadModule.hpp" />
+    <ClInclude Include="evaluator\Thread.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.soviet" />
+  </ItemGroup>
+</Project>

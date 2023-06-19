@@ -1,0 +1,17 @@
+#ifndef SOVIET_VALUES_HPP
+#define SOVIET_VALUES_HPP
+
+#include "Value.hpp"
+#include "ValueType.hpp"
+#include "../valueCast.hpp"
+
+#include "NumberValue.hpp"
+#include "BooleanValue.hpp"
+#include "StringValue.hpp"
+#include "FunctionValue.hpp"
+#include "ArrayValue.hpp"
+#include "ExplicitReturnValue.hpp"
+#include "MapValue.hpp"
+#include "RangeValue.hpp"
+
+#endif //SOVIET_VALUES_HPP
