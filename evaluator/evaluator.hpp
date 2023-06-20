@@ -249,6 +249,8 @@ namespace soviet {
 					return scope->variables[n->value];
 			}
 
+			
+
 			throw EvaluateError("unknow name: " + n->value);
 		}
 
@@ -462,55 +464,21 @@ namespace soviet {
 			throw EvaluateError("Unexpected node");
 		}
 
-		bool equals(const std::shared_ptr<Value>& left, const std::shared_ptr<Value>& right) {
-			if (left->type != right->type)
-				return false;
-
-			switch (left->type) {
-			case ValueType::NumberValue: {
-				const auto leftNum = valueCast<NumberValue>(left);
-				const auto rightNum = valueCast<NumberValue>(right);
-				return leftNum->equals(rightNum);
-			}
-			case ValueType::BooleanValue: {
-				const auto leftBool = valueCast<BooleanValue>(left);
-				const auto rightBool = valueCast<BooleanValue>(right);
-				return leftBool->value == rightBool->value;
-			}
-			case ValueType::StringValue: {
-				const auto leftString = valueCast<StringValue>(left);
-				const auto rightString = valueCast<StringValue>(right);
-				return leftString->value == rightString->value;
-			}
-			case ValueType::UndefinedValue:
-				return true;
-			case ValueType::FunctionValue:
-				return left == right;
-			case ValueType::ExplicitReturnValue:
-				throw EvaluateError("what the fuck is explicit return value");
-			default:
-				throw EvaluateError("Unknown error");
-			}
-		}
-
-		auto evaluateDoubleEqualsOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateDoubleEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 
-			return std::make_shared<BooleanValue>(equals(left, right));
+			return std::make_shared<BooleanValue>(left->equals(right));
 		}
 
-		auto evaluateNotEqualsOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateNotEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 
-			return std::make_shared<BooleanValue>(!equals(left, right));
+			return std::make_shared<BooleanValue>(!left->equals(right));
 		}
 
-		auto evaluateFuncCallNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateFuncCallNode(const std::shared_ptr<Node>& node) {
 			const auto n = nodeCast<FuncCallNode>(node);
 			const auto functionValue = evaluate(n->name);
 
@@ -531,8 +499,7 @@ namespace soviet {
 			return std::make_shared<FunctionValue>(n, currentContext);
 		}
 
-		auto evaluateBlockNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateBlockNode(const std::shared_ptr<Node>& node) {
 			const auto n = nodeCast<BlockNode>(node);
 
 			currentContext.push_back(std::make_shared<Scope>(*this));
@@ -548,14 +515,12 @@ namespace soviet {
 			return std::make_shared<UndefinedValue>();
 		}
 
-		static auto evaluateBooleanNode(const std::shared_ptr<Node>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateBooleanNode(const std::shared_ptr<Node>& node) {
 			const auto n = nodeCast<BooleanNode>(node);
 			return std::make_shared<BooleanValue>(n->value);
 		}
 
-		auto evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node)
-		  -> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node) {
 			if (node->left->type != NodeType::NameNode)
 				throw EvaluateError("tf?!?!");
 
@@ -585,6 +550,9 @@ namespace soviet {
 			m->name = std::move(moduleNode->name);
 			for (const auto& [name, value] : moduleNode->members)
 				m->variables.emplace(name, evaluate(value));
+
+			if (currentContext.size() != 1)
+				throw EvaluateError{"modules can only be declared in global scope"};
 
 			currentContext[0]->modules.emplace(m->name, m);
 

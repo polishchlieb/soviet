@@ -22,28 +22,21 @@ namespace soviet {
         std::shared_ptr<PrototypeNode> prototype;
         bool isNative = false;
 
-        explicit FunctionValue(RunFunction run)
-            : Value{ ValueType::FunctionValue }, run(std::move(run)), isNative(true) {}
+        FunctionValue(RunFunction run)
+            : Value{ValueType::FunctionValue}, run(std::move(run)), isNative(true) {}
 
-        /*explicit FunctionValue(RunFunction run, DeclarationScope declarationScope)
-            : Value{ValueType::FunctionValue}, run(std::move(run)),
-            declarationScope(std::move(declarationScope)) {} */
-
-        explicit FunctionValue(std::shared_ptr<PrototypeNode> prototype, DeclarationScope declarationScope)
+        FunctionValue(std::shared_ptr<PrototypeNode> prototype, DeclarationScope declarationScope)
             : Value{ValueType::FunctionValue}, prototype(std::move(prototype)),
               declarationScope(std::move(declarationScope)) {}
 
         DeclarationScope declarationScope;
 
         bool equals(const std::shared_ptr<Value>& other) {
-            return false;
+            return other.get() == this;
         }
 
-        /*std::shared_ptr<Value> clone() override {
-            return std::make_shared<FunctionValue>(run);
-        }*/
         std::shared_ptr<Value> clone() override {
-            return nullptr;
+            return std::shared_ptr<FunctionValue>{this};
         }
 
         std::string dump() const override {
