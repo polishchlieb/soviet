@@ -5,6 +5,8 @@
     <ClCompile Include="test\test.cpp" />
     <ClCompile Include="evaluator\modules\ThreadModule.cpp" />
     <ClCompile Include="evaluator\Thread.cpp" />
+    <ClCompile Include="file.cpp" />
+    <ClCompile Include="evaluator\evaluator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer\FileReadError.hpp" />

@@ -251,6 +251,8 @@ namespace soviet {
 				return parseWhileLoop();
 			if (token.value == "for")
 				return parseForLoop();
+			if (token.value == "import")
+				return parseImport();
 			if (token.value == "module")
 				return parseModuleDefinition();
 
@@ -331,6 +333,19 @@ namespace soviet {
 		std::shared_ptr<Node> parseNegation() {
 			tokens.getNextToken(); // eat !
 			return std::make_shared<NegationNode>(parseExpression());
+		}
+
+		std::shared_ptr<Node> parseImport() {
+			auto moduleName = tokens.getNextToken();
+			if (moduleName.type != TokenType::name && moduleName.type != TokenType::string)
+				throw ParseError{"import statement must be followed by module name"};
+
+			return std::make_shared<ImportNode>(
+				moduleName.value,
+				moduleName.type == TokenType::name
+					? ImportNodeType::module
+					: ImportNodeType::file
+			);
 		}
 
 		std::shared_ptr<Node> parseAssignment() {

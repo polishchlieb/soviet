@@ -41,7 +41,7 @@ namespace soviet {
         pipe_op
     };
 
-    std::string dumpTokenType(const TokenType type) {
+    static std::string dumpTokenType(const TokenType type) {
         switch (type) {
             case TokenType::undefined: return "undefined";
             case TokenType::unknown: return "unknown";

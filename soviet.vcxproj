@@ -147,8 +147,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="evaluator\evaluator.cpp" />
     <ClCompile Include="evaluator\modules\ThreadModule.cpp" />
     <ClCompile Include="evaluator\Thread.cpp" />
+    <ClCompile Include="file.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test\test.cpp" />
   </ItemGroup>

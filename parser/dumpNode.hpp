@@ -132,6 +132,12 @@ namespace soviet {
                 dump(n->expression, spacing + 2);
                 break;
             }
+            case NodeType::ImportNode: {
+                const auto n = nodeCast<ImportNode>(node);
+                std::cout << times(" ", spacing)
+                    << dumpNodeType(n->type) << ":" << n->moduleName << std::endl;
+                break;
+            }
             case NodeType::WhileLoopNode: {
                 const auto n = nodeCast<WhileLoopNode>(node);
                 std::cout << times(" ", spacing)

@@ -12,6 +12,8 @@
 #include <cfloat>
 #include "Scope.hpp"
 #include "GlobalScope.hpp"
+#include <fstream>
+#include "../file.hpp"
 
 namespace soviet {
 	class Thread;
@@ -56,6 +58,8 @@ namespace soviet {
 				return evaluateForLoopNode(node);
 			case NodeType::PipeOpNode:
 				return evaluatePipeOpNode(node);
+			case NodeType::ImportNode:
+				return evaluateImportNode(node);
 			default:
 				throw EvaluateError("Unexpected node");
 			}
@@ -102,8 +106,7 @@ namespace soviet {
 	private:
 		std::vector<std::shared_ptr<Scope>> currentContext;
 
-		auto evaluateBinOpNode(const std::shared_ptr<Node>& node)
-			-> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateBinOpNode(const std::shared_ptr<Node>& node) {
 			const auto n = nodeCast<BinOpNode>(node);
 
 			switch (n->binOpType) {
@@ -138,8 +141,9 @@ namespace soviet {
 #endif
 		}
 
-		auto evaluateLessThanOpNode(const std::shared_ptr<BinOpNode>& node)
-			-> std::shared_ptr<Value> {
+		std::shared_ptr<Value> evaluateImportNode(const std::shared_ptr<Node>& node);
+
+		std::shared_ptr<Value> evaluateLessThanOpNode(const std::shared_ptr<BinOpNode>& node) {
 			const auto left = evaluate(node->left);
 			const auto right = evaluate(node->right);
 			if (left->type != ValueType::NumberValue || right->type != ValueType::NumberValue) {

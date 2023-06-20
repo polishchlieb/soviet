@@ -114,6 +114,19 @@ namespace soviet {
 		) : Node{NodeType::BlockNode}, nodes(std::move(nodes)) {}
 	};
 
+	enum class ImportNodeType {
+		file,
+		module
+	};
+
+	struct ImportNode : Node {
+		std::string moduleName;
+		ImportNodeType importType;
+
+		ImportNode(std::string moduleName, ImportNodeType type)
+			: Node{NodeType::ImportNode}, moduleName(std::move(moduleName)), importType(type) {}
+	};
+
 	struct ModuleNode : Node {
 		std::string name;
 		std::unordered_map<std::string, std::shared_ptr<Node>> members;
