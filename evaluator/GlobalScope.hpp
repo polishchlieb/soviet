@@ -21,11 +21,6 @@ namespace soviet {
             modules.insert({"Math", new MathModule{evaluator}});
             modules.insert({"Thread", new ThreadModule{evaluator}});
         }
-
-        ~GlobalScope() {
-            for (const auto& [name, mod] : modules)
-                delete mod;
-        }
     };
 }
 

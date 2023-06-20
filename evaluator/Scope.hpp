@@ -21,6 +21,11 @@ namespace soviet {
                 variables.insert({ name, value });
         }
 
+        ~Scope() {
+            for (const auto& [name, mod] : modules)
+                delete mod;
+        }
+
         std::unordered_map<std::string, std::shared_ptr<Value>> variables;
         std::unordered_map<std::string, Module*> modules;
     protected:
