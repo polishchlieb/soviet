@@ -26,6 +26,11 @@ void getfileline(soviet::Evaluator& evaluator, std::ifstream& file, std::string 
 		tree = parser.parse();
 	} catch (const soviet::Error& error) {
 		if (error.type == soviet::ErrorType::NoTokens) {
+			if (file.eof()) {
+				std::cout << "ParseError: parser needs a token, but file finished reading" << std::endl;
+				exit(69);
+			}
+
 			getfileline(evaluator, file, line);
 		} else {
 			error.print();
