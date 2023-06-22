@@ -253,8 +253,6 @@ namespace soviet {
 					return scope->variables[n->value];
 			}
 
-			
-
 			throw EvaluateError("unknow name: " + n->value);
 		}
 
@@ -528,8 +526,8 @@ namespace soviet {
 			if (node->left->type != NodeType::NameNode)
 				throw EvaluateError("tf?!?!");
 
-			const auto left = nodeCast<NameNode>(node->left)->value;
-			const auto right = nodeCast<NameNode>(node->right)->value;
+			const auto& left = nodeCast<NameNode>(node->left)->value;
+			const auto& right = nodeCast<NameNode>(node->right)->value;
 
 			bool objectExists = false;
 			for (auto& scope : currentContext) {

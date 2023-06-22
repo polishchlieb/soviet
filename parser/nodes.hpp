@@ -114,16 +114,17 @@ namespace soviet {
 		) : Node{NodeType::BlockNode}, nodes(std::move(nodes)) {}
 	};
 
-	enum class ImportNodeType {
+	enum class ImportType {
 		file,
-		module
+		module,
+		dll
 	};
 
 	struct ImportNode : Node {
 		std::string moduleName;
-		ImportNodeType importType;
+		ImportType importType;
 
-		ImportNode(std::string moduleName, ImportNodeType type)
+		ImportNode(std::string moduleName, ImportType type)
 			: Node{NodeType::ImportNode}, moduleName(std::move(moduleName)), importType(type) {}
 	};
 

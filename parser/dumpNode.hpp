@@ -134,8 +134,13 @@ namespace soviet {
             }
             case NodeType::ImportNode: {
                 const auto n = nodeCast<ImportNode>(node);
+
+                std::string importType = "file";
+                if (n->importType == ImportType::dll) importType = "dll";
+                else if (n->importType == ImportType::module) importType = "module";
+
                 std::cout << times(" ", spacing)
-                    << dumpNodeType(n->type) << ":" << n->moduleName << std::endl;
+                    << dumpNodeType(n->type) << " (" << importType << "):" << n->moduleName << std::endl;
                 break;
             }
             case NodeType::WhileLoopNode: {

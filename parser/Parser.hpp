@@ -340,11 +340,21 @@ namespace soviet {
 			if (moduleName.type != TokenType::name && moduleName.type != TokenType::string)
 				throw ParseError{"import statement must be followed by module name"};
 
+			if (moduleName.type != TokenType::name || moduleName.value != "c")
+				return std::make_shared<ImportNode>(
+					moduleName.value,
+					moduleName.type == TokenType::name
+						? ImportType::module
+						: ImportType::file
+				);
+
+			moduleName = tokens.getNextToken();
+			if (moduleName.type != TokenType::string)
+				throw ParseError{"c import statement must be followed by file path"};
+
 			return std::make_shared<ImportNode>(
 				moduleName.value,
-				moduleName.type == TokenType::name
-					? ImportNodeType::module
-					: ImportNodeType::file
+				ImportType::dll
 			);
 		}
 
