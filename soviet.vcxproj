@@ -148,6 +148,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="evaluator\evaluator.cpp" />
+    <ClCompile Include="evaluator\modules\Array.cpp" />
+    <ClCompile Include="evaluator\modules\IO.cpp" />
+    <ClCompile Include="evaluator\modules\Map.cpp" />
+    <ClCompile Include="evaluator\modules\Math.cpp" />
+    <ClCompile Include="evaluator\modules\String.cpp" />
     <ClCompile Include="evaluator\modules\ThreadModule.cpp" />
     <ClCompile Include="evaluator\Thread.cpp" />
     <ClCompile Include="file.cpp" />

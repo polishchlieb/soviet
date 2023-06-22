@@ -22,8 +22,8 @@ namespace soviet {
         }
 
         ~Scope() {
-            for (const auto& [name, mod] : modules)
-                delete mod;
+            for (auto& mod : modules)
+                delete mod.second;
         }
 
         std::unordered_map<std::string, std::shared_ptr<Value>> variables;
