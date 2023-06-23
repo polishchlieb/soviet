@@ -1,6 +1,4 @@
-#ifndef SOVIET_EXPLICITRETURNVALUE_HPP
-#define SOVIET_EXPLICITRETURNVALUE_HPP
-
+#pragma once
 #include <memory>
 #include "Value.hpp"
 
@@ -9,21 +7,9 @@ namespace soviet {
     public:
         std::shared_ptr<Value> value;
 
-        explicit ExplicitReturnValue(std::shared_ptr<Value>&& value)
-            : Value{ValueType::ExplicitReturnValue}, value(std::move(value)) {}
-
-        bool equals(const std::shared_ptr<Value>& other) {
-            return false;
-        }
-
-        std::shared_ptr<Value> clone() override {
-            return std::make_shared<ExplicitReturnValue>(value->clone());
-        }
-
-        std::string dump() const override {
-            return "<explicit return value>";
-        }
+        explicit ExplicitReturnValue(std::shared_ptr<Value> value);
+        bool equals(const std::shared_ptr<Value>& other);
+        std::shared_ptr<Value> clone() override;
+        std::string dump() const override;
     };
 }
-
-#endif //SOVIET_EXPLICITRETURNVALUE_HPP

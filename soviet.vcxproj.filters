@@ -12,6 +12,14 @@
     <ClCompile Include="evaluator\modules\Map.cpp" />
     <ClCompile Include="evaluator\modules\Math.cpp" />
     <ClCompile Include="evaluator\modules\String.cpp" />
+    <ClCompile Include="evaluator\values\ArrayValue.cpp" />
+    <ClCompile Include="evaluator\values\BooleanValue.cpp" />
+    <ClCompile Include="evaluator\values\ExplicitReturnValue.cpp" />
+    <ClCompile Include="evaluator\values\FunctionValue.cpp" />
+    <ClCompile Include="evaluator\values\MapValue.cpp" />
+    <ClCompile Include="evaluator\values\NumberValue.cpp" />
+    <ClCompile Include="evaluator\values\RangeValue.cpp" />
+    <ClCompile Include="evaluator\values\StringValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer\FileReadError.hpp" />

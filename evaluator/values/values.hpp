@@ -1,5 +1,4 @@
-#ifndef SOVIET_VALUES_HPP
-#define SOVIET_VALUES_HPP
+#pragma once
 
 #include "Value.hpp"
 #include "ValueType.hpp"
@@ -13,5 +12,3 @@
 #include "ExplicitReturnValue.hpp"
 #include "MapValue.hpp"
 #include "RangeValue.hpp"
-
-#endif //SOVIET_VALUES_HPP

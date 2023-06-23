@@ -1,6 +1,4 @@
-#ifndef SOVIET_VALUETYPE_HPP
-#define SOVIET_VALUETYPE_HPP
-
+#pragma once
 #include <string>
 
 namespace soviet {
@@ -31,5 +29,3 @@ namespace soviet {
         return "wtf";
     }
 }
-
-#endif //SOVIET_VALUETYPE_HPP

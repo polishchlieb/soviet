@@ -1,6 +1,5 @@
-#ifndef SOVIET_VALUE_HPP
-#define SOVIET_VALUE_HPP
-
+#pragma once
+#include <memory>
 #include "ValueType.hpp"
 
 namespace soviet {
@@ -12,9 +11,7 @@ namespace soviet {
 
         virtual bool equals(const std::shared_ptr<Value>&) = 0;
         virtual std::shared_ptr<Value> clone() = 0;
-        virtual std::string dump() const = 0; /* {
-            return "<wtf>";
-        } */
+        virtual std::string dump() const = 0;
     };
 
     class UndefinedValue : public Value {
@@ -34,5 +31,3 @@ namespace soviet {
         }
     };
 }
-
-#endif //SOVIET_VALUE_HPP
