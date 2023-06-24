@@ -1,25 +1,15 @@
-#ifndef SOVIET_FILEREADERROR_HPP
-#define SOVIET_FILEREADERROR_HPP
-
+#pragma once
 #include <exception>
 #include "../util/Error.hpp"
 
 namespace soviet {
     class FileReadError {
     public:
-        explicit FileReadError(std::string value)
-            : value(std::move(value)) {}
+        explicit FileReadError(std::string value);
 
-        const char* name() const noexcept {
-            return "FileReadError";
-        }
-
-        std::string message() const noexcept {
-            return this->value;
-        }
+        const char* name() const noexcept;
+        std::string message() const noexcept;
     private:
         std::string value;
     };
 }
-
-#endif //SOVIET_FILEREADERROR_HPP

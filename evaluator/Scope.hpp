@@ -1,6 +1,4 @@
-#ifndef SOVIET_SCOPE_HPP
-#define SOVIET_SCOPE_HPP
-
+#pragma once
 #include <unordered_map>
 #include <string>
 #include <memory>
@@ -10,21 +8,11 @@
 namespace soviet {
     class Scope {
     public:
-        Scope(Evaluator& evaluator) : evaluator{evaluator} {}
+        Scope(Evaluator& evaluator);
+        ~Scope();
 
-        void merge(Scope& other) {
-            this->merge(&other);
-        }
-
-        void merge(Scope* other) {
-            for (const auto& [name, value] : other->variables)
-                variables.insert({ name, value });
-        }
-
-        ~Scope() {
-            for (auto& mod : modules)
-                delete mod.second;
-        }
+        void merge(Scope& other);
+        void merge(Scope* other);
 
         std::unordered_map<std::string, std::shared_ptr<Value>> variables;
         std::unordered_map<std::string, Module*> modules;
@@ -32,5 +20,3 @@ namespace soviet {
         Evaluator& evaluator;
     };
 }
-
-#endif //SOVIET_SCOPE_HPP

@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
 	Catch::Session().run(1, argv);
 #else
 	if (argc == 1) { // REPL
-		std::cout << "wellCUM to soviet 2.0 REPL (Really Epic Program Launcher)" << std::endl
+		std::cout << "wellCUM to piwo 2.0 REPL (Really Epic Program Launcher)" << std::endl
 			<< std::endl;
 
 		while (true) {

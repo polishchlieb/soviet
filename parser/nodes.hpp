@@ -1,9 +1,8 @@
-#ifndef SOVIET_NODES_HPP
-#define SOVIET_NODES_HPP
+#pragma once
 #include <memory>
-#include <utility>
 #include <vector>
 #include <unordered_map>
+#include <string>
 #include "ParseError.hpp"
 
 namespace soviet {
@@ -43,67 +42,30 @@ namespace soviet {
 		NodeType type;
 	};
 
-	static std::string dumpNodeType(const NodeType type) {
-		switch (type) {
-			case NodeType::NumberNode: return "number_node";
-			case NodeType::AddOpNode: return "add_operator_node";
-			case NodeType::SubOpNode: return "substract_operator_node";
-			case NodeType::MulOpNode: return "multiply_operator_node";
-			case NodeType::DivOpNode: return "divide_operator_node";
-			case NodeType::EqualsOpNode: return "equals_operator_node";
-			case NodeType::DoubleEqualsOpNode: return "double_equals_operator_node";
-			case NodeType::NotEqualsOpNode: return "not_equals_operator_node";
-			case NodeType::NameNode: return "name_node";
-			case NodeType::FuncCallNode: return "function_call_node";
-			case NodeType::StringNode: return "string_node";
-			case NodeType::IfNode: return "if_node";
-			case NodeType::PrototypeNode: return "prototype_node";
-			case NodeType::BlockNode: return "block_node";
-			case NodeType::DotOpNode: return "dot_operator_node";
-			case NodeType::ReturnNode: return "return_node";
-			case NodeType::ImportNode: return "import_node";
-			case NodeType::GreaterThanOpNode: return "greater_than_operator_node";
-			case NodeType::LessThanOpNode: return "less_than_operator_node";
-			case NodeType::NegationNode: return "negation_node";
-			case NodeType::GreaterThanOrEqualOpNode: return "greater_than_or_equal_operator_node";
-			case NodeType::LessThanOrEqualOpNode: return "less_than_or_equal_operator_node";
-			case NodeType::BooleanNode: return "boolean_node";
-			case NodeType::ArrayNode: return "array_node";
-			case NodeType::WhileLoopNode: return "while_loop_node";
-			case NodeType::BinOpNode: return "bin_op_node";
-			case NodeType::ModuleNode: return "module_node";
-			case NodeType::ForLoopNode: return "for_loop_node";
-			case NodeType::PipeOpNode: return "pipe_op_node";
-			default:
-				throw ParseError("Unknown error");
-		}
-	}
+	std::string dumpNodeType(const NodeType type);
 
 	struct AddOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		AddOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::AddOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		AddOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct ArrayNode : Node {
 		std::vector<std::shared_ptr<Node>> elements;
-		explicit ArrayNode(std::vector<std::shared_ptr<Node>> elements)
-			: Node{ NodeType::ArrayNode }, elements(std::move(elements)) {}
+		explicit ArrayNode(std::vector<std::shared_ptr<Node>> elements);
 	};
 
 	struct SubOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		SubOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::SubOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		SubOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct NumberNode : Node {
 		float value;
-		explicit NumberNode(float value) : Node{ NodeType::NumberNode }, value(value) {}
+		explicit NumberNode(float value);
 	};
 
 	struct BlockNode : Node {
@@ -111,7 +73,7 @@ namespace soviet {
 
 		explicit BlockNode(
 			std::vector<std::shared_ptr<Node>> nodes
-		) : Node{NodeType::BlockNode}, nodes(std::move(nodes)) {}
+		);
 	};
 
 	enum class ImportType {
@@ -124,8 +86,7 @@ namespace soviet {
 		std::string moduleName;
 		ImportType importType;
 
-		ImportNode(std::string moduleName, ImportType type)
-			: Node{NodeType::ImportNode}, moduleName(std::move(moduleName)), importType(type) {}
+		ImportNode(std::string moduleName, ImportType type);
 	};
 
 	struct ModuleNode : Node {
@@ -135,53 +96,46 @@ namespace soviet {
 		explicit ModuleNode(
 			std::string name,
 			std::unordered_map<std::string, std::shared_ptr<Node>> members
-		) : Node{NodeType::ModuleNode},
-			name(std::move(name)), members(std::move(members)) {}
+		);
 	};
 
 	struct BooleanNode : Node {
 		bool value;
-		explicit BooleanNode(bool value)
-			: Node{ NodeType::BooleanNode }, value(value) {}
+		explicit BooleanNode(bool value);
 	};
 
 	struct DivOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		DivOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::DivOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		DivOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct DotOpNode : Node {
 		std::shared_ptr<Node> left, right;
 
-		DotOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right)
-			: Node{ NodeType::DotOpNode }, left(left), right(right) {}
+		DotOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct DoubleEqualsOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		DoubleEqualsOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::DoubleEqualsOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		DoubleEqualsOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct NotEqualsOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		NotEqualsOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::NotEqualsOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		NotEqualsOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct EqualsOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		EqualsOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::EqualsOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		EqualsOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct FuncCallNode : Node {
@@ -191,9 +145,7 @@ namespace soviet {
 		FuncCallNode(
 			std::shared_ptr<Node> name,
 			std::vector<std::shared_ptr<Node>> arguments
-		)
-			: Node{ NodeType::FuncCallNode },
-			name(std::move(name)), arguments(std::move(arguments)) {}
+		);
 	};
 
 	struct GreaterThanOpNode : Node {
@@ -202,8 +154,7 @@ namespace soviet {
 		GreaterThanOpNode(
 			std::shared_ptr<Node> left,
 			std::shared_ptr<Node> right
-		) : Node{ NodeType::GreaterThanOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		);
 	};
 
 	struct GreaterThanOrEqualOpNode : Node {
@@ -212,8 +163,7 @@ namespace soviet {
 		GreaterThanOrEqualOpNode(
 			std::shared_ptr<Node> left,
 			std::shared_ptr<Node> right
-		) : Node{ NodeType::GreaterThanOrEqualOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		);
 	};
 
 	struct IfNode : Node {
@@ -225,26 +175,21 @@ namespace soviet {
 			std::shared_ptr<Node> condition,
 			std::shared_ptr<Node> body,
 			std::shared_ptr<Node> elseBody
-		)
-			: Node{ NodeType::IfNode }, condition(std::move(condition)),
-			body(std::move(body)), elseBody(std::move(elseBody)) {}
+		);
 
 		IfNode(
 			std::shared_ptr<Node> condition,
 			std::shared_ptr<Node> body
-		)
-			: Node{ NodeType::IfNode }, condition(std::move(condition)),
-			body(std::move(body)) {}
+		);
 	};
 
 	template<typename T>
 	struct LeafNode : Node {
 		T value;
-#if DEBUG
+
 		LeafNode() {
 			throw std::runtime_error("constructor of LeafNode was called");
 		}
-#endif
 	};
 
 	struct LessThanOpNode : Node {
@@ -253,8 +198,7 @@ namespace soviet {
 		LessThanOpNode(
 			std::shared_ptr<Node> left,
 			std::shared_ptr<Node> right
-		) : Node{ NodeType::LessThanOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		);
 	};
 
 	struct LessThanOrEqualOpNode : Node {
@@ -263,38 +207,33 @@ namespace soviet {
 		LessThanOrEqualOpNode(
 			std::shared_ptr<Node> left,
 			std::shared_ptr<Node> right
-		) : Node{ NodeType::LessThanOrEqualOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		);
 	};
 
 	struct MulOpNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		MulOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right) : Node{ NodeType::MulOpNode },
-			left(std::move(left)), right(std::move(right)) {}
+		MulOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct NameNode : Node {
 		std::string value;
 
-		explicit NameNode(std::string value) : Node{ NodeType::NameNode }, value(std::move(value)) {}
+		explicit NameNode(std::string value);
 	};
 
 	struct NegationNode : Node {
 		std::shared_ptr<Node> expression;
 
-		explicit NegationNode(std::shared_ptr<Node> expression)
-			: Node{ NodeType::NegationNode }, expression(expression) {}
+		explicit NegationNode(std::shared_ptr<Node> expression);
 	};
 
 	struct OperatorNode : Node {
 		std::shared_ptr<Node> left;
 		std::shared_ptr<Node> right;
 
-		OperatorNode() : Node() {
-			throw std::runtime_error("constructor of OperatorNode was called");
-		}
+		OperatorNode();
 	};
 
 	struct PrototypeNode : Node {
@@ -304,31 +243,25 @@ namespace soviet {
 		PrototypeNode(
 			std::vector<std::shared_ptr<Node>> args,
 			std::shared_ptr<Node> returnValue
-		)
-			: Node{ NodeType::PrototypeNode },
-			args(std::move(args)), returnValue(std::move(returnValue)) {}
+		);
 	};
 
 	struct ReturnNode : Node {
 		std::shared_ptr<Node> returnValue;
 
-		explicit ReturnNode(std::shared_ptr<Node> returnValue)
-			: Node{ NodeType::ReturnNode }, returnValue(std::move(returnValue)) {}
+		explicit ReturnNode(std::shared_ptr<Node> returnValue);
 	};
 
 	struct StringNode : Node {
 		std::string value;
-		explicit StringNode(std::string value)
-			: Node{ NodeType::StringNode }, value(std::move(value)) {}
+		explicit StringNode(std::string value);
 	};
 
 	struct WhileLoopNode : Node {
 		std::shared_ptr<Node> condition;
 		std::shared_ptr<Node> body;
 
-		WhileLoopNode(std::shared_ptr<Node> condition, std::shared_ptr<Node> body)
-			: Node{ NodeType::WhileLoopNode }, condition(std::move(condition)),
-			body(std::move(body)) {}
+		WhileLoopNode(std::shared_ptr<Node> condition, std::shared_ptr<Node> body);
 	};
 
 	struct ForLoopNode : Node {
@@ -336,16 +269,14 @@ namespace soviet {
 		std::shared_ptr<Node> iterable;
 		std::shared_ptr<Node> body;
 
-		ForLoopNode(std::shared_ptr<Node> iterator, std::shared_ptr<Node> iterable, std::shared_ptr<Node> body)
-			: Node{ NodeType::ForLoopNode }, iterator(std::move(iterator)), iterable(std::move(iterable)), body(std::move(body)) {}
+		ForLoopNode(std::shared_ptr<Node> iterator, std::shared_ptr<Node> iterable, std::shared_ptr<Node> body);
 	};
 
 	struct PipeOpNode : Node {
 		std::shared_ptr<Node> value;
 		std::shared_ptr<Node> function;
 
-		PipeOpNode(std::shared_ptr<Node> value, std::shared_ptr<Node> function)
-			: Node{ NodeType::PipeOpNode }, value(std::move(value)), function(std::move(function)) {}
+		PipeOpNode(std::shared_ptr<Node> value, std::shared_ptr<Node> function);
 	};
 
 	enum class BinOpType {
@@ -363,29 +294,13 @@ namespace soviet {
 		Dot
 	};
 
-	static std::string dumpBinOpType(BinOpType type) {
-		switch (type) {
-			case BinOpType::Add: return "Add";
-			case BinOpType::Subtract: return "Subtract";
-			case BinOpType::Multiply: return "Multiply";
-			case BinOpType::Divide: return "Divide";
-			case BinOpType::GreaterThan: return "GreaterThan";
-			case BinOpType::GreaterThanOrEqual: return "GreaterThanOrEqual";
-			case BinOpType::LessThan: return "LessThan";
-			case BinOpType::LessThanOrEqual: return "LessThanOrEqual";
-			case BinOpType::DoubleEquals: return "DoubleEquals";
-			case BinOpType::Equals: return "Equals";
-			case BinOpType::Dot: return "Dot";
-		}
-	}
+	std::string dumpBinOpType(BinOpType type);
 
 	struct BinOpNode : Node {
 		std::shared_ptr<Node> left, right;
 		BinOpType binOpType;
 
-		BinOpNode(BinOpType type, std::shared_ptr<Node> left, std::shared_ptr<Node> right)
-			: Node{NodeType::BinOpNode}, binOpType(type), left(std::move(left)), right(std::move(right)) {}
+		BinOpNode(BinOpType type, std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 }
 
-#endif

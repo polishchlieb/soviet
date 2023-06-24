@@ -1,6 +1,4 @@
-#ifndef SOVIET_VALUECAST_HPP
-#define SOVIET_VALUECAST_HPP
-
+#pragma once
 #include <memory>
 #include "values/Value.hpp"
 
@@ -10,5 +8,3 @@ namespace soviet {
         return std::static_pointer_cast<T>(node);
     }
 }
-
-#endif //SOVIET_VALUECAST_HPP

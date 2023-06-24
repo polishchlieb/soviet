@@ -4,14 +4,9 @@
 namespace soviet {
 	class NoTokensError : public Error {
 	public:
-		NoTokensError() : Error{ErrorType::NoTokens} {}
+		NoTokensError();
 
-		std::string message() const override {
-			return "";
-		}
-
-		std::string name() const override {
-			return "NoTokensError";
-		}
+		std::string message() const override;
+		std::string name() const override;
 	};
 }

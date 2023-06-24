@@ -148,12 +148,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="evaluator\evaluator.cpp" />
+    <ClCompile Include="evaluator\GlobalScope.cpp" />
     <ClCompile Include="evaluator\modules\Array.cpp" />
     <ClCompile Include="evaluator\modules\IO.cpp" />
     <ClCompile Include="evaluator\modules\Map.cpp" />
     <ClCompile Include="evaluator\modules\Math.cpp" />
     <ClCompile Include="evaluator\modules\String.cpp" />
     <ClCompile Include="evaluator\modules\ThreadModule.cpp" />
+    <ClCompile Include="evaluator\Scope.cpp" />
     <ClCompile Include="evaluator\Thread.cpp" />
     <ClCompile Include="evaluator\values\ArrayValue.cpp" />
     <ClCompile Include="evaluator\values\BooleanValue.cpp" />
@@ -165,12 +167,15 @@
     <ClCompile Include="evaluator\values\StringValue.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="parser\dumpNode.cpp" />
+    <ClCompile Include="parser\nodes.cpp" />
+    <ClCompile Include="parser\ParseError.cpp" />
+    <ClCompile Include="parser\Parser.cpp" />
     <ClCompile Include="test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="evaluator\EvaluateError.hpp" />
     <ClInclude Include="evaluator\evaluator.hpp" />
-    <ClInclude Include="evaluator\Frame.hpp" />
     <ClInclude Include="evaluator\GlobalScope.hpp" />
     <ClInclude Include="evaluator\modules\Array.hpp" />
     <ClInclude Include="evaluator\modules\IO.hpp" />

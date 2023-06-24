@@ -20,6 +20,12 @@
     <ClCompile Include="evaluator\values\NumberValue.cpp" />
     <ClCompile Include="evaluator\values\RangeValue.cpp" />
     <ClCompile Include="evaluator\values\StringValue.cpp" />
+    <ClCompile Include="evaluator\Scope.cpp" />
+    <ClCompile Include="evaluator\GlobalScope.cpp" />
+    <ClCompile Include="parser\dumpNode.cpp" />
+    <ClCompile Include="parser\nodes.cpp" />
+    <ClCompile Include="parser\ParseError.cpp" />
+    <ClCompile Include="parser\Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer\FileReadError.hpp" />
@@ -60,7 +66,6 @@
     <ClInclude Include="repl.hpp" />
     <ClInclude Include="evaluator\modules\Math.hpp" />
     <ClInclude Include="evaluator\values\RangeValue.hpp" />
-    <ClInclude Include="evaluator\Frame.hpp" />
     <ClInclude Include="evaluator\modules\ThreadModule.hpp" />
     <ClInclude Include="evaluator\Thread.hpp" />
   </ItemGroup>
