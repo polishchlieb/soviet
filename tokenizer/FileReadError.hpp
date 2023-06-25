@@ -1,6 +1,6 @@
 #pragma once
 #include <exception>
-#include "../util/Error.hpp"
+#include <string>
 
 namespace soviet {
     class FileReadError {

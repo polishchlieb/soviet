@@ -1,6 +1,4 @@
-#ifndef SOVIET_COLORS_HPP
-#define SOVIET_COLORS_HPP
-
+#pragma once
 #include <string>
 
 namespace soviet {
@@ -9,24 +7,5 @@ namespace soviet {
         RESET
     };
 
-    static const char* color(Color color) {
-        switch (color) {
-            case Color::RED:
-            #ifdef unix
-                return "\x1B[31m";
-            #else
-                return "";
-            #endif
-            case Color::RESET:
-            #ifdef unix
-                return "\033[0m\t\t";
-            #else
-                return "";
-            #endif
-            default:
-                throw std::runtime_error("Unknown color");
-        }
-    }
+    const char* color(Color color);
 }
-
-#endif //SOVIET_COLORS_HPP

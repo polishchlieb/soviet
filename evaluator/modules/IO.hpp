@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.hpp"
 #include "../values/values.hpp"
-#include <iostream>
 
 namespace soviet {
 	class IOModule : public Module {

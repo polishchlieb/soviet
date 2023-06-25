@@ -1,4 +1,7 @@
 #include "Parser.hpp"
+#include "../util/util.hpp"
+#include "ParseError.hpp"
+#include <utility>
 
 namespace soviet {
 	Parser::Parser(TokenList tokens) : tokens(std::move(tokens)) {}

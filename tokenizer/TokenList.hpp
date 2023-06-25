@@ -1,39 +1,17 @@
 #pragma once
 #include <queue>
 #include "NoTokensError.hpp"
+#include "Token.hpp"
 
 namespace soviet {
 	class TokenList {
 	public:
-        explicit TokenList(std::queue<Token> tokens)
-            : tokens(std::move(tokens)) {}
-        
-        void dump() {
-            std::queue<Token> copy = tokens;
-            while (!copy.empty()) {
-                Token token = copy.front();
-                copy.pop();
-                std::cout << "(" << dumpTokenType(token.type) << ") " << token.value << std::endl;
-            }
-        }
+        explicit TokenList(std::queue<Token> tokens);
 
-        Token& peekNextToken() {
-            if (tokens.empty())
-                throw NoTokensError{};
-            return tokens.front();
-        }
-
-        Token getNextToken() {
-            if (tokens.empty())
-                throw NoTokensError{};
-            auto token = std::move(tokens.front());
-            tokens.pop();
-            return token;
-        }
-
-        bool hasNextToken() {
-            return !tokens.empty();
-        }
+        Token& peekNextToken();
+        Token getNextToken();
+        bool hasNextToken();
+        void dump();
     private:
         std::queue<Token> tokens;
 	};

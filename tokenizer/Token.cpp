@@ -1,4 +1,5 @@
 #include "Token.hpp"
+#include <utility>
 
 namespace soviet {
 	Token::Token(Token&& other) noexcept

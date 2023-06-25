@@ -1,6 +1,4 @@
-#ifndef SOVIET_TOKENIZER_HPP
-#define SOVIET_TOKENIZER_HPP
-
+#pragma once
 #include <vector>
 #include <string>
 #include <iostream>
@@ -41,5 +39,3 @@ namespace soviet {
         void parseFixed(const char c);
     };
 }
-
-#endif //SOVIET_TOKENIZER_HPP

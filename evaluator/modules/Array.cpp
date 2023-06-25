@@ -1,5 +1,6 @@
 #include "Array.hpp"
 #include "../EvaluateError.hpp"
+#include <algorithm>
 
 namespace soviet {
 	ArrayModule::ArrayModule(Evaluator& evaluator) : Module{ evaluator } {
@@ -32,8 +33,10 @@ namespace soviet {
 
 	std::shared_ptr<Value> ArrayModule::at(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
 		auto arr = valueCast<ArrayValue>(args[0]);
-		unsigned int index = valueCast<NumberValue>(args[1])->value;
-		return arr->at(index);
+		auto indexArg = valueCast<NumberValue>(args[1]);
+		if (!indexArg->isInt())
+			throw EvaluateError("index has to be an integer");
+		return arr->at((size_t) indexArg->value);
 	}
 
 	std::shared_ptr<Value> ArrayModule::newarray(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
@@ -48,8 +51,10 @@ namespace soviet {
 
 	std::shared_ptr<Value> ArrayModule::remove_at(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
 		const auto arr = valueCast<ArrayValue>(args[0]->clone());
-		unsigned int index = valueCast<NumberValue>(args[1])->value;
-		arr->removeAt(index);
+		auto indexArg = valueCast<NumberValue>(args[1]);
+		if (!indexArg->isInt())
+			throw EvaluateError("index has to be an integer");
+		arr->removeAt((size_t) indexArg->value);
 		return arr;
 	}
 
@@ -64,10 +69,10 @@ namespace soviet {
 		const auto callback = valueCast<FunctionValue>(args[1]);
 
 		std::vector<std::shared_ptr<Value>> results;
-		for (unsigned int i = 0; i < arr->size(); ++i) {
+		for (size_t i = 0; i < arr->size(); ++i) {
 			auto args = std::vector<std::shared_ptr<Value>>{
 				arr->at(i)->clone(),
-				std::make_shared<NumberValue>(i)
+				std::make_shared<NumberValue>((float) i)
 			};
 			results.push_back(callback->run(evaluator, args));
 		}
@@ -79,10 +84,10 @@ namespace soviet {
 		const auto arr = valueCast<ArrayValue>(args[0]);
 		const auto callback = valueCast<FunctionValue>(args[1]);
 
-		for (unsigned int i = 0; i < arr->size(); ++i) {
+		for (size_t i = 0; i < arr->size(); ++i) {
 			auto args = std::vector<std::shared_ptr<Value>>{
 				arr->at(i),
-				std::make_shared<NumberValue>(i)
+				std::make_shared<NumberValue>((float) i)
 			};
 			callback->run(evaluator, args);
 		}
@@ -105,7 +110,7 @@ namespace soviet {
 			const auto& element = arr->at(i);
 			auto args = std::vector<std::shared_ptr<Value>>{
 				element,
-				std::make_shared<NumberValue>(i)
+				std::make_shared<NumberValue>((float) i)
 			};
 			const auto value = callback->run(evaluator, args);
 			if (value->type != ValueType::BooleanValue)
@@ -137,7 +142,7 @@ namespace soviet {
 			: arr->size();
 
 		std::vector<std::shared_ptr<Value>> result;
-		for (unsigned int i = start; i < end; ++i)
+		for (size_t i = (size_t) start; i < end; ++i)
 			result.push_back(arr->at(i));
 
 		return std::make_shared<ArrayValue>(std::move(result));
@@ -145,18 +150,18 @@ namespace soviet {
 
 	std::shared_ptr<Value> ArrayModule::length(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
 		const auto arr = valueCast<ArrayValue>(args[0]);
-		return std::make_shared<NumberValue>(arr->size());
+		return std::make_shared<NumberValue>((float) arr->size());
 	}
 
 	std::shared_ptr<Value> ArrayModule::find(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {
 		const auto arr = valueCast<ArrayValue>(args[0]);
 		const auto callback = valueCast<FunctionValue>(args[1]);
 
-		for (unsigned int i = 0; i < arr->size(); ++i) {
+		for (size_t i = 0; i < arr->size(); ++i) {
 			const auto& element = arr->at(i);
 			auto args = std::vector<std::shared_ptr<Value>>{
 				element,
-				std::make_shared<NumberValue>(i)
+				std::make_shared<NumberValue>((float) i)
 			};
 
 			const auto value = callback->run(evaluator, args);
@@ -175,11 +180,11 @@ namespace soviet {
 		const auto arr = valueCast<ArrayValue>(args[0]);
 		const auto callback = valueCast<FunctionValue>(args[1]);
 
-		for (unsigned int i = 0; i < arr->size(); ++i) {
+		for (size_t i = 0; i < arr->size(); ++i) {
 			const auto& element = arr->at(i);
 			auto args = std::vector<std::shared_ptr<Value>>{
 				element,
-				std::make_shared<NumberValue>(i)
+				std::make_shared<NumberValue>((float) i)
 			};
 
 			const auto value = callback->run(evaluator, args);
@@ -188,7 +193,7 @@ namespace soviet {
 
 			const auto found = valueCast<BooleanValue>(value)->value;
 			if (found)
-				return std::make_shared<NumberValue>(i);
+				return std::make_shared<NumberValue>((float) i);
 		}
 
 		return std::make_shared<UndefinedValue>();
@@ -197,10 +202,10 @@ namespace soviet {
 	std::shared_ptr<Value> ArrayModule::index_of(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
 		const auto arr = valueCast<ArrayValue>(args[0]);
 
-		for (unsigned int i = 0; i < arr->size(); ++i) {
+		for (size_t i = 0; i < arr->size(); ++i) {
 			const auto& element = arr->at(i);
 			if (element->equals(args[1]))
-				return std::make_shared<NumberValue>(i);
+				return std::make_shared<NumberValue>((float) i);
 		}
 
 		return std::make_shared<UndefinedValue>();
@@ -227,11 +232,11 @@ namespace soviet {
 		const auto arr = valueCast<ArrayValue>(args[0]);
 		const auto callback = valueCast<FunctionValue>(args[1]);
 
-		for (unsigned int i = 0; i < arr->size(); ++i) {
+		for (size_t i = 0; i < arr->size(); ++i) {
 			const auto& element = arr->at(i);
 			std::vector<std::shared_ptr<Value>> args{
 				element,
-					std::make_shared<NumberValue>(i)
+				std::make_shared<NumberValue>((float) i)
 			};
 			const auto value = callback->run(evaluator, args);
 			if (value->type != ValueType::BooleanValue)
@@ -323,13 +328,13 @@ namespace soviet {
 		if (args.size() == 1) {
 			if (args[0]->type != ValueType::NumberValue)
 				throw EvaluateError("range accepts only number values");
-			size_t to = valueCast<NumberValue>(args[0])->value;
+			auto to = (size_t) valueCast<NumberValue>(args[0])->value;
 			return std::make_shared<RangeValue>(to);
 		} else if (args.size() == 2) {
 			if (args[0]->type != ValueType::NumberValue || args[1]->type != ValueType::NumberValue)
 				throw EvaluateError("range accepts only number values");
-			size_t from = valueCast<NumberValue>(args[0])->value;
-			size_t to = valueCast<NumberValue>(args[1])->value;
+			auto from = (size_t) valueCast<NumberValue>(args[0])->value;
+			auto to = (size_t) valueCast<NumberValue>(args[1])->value;
 			return std::make_shared<RangeValue>(from, to);
 		} else {
 			throw EvaluateError("range accepts 1-2 arguments");

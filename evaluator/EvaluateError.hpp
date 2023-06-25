@@ -1,25 +1,14 @@
-#ifndef SOVIET_EVALUATEERROR_HPP
-#define SOVIET_EVALUATEERROR_HPP
-
-#include <cstring>
+#pragma once
 #include "../util/Error.hpp"
 
 namespace soviet {
     class EvaluateError : public Error {
     public:
-        explicit EvaluateError(std::string value)
-            : Error{ErrorType::Evaluate}, value(std::move(value)) {}
+        explicit EvaluateError(std::string value);
 
-        std::string name() const noexcept {
-            return "EvaluateError";
-        }
-
-        std::string message() const noexcept {
-            return this->value;
-        }
+        std::string name() const noexcept;
+        std::string message() const noexcept;
     private:
         std::string value;
     };
 }
-
-#endif //SOVIET_EVALUATEERROR_HPP

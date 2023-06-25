@@ -5,6 +5,13 @@
 #include <Windows.h>
 #endif
 #include <filesystem>
+#include <fstream>
+#include "../file.hpp"
+#include "GlobalScope.hpp"
+#include "../parser/dumpNode.hpp"
+#include "../parser/nodeCast.hpp"
+#include <cmath>
+#include "../util/util.hpp"
 
 namespace soviet {
 	typedef void(__stdcall* LoadFunction)(int& value);
@@ -95,35 +102,33 @@ namespace soviet {
 		const auto n = nodeCast<BinOpNode>(node);
 
 		switch (n->binOpType) {
-		case BinOpType::Add:
-			return evaluateAddOpNode(n);
-		case BinOpType::Subtract:
-			return evaluateSubOpNode(n);
-		case BinOpType::Multiply:
-			return evaluateMulOpNode(n);
-		case BinOpType::Divide:
-			return evaluateDivOpNode(n);
-		case BinOpType::Equals:
-			return evaluateEqualsOpNode(n);
-		case BinOpType::DoubleEquals:
-			return evaluateDoubleEqualsOpNode(n);
-		case BinOpType::Dot:
-			return evaluateDotOpNode(n);
-		case BinOpType::GreaterThan:
-			return evaluateGreaterThanOpNode(n);
-		case BinOpType::GreaterThanOrEqual:
-			return evaluateGreaterThanOrEqualOpNode(n);
-		case BinOpType::LessThan:
-			return evaluateLessThanOpNode(n);
-		case BinOpType::LessThanOrEqual:
-			return evaluateLessThanOrEqualOpNode(n);
-		case BinOpType::NotEquals:
-			return evaluateNotEqualsOpNode(n);
+			case BinOpType::Add:
+				return evaluateAddOpNode(n);
+			case BinOpType::Subtract:
+				return evaluateSubOpNode(n);
+			case BinOpType::Multiply:
+				return evaluateMulOpNode(n);
+			case BinOpType::Divide:
+				return evaluateDivOpNode(n);
+			case BinOpType::Equals:
+				return evaluateEqualsOpNode(n);
+			case BinOpType::DoubleEquals:
+				return evaluateDoubleEqualsOpNode(n);
+			case BinOpType::Dot:
+				return evaluateDotOpNode(n);
+			case BinOpType::GreaterThan:
+				return evaluateGreaterThanOpNode(n);
+			case BinOpType::GreaterThanOrEqual:
+				return evaluateGreaterThanOrEqualOpNode(n);
+			case BinOpType::LessThan:
+				return evaluateLessThanOpNode(n);
+			case BinOpType::LessThanOrEqual:
+				return evaluateLessThanOrEqualOpNode(n);
+			case BinOpType::NotEquals:
+				return evaluateNotEqualsOpNode(n);
 		}
 
-#if DEBUG
 		throw EvaluateError("unknown binary operator");
-#endif
 	}
 
 	std::shared_ptr<Value> Evaluator::evaluateImportNode(const std::shared_ptr<Node>& node) {
@@ -609,7 +614,7 @@ namespace soviet {
 				auto loopScope = std::make_shared<Scope>(*this);
 				currentContext.push_back(loopScope);
 
-				loopScope->variables[iteratorName->value] = std::make_shared<NumberValue>(i);
+				loopScope->variables[iteratorName->value] = std::make_shared<NumberValue>((float) i);
 				previousReturnValue = evaluate(forLoopNode->body);
 
 				currentContext.pop_back();

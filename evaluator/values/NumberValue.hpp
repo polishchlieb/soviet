@@ -11,5 +11,7 @@ namespace soviet {
         bool equals(const std::shared_ptr<Value>& other) override;
         std::shared_ptr<Value> clone() override;
         std::string dump() const override;
+
+        bool isInt() const;
     };
 }

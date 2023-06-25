@@ -1,5 +1,6 @@
 #include "Math.hpp"
 #include "../EvaluateError.hpp"
+#include <random>
 
 namespace soviet {
     MathModule::MathModule(Evaluator& evaluator) : Module{evaluator} {
@@ -41,9 +42,8 @@ namespace soviet {
         float max = valueCast<NumberValue>(values->at(0))->value;
         for (size_t i = 1; i < values->size(); ++i) {
             float value = valueCast<NumberValue>(values->at(i))->value;
-            if (value > max) {
+            if (value > max)
                 max = value;
-            }
         }
 
         return std::make_shared<NumberValue>(max);
@@ -55,7 +55,7 @@ namespace soviet {
 
         if (args.size() == 0) {
             std::uniform_real_distribution<> dist(0.0, 1.0);
-            return std::make_shared<NumberValue>(dist(rng));
+            return std::make_shared<NumberValue>((float) dist(rng));
         } else if (args.size() == 2) {
             if (args[0]->type != ValueType::NumberValue || args[1]->type != ValueType::NumberValue)
                 throw EvaluateError("Math.random accepts either 0 or 2 number arguments");
@@ -63,7 +63,7 @@ namespace soviet {
             float min = valueCast<NumberValue>(args[0])->value;
             float max = valueCast<NumberValue>(args[1])->value;
             std::uniform_real_distribution<> dist(min, max);
-            return std::make_shared<NumberValue>(dist(rng));
+            return std::make_shared<NumberValue>((float) dist(rng));
         }
 
         throw EvaluateError("Math.random accepts either 0 or 2 number arguments");

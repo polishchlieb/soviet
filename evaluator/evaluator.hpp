@@ -1,17 +1,9 @@
 #pragma once
-#include <cmath>
 #include <memory>
 #include "../parser/nodes.hpp"
-#include "../parser/nodeCast.hpp"
 #include "values/values.hpp"
-#include "EvaluateError.hpp"
-#include "../parser/dumpNode.hpp"
-#include <unordered_map>
-#include <cfloat>
 #include "Scope.hpp"
-#include "GlobalScope.hpp"
-#include <fstream>
-#include "../file.hpp"
+#include "EvaluateError.hpp"
 
 namespace soviet {
 	class Thread;

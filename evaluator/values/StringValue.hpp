@@ -1,9 +1,6 @@
-#ifndef SOVIET_STRINGVALUE_HPP
-#define SOVIET_STRINGVALUE_HPP
-
+#pragma once
 #include <string>
 #include "Value.hpp"
-#include <algorithm>
 
 namespace soviet {
     class StringValue : public Value {
@@ -22,5 +19,3 @@ namespace soviet {
         std::string dump() const override;
     };
 }
-
-#endif //SOVIET_STRINGVALUE_HPP

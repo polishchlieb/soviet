@@ -1,6 +1,4 @@
-#ifndef SOVIET_NODECAST_HPP
-#define SOVIET_NODECAST_HPP
-
+#pragma once
 #include <memory>
 #include "nodes.hpp"
 
@@ -10,5 +8,3 @@ namespace soviet {
         return std::static_pointer_cast<T>(node);
     }
 }
-
-#endif //SOVIET_NODECAST_HPP

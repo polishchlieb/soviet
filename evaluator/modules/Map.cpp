@@ -1,4 +1,5 @@
 #include "Map.hpp"
+#include "../EvaluateError.hpp"
 
 namespace soviet {
 	MapModule::MapModule(Evaluator& evaluator) : Module{ evaluator } {
@@ -68,7 +69,7 @@ namespace soviet {
 
 	std::shared_ptr<Value> soviet::MapModule::size(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {
 		const auto map = valueCast<MapValue>(args[0]);
-		return std::make_shared<NumberValue>(map->size());
+		return std::make_shared<NumberValue>((float) map->size());
 	}
 
 	std::shared_ptr<Value> soviet::MapModule::is_map(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {

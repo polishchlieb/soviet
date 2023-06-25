@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.hpp"
 #include "../values/values.hpp"
-#include "../EvaluateError.hpp"
 
 namespace soviet {
 	class MapModule : public Module {

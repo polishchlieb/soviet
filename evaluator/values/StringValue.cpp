@@ -1,5 +1,6 @@
 #include "StringValue.hpp"
 #include "../valueCast.hpp"
+#include <algorithm>
 
 namespace soviet {
 	StringValue::StringValue(std::string value)

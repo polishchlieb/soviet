@@ -26,6 +26,18 @@
     <ClCompile Include="parser\nodes.cpp" />
     <ClCompile Include="parser\ParseError.cpp" />
     <ClCompile Include="parser\Parser.cpp" />
+    <ClCompile Include="tokenizer\FileReadError.cpp" />
+    <ClCompile Include="tokenizer\NoTokensError.cpp" />
+    <ClCompile Include="tokenizer\Token.cpp" />
+    <ClCompile Include="tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="tokenizer\TokenList.cpp" />
+    <ClCompile Include="tokenizer\TokenType.cpp" />
+    <ClCompile Include="evaluator\EvaluateError.cpp" />
+    <ClCompile Include="util\colors.cpp" />
+    <ClCompile Include="util\Error.cpp" />
+    <ClCompile Include="repl.cpp" />
+    <ClCompile Include="evaluator\values\ValueType.cpp" />
+    <ClCompile Include="util\util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer\FileReadError.hpp" />

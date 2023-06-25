@@ -1,20 +1,7 @@
 #pragma once
-#include "../tokenizer/Token.hpp"
-#include <utility>
-#include <vector>
+#include "../tokenizer/TokenList.hpp"
 #include "nodes.hpp"
 #include <memory>
-#include <stack>
-#include <stdexcept>
-#include <iostream>
-
-#ifdef DEBUG
-#include <exception>
-#endif
-
-#include "../util/util.hpp"
-#include "ParseError.hpp"
-#include "../tokenizer/Tokenizer.hpp"
 
 namespace soviet {
 	class Parser {

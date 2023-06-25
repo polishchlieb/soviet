@@ -1,4 +1,5 @@
 #include "IO.hpp"
+#include <iostream>
 
 namespace soviet {
     IOModule::IOModule(Evaluator& evaluator) : Module{evaluator} {

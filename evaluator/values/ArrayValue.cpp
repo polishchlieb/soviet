@@ -12,7 +12,7 @@ namespace soviet {
 		data.push_back(std::move(value));
 	}
 
-	std::shared_ptr<soviet::Value>& ArrayValue::at(const unsigned int index) {
+	std::shared_ptr<soviet::Value>& ArrayValue::at(const size_t index) {
 		return data[index];
 	}
 
@@ -44,7 +44,7 @@ namespace soviet {
 		return result;
 	}
 
-	void ArrayValue::removeAt(unsigned int index) {
+	void ArrayValue::removeAt(size_t index) {
 		data.erase(data.begin() + index);
 	}
 

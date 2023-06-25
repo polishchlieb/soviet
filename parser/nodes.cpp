@@ -51,6 +51,8 @@ namespace soviet {
 			case BinOpType::Equals: return "Equals";
 			case BinOpType::Dot: return "Dot";
 		}
+
+		return "Unknown-BinOpType";
 	}
 
 	AddOpNode::AddOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right)

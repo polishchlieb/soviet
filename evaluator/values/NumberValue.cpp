@@ -19,4 +19,8 @@ namespace soviet {
 	std::string NumberValue::dump() const {
 		return std::to_string(value);
 	}
+
+	bool NumberValue::isInt() const {
+		return ceilf(value) == value;
+	}
 }

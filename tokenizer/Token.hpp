@@ -1,7 +1,6 @@
 #pragma once
 #include "TokenType.hpp"
 #include <string>
-#include <utility>
 
 namespace soviet {
     static constexpr unsigned int UNDEFINED_LINE = 0;

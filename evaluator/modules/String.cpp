@@ -6,7 +6,7 @@ namespace soviet {
         const auto& delimiter = valueCast<StringValue>(args[1])->value;
 
         auto result = std::make_shared<ArrayValue>();
-        auto start = 0U;
+        size_t start = 0;
         auto end = str.find(delimiter);
         while (end != std::string::npos) {
             std::string element = str.substr(start, end - start);
@@ -38,7 +38,7 @@ namespace soviet {
 
     std::shared_ptr<Value> StringModule::length(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {
         const auto str = valueCast<StringValue>(args[0]);
-        return std::make_shared<NumberValue>(str->length());
+        return std::make_shared<NumberValue>((float) str->length());
     }
 
     std::shared_ptr<Value> StringModule::starts_with(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {
@@ -57,7 +57,7 @@ namespace soviet {
         const auto& str = valueCast<StringValue>(args[0])->value;
         const auto& substr = valueCast<StringValue>(args[1])->value;
 
-        for (int i = str.length() - 1, j = substr.length() - 1; j >= 0; --i, --j) {
+        for (int i = (int) str.length() - 1, j = (int) substr.length() - 1; j >= 0; --i, --j) {
             if (str[i] != substr[j])
                 return std::make_shared<BooleanValue>(false);
         }
@@ -88,7 +88,7 @@ namespace soviet {
     std::shared_ptr<Value> StringModule::index_of(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {
         const auto& str = valueCast<StringValue>(args[0])->value;
         const auto& substr = valueCast<StringValue>(args[1])->value;
-        return std::make_shared<NumberValue>(str.find(substr));
+        return std::make_shared<NumberValue>((float) str.find(substr));
     }
 
     std::shared_ptr<Value> StringModule::to_upper(Evaluator& evaluator, std::vector<std::shared_ptr<Value>>& args) {
