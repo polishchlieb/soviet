@@ -10,6 +10,9 @@ namespace soviet {
         variables["pow"] = std::make_shared<FunctionValue>(&pow);
         variables["max"] = std::make_shared<FunctionValue>(&max);
         variables["random"] = std::make_shared<FunctionValue>(&random);
+
+        variables["pi"] = std::make_shared<NumberValue>(3.14159265358979323846f);
+        variables["e"] = std::make_shared<NumberValue>(2.71828182845904523536f);
     }
 
     std::shared_ptr<Value> MathModule::sin(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
