@@ -19,23 +19,6 @@ namespace soviet {
 	private:
 		std::vector<std::shared_ptr<Scope>> currentContext;
 
-		template<typename T>
-		auto getNumberValues(const std::shared_ptr<T>& node)
-			-> std::tuple<float, float> {
-			const auto n = nodeCast<OperatorNode>(node);
-
-			const auto left = evaluate(n->left);
-			const auto right = evaluate(n->right);
-
-			if (left->type != ValueType::NumberValue || right->type != ValueType::NumberValue)
-				throw EvaluateError("Unknown operands");
-
-			return {
-				valueCast<NumberValue>(left)->value,
-				valueCast<NumberValue>(right)->value
-			};
-		}
-
 		std::shared_ptr<ArrayValue> destructure(const std::shared_ptr<ArrayNode>& left, const std::shared_ptr<ArrayValue>& right);
 		std::shared_ptr<Value> setVariable(const std::string& name, std::shared_ptr<Value> value);
 

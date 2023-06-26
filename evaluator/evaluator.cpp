@@ -210,15 +210,14 @@ namespace soviet {
 	std::shared_ptr<Value> Evaluator::evaluateGreaterThanOrEqualOpNode(const std::shared_ptr<BinOpNode>& node) {
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
-		if (left->type != ValueType::NumberValue
-			|| right->type != left->type) {
+		if (left->type != ValueType::NumberValue) {
 			throw EvaluateError("unknown operands");
 		}
 
-		const auto leftValue = valueCast<NumberValue>(left)->value;
-		const auto rightValue = valueCast<NumberValue>(right)->value;
+		const auto leftNum = valueCast<NumberValue>(left);
+		const auto rightNum = valueCast<NumberValue>(right);
 		return std::make_shared<BooleanValue>(
-			leftValue >= rightValue
+			leftNum->equals(rightNum) || leftNum->greaterThan(rightNum)
 		);
 	}
 
@@ -230,10 +229,10 @@ namespace soviet {
 			throw EvaluateError("unknown operands");
 		}
 
-		const auto leftValue = valueCast<NumberValue>(left)->value;
-		const auto rightValue = valueCast<NumberValue>(right)->value;
+		const auto leftNum = valueCast<NumberValue>(left);
+		const auto rightNum = valueCast<NumberValue>(right);
 		return std::make_shared<BooleanValue>(
-			leftValue <= rightValue
+			!leftNum->greaterThan(rightNum)
 		);
 	}
 
@@ -245,7 +244,7 @@ namespace soviet {
 			throw EvaluateError("jakas dziwna liczba mi sie tu dzieje");
 
 		const auto v = valueCast<BooleanValue>(expression);
-		return std::make_shared<BooleanValue>(!v->value);
+		return v->negate();
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateGreaterThanOpNode(const std::shared_ptr<BinOpNode>& node) {
@@ -293,29 +292,16 @@ namespace soviet {
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateAddOpNode(const std::shared_ptr<BinOpNode>& node) {
 		const auto left = evaluate(node->left);
-		if (left->type == ValueType::NumberValue) {
-			const auto leftValue = valueCast<NumberValue>(left)->value;
-			const auto right = evaluate(node->right);
-			if (right->type == ValueType::NumberValue) {
-				const auto rightValue = valueCast<NumberValue>(right)->value;
-				return std::make_shared<NumberValue>(leftValue + rightValue);
-			} else if (right->type == ValueType::StringValue) {
-				const auto rightValue = valueCast<StringValue>(right)->value;
-				return std::make_shared<StringValue>(
-					std::to_string(leftValue) + rightValue
-				);
+		const auto right = evaluate(node->right);
+
+		switch (left->type) {
+			case ValueType::NumberValue: {
+				const auto leftValue = valueCast<NumberValue>(left);
+				return leftValue->add(right);
 			}
-		} else if (left->type == ValueType::StringValue) {
-			const auto leftValue = valueCast<StringValue>(left)->value;
-			const auto right = evaluate(node->right);
-			if (right->type == ValueType::NumberValue) {
-				const auto rightValue = valueCast<NumberValue>(right)->value;
-				return std::make_shared<StringValue>(
-					leftValue + std::to_string(rightValue)
-				);
-			} else if (right->type == ValueType::StringValue) {
-				const auto rightValue = valueCast<StringValue>(right)->value;
-				return std::make_shared<StringValue>(leftValue + rightValue);
+			case ValueType::StringValue: {
+				const auto leftValue = valueCast<StringValue>(left);
+				return leftValue->add(right);
 			}
 		}
 
@@ -351,45 +337,41 @@ namespace soviet {
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateSubOpNode(const std::shared_ptr<BinOpNode>& node) {
-		const auto [left, right] = getNumberValues(node);
-		return std::make_shared<NumberValue>(left - right);
+		const auto left = evaluate(node->left);
+		const auto right = evaluate(node->right);
+
+		if (left->type != ValueType::NumberValue)
+			throw EvaluateError{"subtraction operands have to be number values"};
+
+		return valueCast<NumberValue>(left)->subtract(right);
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateMulOpNode(const std::shared_ptr<BinOpNode>& node) {
 		const auto left = evaluate(node->left);
-		if (left->type == ValueType::NumberValue) {
-			const auto leftValue = valueCast<NumberValue>(left)->value;
-			const auto right = evaluate(node->right);
-			if (right->type == ValueType::NumberValue) {
-				return std::make_shared<NumberValue>(
-					leftValue * valueCast<NumberValue>(right)->value
-				);
-			} else if (right->type == ValueType::StringValue) {
-				return std::make_shared<StringValue>(times(
-					valueCast<StringValue>(right)->value,
-					static_cast<unsigned int>(leftValue)
-				));
+		const auto right = evaluate(node->right);
+
+		switch (left->type) {
+			case ValueType::NumberValue: {
+				const auto leftValue = valueCast<NumberValue>(left);
+				return leftValue->multiply(right);
 			}
-		} else if (left->type == ValueType::StringValue) {
-			const auto right = evaluate(node->right);
-			if (right->type == ValueType::NumberValue) {
-				return std::make_shared<StringValue>(times(
-					valueCast<StringValue>(left)->value,
-					static_cast<unsigned int>(
-						valueCast<NumberValue>(right)->value
-					)
-				));
+			case ValueType::StringValue: {
+				const auto leftValue = valueCast<StringValue>(left);
+				return leftValue->multiply(right);
 			}
 		}
 
-		throw EvaluateError("Unknown operands");
+		throw EvaluateError("unknown operands");
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateDivOpNode(const std::shared_ptr<BinOpNode>& node) {
-		const auto [left, right] = getNumberValues(node);
-		if (std::fabs(right) < DBL_EPSILON) // == 0
-			return std::make_shared<StringValue>(":)");
-		return std::make_shared<NumberValue>(left / right);
+		const auto left = evaluate(node->left);
+		const auto right = evaluate(node->right);
+
+		if (left->type != ValueType::NumberValue)
+			throw EvaluateError{"division operands have to be number values"};
+
+		return valueCast<NumberValue>(left)->divide(right);
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::setVariable(const std::string& name, std::shared_ptr<Value> value) {
@@ -398,9 +380,7 @@ namespace soviet {
 				return scope->variables[name] = value;
 		}
 
-		currentContext[currentContext.size() - 1]->variables.insert({
-			name, value
-		});
+		currentContext[currentContext.size() - 1]->variables[name] = value;
 		return value;
 	}
 

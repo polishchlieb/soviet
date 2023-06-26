@@ -17,5 +17,8 @@ namespace soviet {
         void toUpperCase();
         void toLowerCase();
         std::string dump() const override;
+
+        std::shared_ptr<Value> add(const std::shared_ptr<Value>& right);
+        std::shared_ptr<Value> multiply(const std::shared_ptr<Value>& right);
     };
 }

@@ -10,5 +10,7 @@ namespace soviet {
         bool equals(const std::shared_ptr<Value>& other);
         std::shared_ptr<Value> clone() override;
         std::string dump() const override;
+
+        std::shared_ptr<Value> negate();
     };
 }

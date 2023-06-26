@@ -20,4 +20,8 @@ namespace soviet {
 	std::string BooleanValue::dump() const {
 		return value ? "true" : "false";
 	}
+
+	std::shared_ptr<Value> BooleanValue::negate() {
+		return std::make_shared<BooleanValue>(!value);
+	}
 }
