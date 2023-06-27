@@ -4,6 +4,12 @@
 #include "BooleanValue.hpp"
 
 namespace soviet {
+    enum class NumberComparisonResult {
+        EQUAL,
+        GREATER,
+        LESS
+    };
+
     class NumberValue : public Value {
     public:
         float value;
@@ -19,6 +25,6 @@ namespace soviet {
         std::shared_ptr<Value> multiply(const std::shared_ptr<Value>& right);
         std::shared_ptr<Value> subtract(const std::shared_ptr<Value>& right);
         std::shared_ptr<Value> divide(const std::shared_ptr<Value>& right);
-        bool greaterThan(const std::shared_ptr<Value>& right);
+        NumberComparisonResult compare(const std::shared_ptr<NumberValue>& right);
     };
 }

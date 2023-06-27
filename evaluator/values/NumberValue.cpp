@@ -11,8 +11,8 @@ namespace soviet {
 	bool NumberValue::equals(const std::shared_ptr<Value>& right) {
 		if (right->type != this->type)
 			return false;
-		const auto rightValue = valueCast<NumberValue>(right);
-		return std::fabs(rightValue->value - this->value) <= DBL_EPSILON;
+		const auto rightNum = valueCast<NumberValue>(right);
+		return compare(rightNum) == NumberComparisonResult::EQUAL;
 	}
 
 	std::shared_ptr<soviet::Value> NumberValue::clone() {
@@ -75,6 +75,14 @@ namespace soviet {
 			throw EvaluateError{"division by 0"};
 		
 		return std::make_shared<NumberValue>(value / rightValue);
+	}
+
+	NumberComparisonResult NumberValue::compare(const std::shared_ptr<NumberValue>& right) {
+		if (std::fabs(value - right->value) < FLT_EPSILON)
+			return NumberComparisonResult::EQUAL;
+		if (value - right->value > FLT_EPSILON)
+			return NumberComparisonResult::GREATER;
+		return NumberComparisonResult::LESS;
 	}
 
 	bool NumberValue::greaterThan(const std::shared_ptr<Value>& right) {

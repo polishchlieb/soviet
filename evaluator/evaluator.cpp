@@ -162,7 +162,7 @@ namespace soviet {
 			if (!file.is_open())
 				throw EvaluateError{"file opening error"};
 
-			Evaluator fileEvaluator{ thread };
+			Evaluator fileEvaluator{thread};
 
 			while (!file.eof()) {
 				getfileline(fileEvaluator, file);
@@ -188,10 +188,10 @@ namespace soviet {
 			throw EvaluateError("unknown operands");
 		}
 
-		const auto leftValue = valueCast<NumberValue>(left)->value;
-		const auto rightValue = valueCast<NumberValue>(right)->value;
+		const auto leftNum = valueCast<NumberValue>(left);
+		const auto rightNum = valueCast<NumberValue>(right);
 		return std::make_shared<BooleanValue>(
-			leftValue < rightValue
+			leftNum->compare(rightNum) == NumberComparisonResult::LESS
 		);
 	}
 
@@ -216,8 +216,9 @@ namespace soviet {
 
 		const auto leftNum = valueCast<NumberValue>(left);
 		const auto rightNum = valueCast<NumberValue>(right);
+		const auto comparison = leftNum->compare(rightNum);
 		return std::make_shared<BooleanValue>(
-			leftNum->equals(rightNum) || leftNum->greaterThan(rightNum)
+			comparison == NumberComparisonResult::GREATER || comparison == NumberComparisonResult::EQUAL
 		);
 	}
 
@@ -231,8 +232,9 @@ namespace soviet {
 
 		const auto leftNum = valueCast<NumberValue>(left);
 		const auto rightNum = valueCast<NumberValue>(right);
+		const auto comparison = leftNum->compare(rightNum);
 		return std::make_shared<BooleanValue>(
-			!leftNum->greaterThan(rightNum)
+			comparison == NumberComparisonResult::LESS || comparison == NumberComparisonResult::EQUAL
 		);
 	}
 
@@ -479,8 +481,10 @@ namespace soviet {
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluatePrototypeNode(const std::shared_ptr<Node>& node) {
-		auto n = nodeCast<PrototypeNode>(node);
-		return std::make_shared<FunctionValue>(n, currentContext);
+		return std::make_shared<FunctionValue>(
+			nodeCast<PrototypeNode>(node),
+			currentContext
+		);
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateBlockNode(const std::shared_ptr<Node>& node) {
