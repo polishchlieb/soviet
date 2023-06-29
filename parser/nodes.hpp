@@ -35,7 +35,8 @@ namespace soviet {
 		BinOpNode,
 		ModuleNode,
 		ForLoopNode,
-		PipeOpNode
+		PipeOpNode,
+		NullNode
 	};
 
 	struct Node {
@@ -102,6 +103,10 @@ namespace soviet {
 	struct BooleanNode : Node {
 		bool value;
 		explicit BooleanNode(bool value);
+	};
+
+	struct NullNode : Node {
+		NullNode();
 	};
 
 	struct DivOpNode : Node {

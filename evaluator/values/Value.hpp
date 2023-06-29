@@ -30,21 +30,4 @@ namespace soviet {
             return "<undefined>";
         }
     };
-
-	class NullValue : public Value {
-	public:
-		NullValue() : Value{ValueType::NullValue} {}
-
-		bool equals(const std::shared_ptr<Value>& other) {
-			return other->type == type;
-		}
-
-		std::shared_ptr<Value> clone() override {
-			return std::make_shared<NullValue>();
-		}
-
-		std::string dump() const override {
-			return "<null>";
-		}
-	};
 }

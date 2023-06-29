@@ -19,6 +19,14 @@ namespace soviet {
 			case NodeType::StringNode:
 				dumpLeafNode<std::string>(node, spacing);
 				break;
+			case NodeType::BooleanNode: {
+				const auto& boolNode = nodeCast<BooleanNode>(node);
+				std::cout << times(" ", spacing) << "boolean: " << boolNode->value << std::endl;
+				break;
+			}
+			case NodeType::NullNode:
+				std::cout << times(" ", spacing) << "null" << std::endl;
+				break;
 			case NodeType::FuncCallNode: {
 				const auto& funcNode = nodeCast<FuncCallNode>(node);
 

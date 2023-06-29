@@ -47,6 +47,7 @@ namespace soviet {
 		std::shared_ptr<Value> evaluatePrototypeNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluateBlockNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluateBooleanNode(const std::shared_ptr<Node>& node);
+		std::shared_ptr<Value> evaluateNullNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node);
 		std::shared_ptr<Value> evaluateModuleNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluatePipeOpNode(const std::shared_ptr<Node>& node);

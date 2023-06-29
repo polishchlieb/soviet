@@ -228,6 +228,8 @@ namespace soviet {
 			return std::make_shared<BooleanNode>(true);
 		if (token.value == "false")
 			return std::make_shared<BooleanNode>(false);
+		if (token.value == "null")
+			return std::make_shared<NullNode>();
 		if (token.value == "while")
 			return parseWhileLoop();
 		if (token.value == "for")

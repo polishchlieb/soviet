@@ -56,6 +56,8 @@ namespace soviet {
 			return evaluatePipeOpNode(node);
 		case NodeType::ImportNode:
 			return evaluateImportNode(node);
+		case NodeType::NullNode:
+			return evaluateNullNode(node);
 		default:
 			throw EvaluateError("Unexpected node");
 		}
@@ -506,6 +508,10 @@ namespace soviet {
 	std::shared_ptr<soviet::Value> Evaluator::evaluateBooleanNode(const std::shared_ptr<Node>& node) {
 		const auto n = nodeCast<BooleanNode>(node);
 		return std::make_shared<BooleanValue>(n->value);
+	}
+
+	std::shared_ptr<Value> Evaluator::evaluateNullNode(const std::shared_ptr<Node>& node) {
+		return std::make_shared<NullValue>();
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node) {

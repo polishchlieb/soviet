@@ -38,6 +38,7 @@
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="evaluator\values\ValueType.cpp" />
     <ClCompile Include="util\util.cpp" />
+    <ClCompile Include="evaluator\values\NullValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer\FileReadError.hpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="evaluator\values\RangeValue.hpp" />
     <ClInclude Include="evaluator\modules\ThreadModule.hpp" />
     <ClInclude Include="evaluator\Thread.hpp" />
+    <ClInclude Include="evaluator\values\NullValue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

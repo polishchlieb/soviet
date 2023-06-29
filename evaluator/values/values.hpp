@@ -12,3 +12,4 @@
 #include "ExplicitReturnValue.hpp"
 #include "MapValue.hpp"
 #include "RangeValue.hpp"
+#include "NullValue.hpp"

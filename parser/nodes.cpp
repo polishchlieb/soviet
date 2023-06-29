@@ -32,6 +32,7 @@ namespace soviet {
 			case NodeType::ModuleNode: return "module_node";
 			case NodeType::ForLoopNode: return "for_loop_node";
 			case NodeType::PipeOpNode: return "pipe_op_node";
+			case NodeType::NullNode: return "null_node";
 			default:
 				throw ParseError("Unknown error");
 		}
@@ -183,4 +184,5 @@ namespace soviet {
 		: Node{NodeType::BinOpNode}, binOpType(type), left(std::move(left)), right(std::move(right))
 	{}
 
+	NullNode::NullNode() : Node{NodeType::NullNode} {}
 }
