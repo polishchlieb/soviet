@@ -12,6 +12,7 @@ namespace soviet {
 			case ValueType::UndefinedValue: return "undefined";
 			case ValueType::MapValue: return "map";
 			case ValueType::RangeValue: return "range";
+			case ValueType::NullValue: return "null";
 		}
 		return "wtf";
 	}

@@ -11,7 +11,8 @@ namespace soviet {
         ExplicitReturnValue,
         ArrayValue,
         MapValue,
-        RangeValue
+        RangeValue,
+        NullValue
     };
 
     std::string dumpValueType(const ValueType type);

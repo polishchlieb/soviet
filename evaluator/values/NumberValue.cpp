@@ -71,7 +71,7 @@ namespace soviet {
 			throw EvaluateError{"division operands have to be number values"};
 
 		const auto rightValue = valueCast<NumberValue>(right)->value;
-		if (std::fabs(rightValue) < DBL_EPSILON)
+		if (std::fabs(rightValue) < FLT_EPSILON)
 			throw EvaluateError{"division by 0"};
 		
 		return std::make_shared<NumberValue>(value / rightValue);
@@ -83,13 +83,5 @@ namespace soviet {
 		if (value - right->value > FLT_EPSILON)
 			return NumberComparisonResult::GREATER;
 		return NumberComparisonResult::LESS;
-	}
-
-	bool NumberValue::greaterThan(const std::shared_ptr<Value>& right) {
-		if (right->type != ValueType::NumberValue)
-			throw EvaluateError{"unknown operands"};
-
-		const auto rightValue = valueCast<NumberValue>(right)->value;
-		return value - rightValue > DBL_EPSILON;
 	}
 }
