@@ -39,6 +39,7 @@
     <ClCompile Include="evaluator\values\ValueType.cpp" />
     <ClCompile Include="util\util.cpp" />
     <ClCompile Include="evaluator\values\NullValue.cpp" />
+    <ClCompile Include="evaluator\values\UndefinedValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer\FileReadError.hpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="evaluator\modules\ThreadModule.hpp" />
     <ClInclude Include="evaluator\Thread.hpp" />
     <ClInclude Include="evaluator\values\NullValue.hpp" />
+    <ClInclude Include="evaluator\values\UndefinedValue.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

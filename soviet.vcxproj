@@ -167,6 +167,7 @@
     <ClCompile Include="evaluator\values\NumberValue.cpp" />
     <ClCompile Include="evaluator\values\RangeValue.cpp" />
     <ClCompile Include="evaluator\values\StringValue.cpp" />
+    <ClCompile Include="evaluator\values\UndefinedValue.cpp" />
     <ClCompile Include="evaluator\values\ValueType.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="main.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="evaluator\values\NumberValue.hpp" />
     <ClInclude Include="evaluator\values\RangeValue.hpp" />
     <ClInclude Include="evaluator\values\StringValue.hpp" />
+    <ClInclude Include="evaluator\values\UndefinedValue.hpp" />
     <ClInclude Include="evaluator\values\Value.hpp" />
     <ClInclude Include="evaluator\values\values.hpp" />
     <ClInclude Include="evaluator\values\ValueType.hpp" />

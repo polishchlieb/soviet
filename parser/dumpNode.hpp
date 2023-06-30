@@ -14,5 +14,5 @@ namespace soviet {
 			<< dumpNodeType(node->type) << ": " << leafNode->value << std::endl;
 	}
 
-    static void dump(const std::shared_ptr<Node>& node, unsigned int spacing = 0);
+    void dump(const std::shared_ptr<Node>& node, unsigned int spacing = 0);
 }

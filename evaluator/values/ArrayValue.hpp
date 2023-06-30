@@ -11,17 +11,18 @@ namespace soviet {
         explicit ArrayValue(Data data);
         ArrayValue();
 
+		bool equals(const std::shared_ptr<Value>& other) override;
+		std::shared_ptr<Value> clone() override;
+        std::string dump() const override;
+
         void add(std::shared_ptr<Value> value);
         inline std::shared_ptr<Value>& at(const size_t index);
         inline Data& getData();
         size_t size() const;
-        bool equals(const std::shared_ptr<Value>& other) override;
-        std::shared_ptr<Value> clone() override;
         void removeAt(size_t index);
         void remove(const std::shared_ptr<Value>& element);
         void concat(const std::shared_ptr<ArrayValue>& other);
         void reverse();
-        std::string dump() const override;
     private:
         Data data;
         size_t currentIndex = 0;

@@ -1,5 +1,6 @@
 #include "MapValue.hpp"
 #include "../valueCast.hpp"
+#include "UndefinedValue.hpp"
 
 namespace soviet {
 	MapValue::MapValue()

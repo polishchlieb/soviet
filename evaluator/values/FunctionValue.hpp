@@ -24,8 +24,8 @@ namespace soviet {
 		FunctionValue(RunFunction run);
 		FunctionValue(std::shared_ptr<PrototypeNode> prototype, DeclarationScope declarationScope);
 
-        bool equals(const std::shared_ptr<Value>& other);
-        std::shared_ptr<Value> clone() override;
-        std::string dump() const override;
+		bool equals(const std::shared_ptr<Value>& other) override;
+		std::shared_ptr<Value> clone() override;
+		std::string dump() const override;
     };
 }

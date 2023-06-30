@@ -12,6 +12,10 @@ namespace soviet {
     public:
         explicit MapValue();
 
+		bool equals(const std::shared_ptr<Value>& other) override;
+		std::shared_ptr<Value> clone() override;
+		std::string dump() const override;
+
         void set(std::shared_ptr<Value> key, std::shared_ptr<Value> value);
         std::shared_ptr<Value> get(const std::shared_ptr<Value>& key);
         void remove(const std::shared_ptr<Value>& key);
@@ -20,8 +24,5 @@ namespace soviet {
         std::vector<std::shared_ptr<Value>> keys() const;
         std::vector<std::shared_ptr<Value>> values() const;
         std::vector<Entry> entries() const;
-        bool equals(const std::shared_ptr<Value>& other) override;
-        std::shared_ptr<Value> clone() override;
-        std::string dump() const override;
     };
 }
