@@ -8,7 +8,7 @@ namespace soviet {
 		  line(std::exchange(other.line, UNDEFINED_LINE))
 	{}
 
-	Token::Token(TokenType type, std::string&& value, unsigned int line)
+	Token::Token(TokenType type, std::string value, unsigned int line)
 		: type(type), value(std::move(value)), line(line)
 	{}
 

@@ -14,16 +14,16 @@ namespace soviet {
 		}
 	}
 
-	soviet::Token& TokenList::peekNextToken() {
+	Token& TokenList::peekNextToken() {
 		if (tokens.empty())
 			throw NoTokensError{};
 		return tokens.front();
 	}
 
-	soviet::Token TokenList::getNextToken() {
+	Token TokenList::getNextToken() {
 		if (tokens.empty())
 			throw NoTokensError{};
-		auto token = std::move(tokens.front());
+		Token token = std::move(tokens.front());
 		tokens.pop();
 		return token;
 	}

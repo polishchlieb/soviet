@@ -15,7 +15,6 @@ namespace soviet {
 	}
 
 	std::shared_ptr<soviet::Node> Parser::parsePrimary() {
-		std::shared_ptr<Node> result;
 		switch (tokens.peekNextToken().type) {
 			case TokenType::open_bracket:
 				return parseBracketExpression();

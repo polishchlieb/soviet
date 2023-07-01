@@ -84,6 +84,7 @@
     <ClInclude Include="evaluator\Thread.hpp" />
     <ClInclude Include="evaluator\values\NullValue.hpp" />
     <ClInclude Include="evaluator\values\UndefinedValue.hpp" />
+    <ClInclude Include="parser\NodePtr.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test.soviet" />

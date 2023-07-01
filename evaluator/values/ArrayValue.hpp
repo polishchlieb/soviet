@@ -25,6 +25,5 @@ namespace soviet {
         void reverse();
     private:
         Data data;
-        size_t currentIndex = 0;
     };
 }

@@ -217,6 +217,7 @@
     <ClInclude Include="file.hpp" />
     <ClInclude Include="parser\dumpNode.hpp" />
     <ClInclude Include="parser\nodeCast.hpp" />
+    <ClInclude Include="parser\NodePtr.hpp" />
     <ClInclude Include="parser\nodes.hpp" />
     <ClInclude Include="repl.hpp" />
     <ClInclude Include="tokenizer\NoTokensError.hpp" />
