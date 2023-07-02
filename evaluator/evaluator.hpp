@@ -4,6 +4,7 @@
 #include "values/values.hpp"
 #include "Scope.hpp"
 #include "EvaluateError.hpp"
+#include <optional>
 
 namespace soviet {
 	class Thread;
@@ -21,6 +22,7 @@ namespace soviet {
 
 		std::shared_ptr<ArrayValue> destructure(const std::shared_ptr<ArrayNode>& left, const std::shared_ptr<ArrayValue>& right);
 		std::shared_ptr<Value> setVariable(const std::string& name, std::shared_ptr<Value> value);
+		std::shared_ptr<Value> resolveName(const std::string& name);
 
 		std::shared_ptr<Value> evaluateBinOpNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluateImportNode(const std::shared_ptr<Node>& node);

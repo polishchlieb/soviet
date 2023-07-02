@@ -82,7 +82,7 @@ namespace soviet {
 			function->declarationScope.end()
 		);
 
-		std::shared_ptr<Scope>& functionScope = currentContext.emplace_back(*this);
+		std::shared_ptr<Scope>& functionScope = currentContext.emplace_back(std::make_shared<Scope>(*this));
 		for (int i = 0; i < function->prototype->args.size(); ++i) {
 			const auto& argName = nodeCast<NameNode>(function->prototype->args[i])->value;
 			const auto& argValue = arguments[i];
@@ -283,12 +283,11 @@ namespace soviet {
 	std::shared_ptr<soviet::Value> Evaluator::evaluateNameNode(const std::shared_ptr<Node>& node) {
 		const auto n = nodeCast<NameNode>(node);
 
-		for (auto& scope : currentContext) {
-			if (scope->variables.contains(n->value))
-				return scope->variables[n->value];
-		}
-
-		throw EvaluateError("unknow name: " + n->value);
+		const auto value = resolveName(n->value);
+		if (!value)
+			throw EvaluateError("unknow name: " + n->value);
+		
+		return value;
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateStringNode(const std::shared_ptr<Node>& node) {
@@ -388,6 +387,14 @@ namespace soviet {
 
 		currentContext[currentContext.size() - 1]->variables[name] = value;
 		return value;
+	}
+
+	std::shared_ptr<soviet::Value> Evaluator::resolveName(const std::string& name) {
+		for (auto& scope : currentContext) {
+			if (scope->variables.contains(name))
+				return scope->variables[name];
+		}
+		return nullptr;
 	}
 
 	std::shared_ptr<soviet::ArrayValue> Evaluator::destructure(const std::shared_ptr<ArrayNode>& left, const std::shared_ptr<ArrayValue>& right) {
@@ -494,7 +501,7 @@ namespace soviet {
 	std::shared_ptr<soviet::Value> Evaluator::evaluateBlockNode(const std::shared_ptr<Node>& node) {
 		const auto n = nodeCast<BlockNode>(node);
 
-		currentContext.emplace_back(*this);
+		currentContext.emplace_back(std::make_shared<Scope>(*this));
 		for (const auto& expr : n->nodes) {
 			auto value = evaluate(expr);
 			if (value->type == ValueType::ExplicitReturnValue) {
@@ -517,26 +524,31 @@ namespace soviet {
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node) {
-		if (node->left->type != NodeType::NameNode)
-			throw EvaluateError("tf?!?!");
-
-		const auto& left = nodeCast<NameNode>(node->left)->value;
+		if (node->right->type != NodeType::NameNode)
+			throw EvaluateError{"right operand has to be a name"};
 		const auto& right = nodeCast<NameNode>(node->right)->value;
 
-		bool objectExists = false;
-		for (auto& scope : currentContext) {
-			if (scope->modules.contains(left)) {
-				objectExists = true;
+		if (node->left->type == NodeType::NameNode) {
+			const auto& left = nodeCast<NameNode>(node->left)->value;
 
-				auto m = scope->modules[left];
-				if (m->variables.contains(right))
-					return m->variables[right];
+			if (currentContext[0]->modules.contains(left)) {
+				auto m = currentContext[0]->modules[left];
+				if (!m->variables.contains(right))
+					throw EvaluateError("object " + left + " has no property: " + right);
+
+				return m->variables[right];
 			}
 		}
 
-		if (objectExists)
-			throw EvaluateError("object " + left + " has no property: " + right);
-		throw EvaluateError("unknow object: " + left);
+		const auto value = evaluate(node->left);
+		if (!value)
+			throw EvaluateError("unknown object");
+		if (value->type != ValueType::MapValue)
+			throw EvaluateError("not a map");
+
+		return valueCast<MapValue>(value)->get(
+			std::make_shared<StringValue>(right)
+		);
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateModuleNode(const std::shared_ptr<Node>& node) {
@@ -593,7 +605,7 @@ namespace soviet {
 			auto iterable = valueCast<ArrayValue>(iterableArg);
 
 			for (const auto& element : iterable->getData()) {
-				std::shared_ptr<Scope>& loopScope = currentContext.emplace_back(*this);
+				std::shared_ptr<Scope>& loopScope = currentContext.emplace_back(std::make_shared<Scope>(*this));
 
 				loopScope->variables[iteratorName->value] = element;
 				previousReturnValue = evaluate(forLoopNode->body);
@@ -604,7 +616,7 @@ namespace soviet {
 			auto iterable = valueCast<RangeValue>(iterableArg);
 
 			for (size_t i = iterable->from; i < iterable->to; ++i) {
-				std::shared_ptr<Scope>& loopScope = currentContext.emplace_back(*this);
+				std::shared_ptr<Scope>& loopScope = currentContext.emplace_back(std::make_shared<Scope>(*this));
 
 				loopScope->variables[iteratorName->value] = std::make_shared<NumberValue>((float) i);
 				previousReturnValue = evaluate(forLoopNode->body);
