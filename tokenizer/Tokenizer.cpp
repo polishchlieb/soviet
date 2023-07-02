@@ -21,7 +21,7 @@ namespace soviet {
 	}
 
 	soviet::TokenList Tokenizer::getTokens() {
-		return TokenList{tokens};
+		return TokenList{std::move(tokens)};
 	}
 
 	void Tokenizer::parseChar(const char c) {
