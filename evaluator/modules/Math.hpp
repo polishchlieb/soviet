@@ -15,5 +15,6 @@ namespace soviet {
 		static std::shared_ptr<Value> pow(Evaluator&, std::vector<std::shared_ptr<Value>>& args);
 		static std::shared_ptr<Value> max(Evaluator&, std::vector<std::shared_ptr<Value>>& args);
 		static std::shared_ptr<Value> random(Evaluator&, std::vector<std::shared_ptr<Value>>& args);
+		static std::shared_ptr<Value> mod(Evaluator&, std::vector<std::shared_ptr<Value>>& args);
 	};
 }

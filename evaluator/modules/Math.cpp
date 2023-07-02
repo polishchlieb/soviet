@@ -10,6 +10,7 @@ namespace soviet {
         variables["pow"] = std::make_shared<FunctionValue>(&pow);
         variables["max"] = std::make_shared<FunctionValue>(&max);
         variables["random"] = std::make_shared<FunctionValue>(&random);
+        variables["mod"] = std::make_shared<FunctionValue>(&mod);
 
         variables["pi"] = std::make_shared<NumberValue>(3.14159265358979323846f);
         variables["e"] = std::make_shared<NumberValue>(2.71828182845904523536f);
@@ -71,4 +72,10 @@ namespace soviet {
 
         throw EvaluateError("Math.random accepts either 0 or 2 number arguments");
     }
+
+	std::shared_ptr<soviet::Value> MathModule::mod(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
+		const auto left = valueCast<NumberValue>(args[0])->value;
+		const auto right = valueCast<NumberValue>(args[1])->value;
+		return std::make_shared<NumberValue>(std::fmod(left, right));
+	}
 }
