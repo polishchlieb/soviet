@@ -58,6 +58,8 @@ namespace soviet {
 			return evaluateImportNode(node);
 		case NodeType::NullNode:
 			return evaluateNullNode(node);
+		case NodeType::AtOpNode:
+			return evaluateAtOpNode(node);
 		default:
 			throw EvaluateError("Unexpected node");
 		}
@@ -541,14 +543,34 @@ namespace soviet {
 		}
 
 		const auto value = evaluate(node->left);
-		if (!value)
-			throw EvaluateError("unknown object");
 		if (value->type != ValueType::MapValue)
 			throw EvaluateError("not a map");
 
 		return valueCast<MapValue>(value)->get(
 			std::make_shared<StringValue>(right)
 		);
+	}
+
+	std::shared_ptr<Value> Evaluator::evaluateAtOpNode(const std::shared_ptr<Node>& node) {
+		const auto& n = nodeCast<AtOpNode>(node);
+
+		const auto array = evaluate(n->array);
+		if (array->type == ValueType::ArrayValue) {
+			const auto index = evaluate(n->index);
+			if (index->type != ValueType::NumberValue)
+				throw EvaluateError("right operand has to be a number");
+
+			return valueCast<ArrayValue>(array)->at(
+				(size_t) valueCast<NumberValue>(index)->value
+			);
+		}
+
+		if (array->type == ValueType::MapValue) {
+			const auto key = evaluate(n->index);
+			return valueCast<MapValue>(array)->get(key);
+		}
+
+		throw EvaluateError{"unknown object"};
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateModuleNode(const std::shared_ptr<Node>& node) {

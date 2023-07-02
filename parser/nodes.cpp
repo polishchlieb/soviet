@@ -32,6 +32,7 @@ namespace soviet {
 			case NodeType::ModuleNode: return "module_node";
 			case NodeType::ForLoopNode: return "for_loop_node";
 			case NodeType::PipeOpNode: return "pipe_op_node";
+			case NodeType::AtOpNode: return "at_op_node";
 			case NodeType::NullNode: return "null_node";
 			default:
 				throw ParseError("Unknown error");
@@ -185,4 +186,8 @@ namespace soviet {
 	{}
 
 	NullNode::NullNode() : Node{NodeType::NullNode} {}
+
+	AtOpNode::AtOpNode(std::shared_ptr<Node> array, std::shared_ptr<Node> index)
+		: Node{NodeType::AtOpNode}, array(std::move(array)), index(std::move(index))
+	{}
 }

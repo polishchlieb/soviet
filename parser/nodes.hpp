@@ -36,7 +36,8 @@ namespace soviet {
 		ModuleNode,
 		ForLoopNode,
 		PipeOpNode,
-		NullNode
+		NullNode,
+		AtOpNode
 	};
 
 	struct Node {
@@ -306,6 +307,12 @@ namespace soviet {
 		BinOpType binOpType;
 
 		BinOpNode(BinOpType type, std::shared_ptr<Node> left, std::shared_ptr<Node> right);
+	};
+	
+	struct AtOpNode : Node {
+		std::shared_ptr<Node> array, index;
+
+		AtOpNode(std::shared_ptr<Node> array, std::shared_ptr<Node> index);
 	};
 }
 

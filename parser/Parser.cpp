@@ -252,20 +252,21 @@ namespace soviet {
 
 			return std::make_shared<PrototypeNode>(
 				std::vector<std::shared_ptr<Node>>{
-				std::move(node)
-			},
+					std::move(node)
+				},
 				std::move(returnValue)
 			);
 		}
 		return node;
 	}
 
+	// actually, now it parses at operator too.
 	std::shared_ptr<soviet::Node> Parser::parseFunctionCallOrDotOperator() {
 		auto result = parsePrimary();
 
 		while (tokens.hasNextToken() && isIn(
 			tokens.peekNextToken().type,
-			TokenType::open_bracket, TokenType::dot
+			TokenType::open_bracket, TokenType::dot, TokenType::open_square_bracket
 		)) {
 			switch (tokens.getNextToken().type) {
 				case TokenType::open_bracket: {
@@ -301,6 +302,18 @@ namespace soviet {
 						BinOpType::Dot,
 						std::move(result),
 						std::move(operand2)
+					);
+					break;
+				}
+				case TokenType::open_square_bracket: {
+					auto index = this->parseExpression();
+
+					const auto closeBracket = tokens.getNextToken();
+					if (closeBracket.type != TokenType::close_square_bracket)
+						throw ParseError("expected \"]\"");
+
+					result = std::make_shared<AtOpNode>(
+						std::move(result), std::move(index)
 					);
 					break;
 				}
