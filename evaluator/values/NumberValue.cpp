@@ -3,6 +3,8 @@
 #include "StringValue.hpp"
 #include "../../util/util.hpp"
 #include "../EvaluateError.hpp"
+#include <sstream>
+#include <iomanip>
 
 namespace soviet {
 	NumberValue::NumberValue(float value)
@@ -20,7 +22,11 @@ namespace soviet {
 	}
 
 	std::string NumberValue::dump() const {
-		return std::to_string(value);
+		std::stringstream ss;
+		ss
+			<< std::setprecision(std::numeric_limits<float>::digits10)
+			<< value;
+		return ss.str();
 	}
 
 	bool NumberValue::isInt() const {
