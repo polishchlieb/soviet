@@ -82,13 +82,12 @@ namespace soviet {
 			function->declarationScope.end()
 		);
 
-		auto functionScope = std::make_shared<Scope>(*this);
+		std::shared_ptr<Scope>& functionScope = currentContext.emplace_back(*this);
 		for (int i = 0; i < function->prototype->args.size(); ++i) {
 			const auto& argName = nodeCast<NameNode>(function->prototype->args[i])->value;
 			const auto& argValue = arguments[i];
 			functionScope->variables[argName] = argValue;
 		}
-		currentContext.push_back(std::move(functionScope));
 
 		auto functionOutput = evaluate(function->prototype->returnValue);
 		if (functionOutput->type == ValueType::ExplicitReturnValue)
@@ -101,7 +100,7 @@ namespace soviet {
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateBinOpNode(const std::shared_ptr<Node>& node) {
-		const auto n = nodeCast<BinOpNode>(node);
+		const auto& n = nodeCast<BinOpNode>(node);
 
 		switch (n->binOpType) {
 			case BinOpType::Add:
@@ -151,7 +150,7 @@ namespace soviet {
 
 			auto module = new Module{*this};
 			module->variables["get_value"] = std::make_shared<FunctionValue>(
-				[value](Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
+				[value](Evaluator&, std::vector<std::shared_ptr<Value>>&) {
 					return std::make_shared<NumberValue>((float) value);
 				}
 			);
@@ -170,7 +169,7 @@ namespace soviet {
 				getfileline(fileEvaluator, file);
 			}
 
-			const auto& fileScope = fileEvaluator.currentContext[0];
+			const std::shared_ptr<Scope>& fileScope = fileEvaluator.currentContext[0];
 			for (const auto& [name, value] : fileScope->variables)
 				currentContext[0]->variables[name] = value;
 			for (const auto& [name, module] : fileScope->modules) {
@@ -391,8 +390,8 @@ namespace soviet {
 	std::shared_ptr<soviet::ArrayValue> Evaluator::destructure(const std::shared_ptr<ArrayNode>& left, const std::shared_ptr<ArrayValue>& right) {
 		std::vector<std::shared_ptr<Value>> result;
 		for (size_t i = 0; i < left->elements.size(); ++i) {
-			const auto& name = left->elements[i];
-			const auto& value = right->at(i);
+			std::shared_ptr<Node>& name = left->elements[i];
+			std::shared_ptr<Value> value = right->at(i);
 
 			switch (name->type) {
 				case NodeType::NameNode: {
@@ -492,7 +491,7 @@ namespace soviet {
 	std::shared_ptr<soviet::Value> Evaluator::evaluateBlockNode(const std::shared_ptr<Node>& node) {
 		const auto n = nodeCast<BlockNode>(node);
 
-		currentContext.push_back(std::make_shared<Scope>(*this));
+		currentContext.emplace_back(*this);
 		for (const auto& expr : n->nodes) {
 			auto value = evaluate(expr);
 			if (value->type == ValueType::ExplicitReturnValue) {
@@ -589,8 +588,7 @@ namespace soviet {
 			auto iterable = valueCast<ArrayValue>(iterableArg);
 
 			for (const auto& element : iterable->getData()) {
-				auto loopScope = std::make_shared<Scope>(*this);
-				currentContext.push_back(loopScope);
+				std::shared_ptr<Scope>& loopScope = currentContext.emplace_back(*this);
 
 				loopScope->variables[iteratorName->value] = element;
 				previousReturnValue = evaluate(forLoopNode->body);
@@ -601,8 +599,7 @@ namespace soviet {
 			auto iterable = valueCast<RangeValue>(iterableArg);
 
 			for (size_t i = iterable->from; i < iterable->to; ++i) {
-				auto loopScope = std::make_shared<Scope>(*this);
-				currentContext.push_back(loopScope);
+				std::shared_ptr<Scope>& loopScope = currentContext.emplace_back(*this);
 
 				loopScope->variables[iteratorName->value] = std::make_shared<NumberValue>((float) i);
 				previousReturnValue = evaluate(forLoopNode->body);
