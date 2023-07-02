@@ -16,7 +16,7 @@ namespace soviet {
         std::string dump() const override;
 
         void add(std::shared_ptr<Value> value);
-        inline std::shared_ptr<Value>& at(const size_t index);
+        inline std::shared_ptr<Value>& at(size_t index);
         inline Data& getData();
         size_t size() const;
         void removeAt(size_t index);

@@ -1,5 +1,6 @@
 #include "ArrayValue.hpp"
 #include "../valueCast.hpp"
+#include "../EvaluateError.hpp"
 
 namespace soviet {
 	ArrayValue::ArrayValue(Data data)
@@ -12,7 +13,10 @@ namespace soviet {
 		data.push_back(std::move(value));
 	}
 
-	std::shared_ptr<soviet::Value>& ArrayValue::at(const size_t index) {
+	std::shared_ptr<soviet::Value>& ArrayValue::at(size_t index) {
+		if (index >= data.size())
+			throw EvaluateError{"index out of range"};
+
 		return data[index];
 	}
 
