@@ -154,6 +154,9 @@ namespace soviet {
 					return std::make_shared<NumberValue>((float) value);
 				}
 			);
+
+			if (currentContext[0]->modules.contains("Test"))
+				delete currentContext[0]->modules["Test"];
 			currentContext[0]->modules["Test"] = module;
 #else
 			throw EvaluateError{"not implemented"};
@@ -539,7 +542,7 @@ namespace soviet {
 	std::shared_ptr<soviet::Value> Evaluator::evaluateModuleNode(const std::shared_ptr<Node>& node) {
 		auto moduleNode = nodeCast<ModuleNode>(node);
 
-		auto* m = new Module{ *this };
+		auto* m = new Module{*this};
 		m->name = std::move(moduleNode->name);
 		for (const auto& [name, value] : moduleNode->members)
 			m->variables.emplace(name, evaluate(value));
@@ -547,6 +550,8 @@ namespace soviet {
 		if (currentContext.size() != 1)
 			throw EvaluateError{"modules can only be declared in global scope"};
 
+		if (currentContext[0]->modules.contains(m->name))
+			delete currentContext[0]->modules[m->name];
 		currentContext[0]->modules.emplace(m->name, m);
 
 		return std::make_shared<UndefinedValue>();
