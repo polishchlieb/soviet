@@ -30,6 +30,8 @@ namespace soviet {
 				return parseNegation();
 			case TokenType::open_square_bracket:
 				return parseSquareBracketExpression();
+			case TokenType::pipe_op:
+				return parseEmptyPipeOp();
 			default: {
 				const auto& token = tokens.peekNextToken();
 				throw ParseError("unexpected token " + token.value + " on line "
@@ -500,4 +502,13 @@ namespace soviet {
 		}
 		return operand1;
 	}
+
+	std::shared_ptr<soviet::Node> Parser::parseEmptyPipeOp() {
+		tokens.getNextToken(); // eat |>
+		return std::make_shared<PipeOpNode>(
+			nullptr,
+			parseFunctionCallOrDotOperator()
+		);
+	}
+
 }

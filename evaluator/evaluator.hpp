@@ -18,10 +18,14 @@ namespace soviet {
 
 		Thread& thread;
 	private:
+		std::shared_ptr<Value> previousValue;
+		std::shared_ptr<Node> recentAssignment;
+
 		std::vector<std::shared_ptr<Scope>> currentContext;
 
 		std::shared_ptr<ArrayValue> destructure(const std::shared_ptr<ArrayNode>& left, const std::shared_ptr<ArrayValue>& right);
 		std::shared_ptr<Value> setVariable(const std::string& name, std::shared_ptr<Value> value);
+		void assign(const std::shared_ptr<Node>& left, const std::shared_ptr<Value>& right);
 		std::shared_ptr<Value> resolveName(const std::string& name);
 
 		std::shared_ptr<Value> evaluateBinOpNode(const std::shared_ptr<Node>& node);

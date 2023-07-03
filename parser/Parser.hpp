@@ -31,5 +31,6 @@ namespace soviet {
 		std::shared_ptr<Node> parseAdditive();
 		std::shared_ptr<Node> parsePipe();
 		std::shared_ptr<Node> parseMultiplicative();
+		std::shared_ptr<Node> parseEmptyPipeOp();
 	};
 }

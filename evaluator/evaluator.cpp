@@ -23,46 +23,51 @@ namespace soviet {
 	std::shared_ptr<Value> Evaluator::evaluate(const std::shared_ptr<Node>& node) {
 		switch (node->type) {
 		case NodeType::NumberNode:
-			return evaluateNumberNode(node);
+			previousValue = evaluateNumberNode(node); break;
 		case NodeType::NameNode:
-			return evaluateNameNode(node);
+			previousValue = evaluateNameNode(node); break;
 		case NodeType::StringNode:
-			return evaluateStringNode(node);
+			previousValue = evaluateStringNode(node); break;
 		case NodeType::FuncCallNode:
-			return evaluateFuncCallNode(node);
+			previousValue = evaluateFuncCallNode(node); break;
 		case NodeType::IfNode:
-			return evaluateIfNode(node);
+			previousValue = evaluateIfNode(node); break;
 		case NodeType::PrototypeNode:
-			return evaluatePrototypeNode(node);
+			previousValue = evaluatePrototypeNode(node); break;
 		case NodeType::BlockNode:
-			return evaluateBlockNode(node);
+			previousValue = evaluateBlockNode(node); break;
 		case NodeType::ReturnNode:
-			return evaluateReturnNode(node);
+			previousValue = evaluateReturnNode(node); break;
 		case NodeType::NegationNode:
-			return evaluateNegationNode(node);
+			previousValue = evaluateNegationNode(node); break;
 		case NodeType::BooleanNode:
-			return evaluateBooleanNode(node);
+			previousValue = evaluateBooleanNode(node); break;
 		case NodeType::ArrayNode:
-			return evaluateArrayNode(node);
+			previousValue = evaluateArrayNode(node); break;
 		case NodeType::WhileLoopNode:
-			return evaluateWhileLoopNode(node);
+			previousValue = evaluateWhileLoopNode(node); break;
 		case NodeType::BinOpNode:
-			return evaluateBinOpNode(node);
+			previousValue = evaluateBinOpNode(node); break;
 		case NodeType::ModuleNode:
-			return evaluateModuleNode(node);
+			previousValue = evaluateModuleNode(node); break;
 		case NodeType::ForLoopNode:
-			return evaluateForLoopNode(node);
+			previousValue = evaluateForLoopNode(node); break;
 		case NodeType::PipeOpNode:
-			return evaluatePipeOpNode(node);
+			previousValue = evaluatePipeOpNode(node); break;
 		case NodeType::ImportNode:
-			return evaluateImportNode(node);
+			previousValue = evaluateImportNode(node); break;
 		case NodeType::NullNode:
-			return evaluateNullNode(node);
+			previousValue = evaluateNullNode(node); break;
 		case NodeType::AtOpNode:
-			return evaluateAtOpNode(node);
+			previousValue = evaluateAtOpNode(node); break;
 		default:
 			throw EvaluateError("Unexpected node");
 		}
+
+		if (node->type != NodeType::BinOpNode || nodeCast<BinOpNode>(node)->binOpType != BinOpType::Equals)
+			recentAssignment = nullptr;
+
+		return previousValue;
 	}
 
 	std::shared_ptr<Value> Evaluator::callFunction(const std::shared_ptr<FunctionValue>& function, std::vector<std::shared_ptr<Value>>& arguments) {
@@ -391,6 +396,30 @@ namespace soviet {
 		return value;
 	}
 
+	void Evaluator::assign(const std::shared_ptr<Node>& left, const std::shared_ptr<Value>& right) {
+		switch (left->type) {
+			case NodeType::NameNode: {
+				const auto& name = nodeCast<NameNode>(left)->value;
+				setVariable(name, right);
+				return;
+			}
+			case NodeType::ArrayNode: {
+				const auto& leftArray = nodeCast<ArrayNode>(left);
+				if (right->type != ValueType::ArrayValue)
+					throw EvaluateError("value destructured to an array must be an array");
+
+				const auto& rightArray = valueCast<ArrayValue>(right);
+				if (leftArray->elements.size() != rightArray->size())
+					throw EvaluateError("arrays have to be the same length when destructuring");
+
+				destructure(leftArray, rightArray);
+				return;
+			}
+			default:
+				throw EvaluateError("Unknown operands");
+		}
+	}
+
 	std::shared_ptr<soviet::Value> Evaluator::resolveName(const std::string& name) {
 		for (auto& scope : currentContext) {
 			if (scope->variables.contains(name))
@@ -437,30 +466,9 @@ namespace soviet {
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
-		switch (node->left->type) {
-			case NodeType::NameNode: {
-				const auto& name = nodeCast<NameNode>(node->left)->value;
-				auto value = evaluate(node->right);
-
-				return setVariable(name, value);
-			}
-			case NodeType::ArrayNode: {
-				const auto& left = nodeCast<ArrayNode>(node->left);
-				const auto _right = evaluate(node->right);
-				if (_right->type != ValueType::ArrayValue)
-					throw EvaluateError("value destructured to an array must be an array");
-
-				const auto right = valueCast<ArrayValue>(_right);
-				if (left->elements.size() != right->size())
-					throw EvaluateError("arrays have to be the same length when destructuring");
-
-				return destructure(left, right);
-			}
-			default:
-				throw EvaluateError("Unknown operands");
-		}
-
-		throw EvaluateError("Unexpected node");
+		const auto& right = evaluate(node->right);
+		assign(recentAssignment = node->left, right);
+		return right;
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateDoubleEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
@@ -594,13 +602,29 @@ namespace soviet {
 	std::shared_ptr<soviet::Value> Evaluator::evaluatePipeOpNode(const std::shared_ptr<Node>& node) {
 		const auto& pipeOpNode = nodeCast<PipeOpNode>(node);
 
-		if (pipeOpNode->function->type == NodeType::FuncCallNode) {
-			const auto funcCallNode = nodeCast<FuncCallNode>(pipeOpNode->function);
-			funcCallNode->arguments.insert(funcCallNode->arguments.begin(), pipeOpNode->value);
-			return evaluate(funcCallNode);
-		} else {
-			auto value = evaluate(pipeOpNode->value);
+		std::shared_ptr<Node> recentAssignment = this->recentAssignment;
 
+		auto value = pipeOpNode->value ? evaluate(pipeOpNode->value) : previousValue;
+		if (!value)
+			throw EvaluateError{"unexpected pipe operator"};
+
+		std::shared_ptr<Value> pipeResult;
+
+		if (pipeOpNode->function->type == NodeType::FuncCallNode) {
+			const auto& funcCallNode = nodeCast<FuncCallNode>(pipeOpNode->function);
+			const auto functionValue = evaluate(funcCallNode->name);
+
+			if (functionValue->type != ValueType::FunctionValue)
+				throw EvaluateError{"not a function"};
+
+			std::vector<std::shared_ptr<Value>> arguments;
+			arguments.reserve(funcCallNode->arguments.size() + 1);
+			arguments.push_back(value);
+			for (const auto& argNode : funcCallNode->arguments)
+				arguments.push_back(evaluate(argNode));
+
+			pipeResult = callFunction(valueCast<FunctionValue>(functionValue), arguments);
+		} else {
 			const auto function = evaluate(pipeOpNode->function);
 			if (function->type != ValueType::FunctionValue)
 				throw EvaluateError("pipe argument is not a function");
@@ -608,8 +632,13 @@ namespace soviet {
 			const auto f = valueCast<FunctionValue>(function);
 
 			std::vector<std::shared_ptr<Value>> args{std::move(value)};
-			return callFunction(f, args);
+			pipeResult = callFunction(f, args);
 		}
+
+		if (!pipeOpNode->value && recentAssignment)
+			assign(recentAssignment, pipeResult);
+
+		return pipeResult;
 	}
 
 	std::shared_ptr<soviet::Value> Evaluator::evaluateForLoopNode(const std::shared_ptr<Node>& node) {
