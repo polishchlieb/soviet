@@ -32,7 +32,6 @@ namespace soviet {
 		BooleanNode,
 		ArrayNode,
 		WhileLoopNode,
-		BinOpNode,
 		ModuleNode,
 		ForLoopNode,
 		PipeOpNode,
@@ -283,30 +282,6 @@ namespace soviet {
 		std::shared_ptr<Node> function;
 
 		PipeOpNode(std::shared_ptr<Node> value, std::shared_ptr<Node> function);
-	};
-
-	enum class BinOpType {
-		Add,
-		Subtract,
-		Multiply,
-		Divide,
-		GreaterThan,
-		GreaterThanOrEqual,
-		LessThan,
-		LessThanOrEqual,
-		DoubleEquals,
-		NotEquals,
-		Equals,
-		Dot
-	};
-
-	std::string dumpBinOpType(BinOpType type);
-
-	struct BinOpNode : Node {
-		std::shared_ptr<Node> left, right;
-		BinOpType binOpType;
-
-		BinOpNode(BinOpType type, std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 	
 	struct AtOpNode : Node {

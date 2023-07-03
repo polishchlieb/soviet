@@ -300,8 +300,7 @@ namespace soviet {
 				case TokenType::dot: {
 					auto operand2 = parseName();
 
-					result = std::make_shared<BinOpNode>(
-						BinOpType::Dot,
+					result = std::make_shared<DotOpNode>(
 						std::move(result),
 						std::move(operand2)
 					);
@@ -361,8 +360,7 @@ namespace soviet {
 			&& tokens.peekNextToken().type == TokenType::equals_op) {
 			tokens.getNextToken(); // eat =
 			auto operand2 = parseComparison();
-			operand1 = std::make_shared<BinOpNode>(
-				BinOpType::Equals,
+			operand1 = std::make_shared<EqualsOpNode>(
 				std::move(operand1),
 				std::move(operand2)
 			);
@@ -382,48 +380,42 @@ namespace soviet {
 			auto operand2 = parseAdditive();
 			switch (op.type) {
 				case TokenType::double_equals_op: {
-					operand1 = std::make_shared<BinOpNode>(
-						BinOpType::DoubleEquals,
+					operand1 = std::make_shared<DoubleEqualsOpNode>(
 						std::move(operand1),
 						std::move(operand2)
 					);
 					break;
 				}
 				case TokenType::greater_than: {
-					operand1 = std::make_shared<BinOpNode>(
-						BinOpType::GreaterThan,
+					operand1 = std::make_shared<GreaterThanOpNode>(
 						std::move(operand1),
 						std::move(operand2)
 					);
 					break;
 				}
 				case TokenType::less_than_op: {
-					operand1 = std::make_shared<BinOpNode>(
-						BinOpType::LessThan,
+					operand1 = std::make_shared<LessThanOpNode>(
 						std::move(operand1),
 						std::move(operand2)
 					);
 					break;
 				}
 				case TokenType::greater_than_or_equal_op: {
-					operand1 = std::make_shared<BinOpNode>(
-						BinOpType::GreaterThanOrEqual,
+					operand1 = std::make_shared<GreaterThanOrEqualOpNode>(
 						std::move(operand1),
 						std::move(operand2)
 					);
 					break;
 				}
 				case TokenType::less_than_or_equal_op: {
-					operand1 = std::make_shared<BinOpNode>(
-						BinOpType::LessThanOrEqual,
+					operand1 = std::make_shared<LessThanOrEqualOpNode>(
 						std::move(operand1),
 						std::move(operand2)
 					);
 					break;
 				}
 				case TokenType::not_equals_op: {
-					operand1 = std::make_shared<BinOpNode>(
-						BinOpType::NotEquals,
+					operand1 = std::make_shared<NotEqualsOpNode>(
 						std::move(operand1),
 						std::move(operand2)
 					);
@@ -445,14 +437,12 @@ namespace soviet {
 			const auto op = tokens.getNextToken();
 			auto operand2 = parseMultiplicative();
 			if (op.type == TokenType::add_op) {
-				operand1 = std::make_shared<BinOpNode>(
-					BinOpType::Add,
+				operand1 = std::make_shared<AddOpNode>(
 					std::move(operand1),
 					std::move(operand2)
 				);
 			} else {
-				operand1 = std::make_shared<BinOpNode>(
-					BinOpType::Subtract,
+				operand1 = std::make_shared<SubOpNode>(
 					std::move(operand1),
 					std::move(operand2)
 				);
@@ -487,14 +477,12 @@ namespace soviet {
 			const auto op = tokens.getNextToken();
 			auto operand2 = parsePipe();
 			if (op.type == TokenType::mul_op) {
-				operand1 = std::make_shared<BinOpNode>(
-					BinOpType::Multiply,
+				operand1 = std::make_shared<MulOpNode>(
 					std::move(operand1),
 					std::move(operand2)
 				);
 			} else {
-				operand1 = std::make_shared<BinOpNode>(
-					BinOpType::Divide,
+				operand1 = std::make_shared<DivOpNode>(
 					std::move(operand1),
 					std::move(operand2)
 				);

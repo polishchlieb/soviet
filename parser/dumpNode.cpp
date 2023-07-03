@@ -3,11 +3,21 @@
 namespace soviet {
 	void dump(const std::shared_ptr<Node>& node, unsigned int spacing) {
 		switch (node->type) {
-			case NodeType::BinOpNode: {
-				const auto& operatorNode = nodeCast<BinOpNode>(node);
+			case NodeType::AddOpNode:
+			case NodeType::SubOpNode:
+			case NodeType::MulOpNode:
+			case NodeType::DivOpNode:
+			case NodeType::GreaterThanOpNode:
+			case NodeType::GreaterThanOrEqualOpNode:
+			case NodeType::LessThanOpNode:
+			case NodeType::LessThanOrEqualOpNode:
+			case NodeType::DoubleEqualsOpNode:
+			case NodeType::EqualsOpNode:
+			case NodeType::DotOpNode: {
+				// binary ops need to keep the same structure for this to work
+				const auto& operatorNode = nodeCast<AddOpNode>(node);
 
-				std::cout << times(" ", spacing)
-					<< dumpNodeType(node->type) << "(" << dumpBinOpType(operatorNode->binOpType) << "):" << std::endl;
+				std::cout << times(" ", spacing) << dumpNodeType(node->type) << std::endl;
 				dump(operatorNode->left, spacing + 2);
 				dump(operatorNode->right, spacing + 2);
 				break;

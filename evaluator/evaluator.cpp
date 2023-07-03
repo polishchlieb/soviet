@@ -46,8 +46,30 @@ namespace soviet {
 			previousValue = evaluateArrayNode(node); break;
 		case NodeType::WhileLoopNode:
 			previousValue = evaluateWhileLoopNode(node); break;
-		case NodeType::BinOpNode:
-			previousValue = evaluateBinOpNode(node); break;
+		case NodeType::AddOpNode:
+			previousValue = evaluateAddOpNode(node); break;
+		case NodeType::SubOpNode:
+			previousValue = evaluateSubOpNode(node); break;
+		case NodeType::MulOpNode:
+			previousValue = evaluateMulOpNode(node); break;
+		case NodeType::DivOpNode:
+			previousValue = evaluateDivOpNode(node); break;
+		case NodeType::EqualsOpNode:
+			previousValue = evaluateEqualsOpNode(node); break;
+		case NodeType::DoubleEqualsOpNode:
+			previousValue = evaluateDoubleEqualsOpNode(node); break;
+		case NodeType::DotOpNode:
+			previousValue = evaluateDotOpNode(node); break;
+		case NodeType::GreaterThanOpNode:
+			previousValue = evaluateGreaterThanOpNode(node); break;
+		case NodeType::GreaterThanOrEqualOpNode:
+			previousValue = evaluateGreaterThanOrEqualOpNode(node); break;
+		case NodeType::LessThanOpNode:
+			previousValue = evaluateLessThanOpNode(node); break;
+		case NodeType::LessThanOrEqualOpNode:
+			previousValue = evaluateLessThanOrEqualOpNode(node); break;
+		case NodeType::NotEqualsOpNode:
+			previousValue = evaluateNotEqualsOpNode(node); break;
 		case NodeType::ModuleNode:
 			previousValue = evaluateModuleNode(node); break;
 		case NodeType::ForLoopNode:
@@ -64,7 +86,7 @@ namespace soviet {
 			throw EvaluateError("Unexpected node");
 		}
 
-		if (node->type != NodeType::BinOpNode || nodeCast<BinOpNode>(node)->binOpType != BinOpType::Equals)
+		if (node->type != NodeType::EqualsOpNode)
 			recentAssignment = nullptr;
 
 		return previousValue;
@@ -104,39 +126,6 @@ namespace soviet {
 		currentContext.resize(currentContext.size() - (function->declarationScope.size() + 1));
 
 		return functionOutput;
-	}
-
-	std::shared_ptr<soviet::Value> Evaluator::evaluateBinOpNode(const std::shared_ptr<Node>& node) {
-		const auto& n = nodeCast<BinOpNode>(node);
-
-		switch (n->binOpType) {
-			case BinOpType::Add:
-				return evaluateAddOpNode(n);
-			case BinOpType::Subtract:
-				return evaluateSubOpNode(n);
-			case BinOpType::Multiply:
-				return evaluateMulOpNode(n);
-			case BinOpType::Divide:
-				return evaluateDivOpNode(n);
-			case BinOpType::Equals:
-				return evaluateEqualsOpNode(n);
-			case BinOpType::DoubleEquals:
-				return evaluateDoubleEqualsOpNode(n);
-			case BinOpType::Dot:
-				return evaluateDotOpNode(n);
-			case BinOpType::GreaterThan:
-				return evaluateGreaterThanOpNode(n);
-			case BinOpType::GreaterThanOrEqual:
-				return evaluateGreaterThanOrEqualOpNode(n);
-			case BinOpType::LessThan:
-				return evaluateLessThanOpNode(n);
-			case BinOpType::LessThanOrEqual:
-				return evaluateLessThanOrEqualOpNode(n);
-			case BinOpType::NotEquals:
-				return evaluateNotEqualsOpNode(n);
-		}
-
-		throw EvaluateError("unknown binary operator");
 	}
 
 	std::shared_ptr<Value> Evaluator::evaluateImportNode(const std::shared_ptr<Node>& node) {
@@ -192,7 +181,9 @@ namespace soviet {
 		return std::make_shared<UndefinedValue>();
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateLessThanOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateLessThanOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<LessThanOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 		if (left->type != ValueType::NumberValue || right->type != ValueType::NumberValue) {
@@ -218,7 +209,9 @@ namespace soviet {
 		);
 	}
 
-	std::shared_ptr<Value> Evaluator::evaluateGreaterThanOrEqualOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<Value> Evaluator::evaluateGreaterThanOrEqualOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<GreaterThanOrEqualOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 		if (left->type != ValueType::NumberValue) {
@@ -233,11 +226,12 @@ namespace soviet {
 		);
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateLessThanOrEqualOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateLessThanOrEqualOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<LessThanOrEqualOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
-		if (left->type != ValueType::NumberValue
-			|| right->type != left->type) {
+		if (left->type != ValueType::NumberValue || right->type != left->type) {
 			throw EvaluateError("unknown operands");
 		}
 
@@ -260,7 +254,9 @@ namespace soviet {
 		return v->negate();
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateGreaterThanOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateGreaterThanOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<GreaterThanOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 		if (left->type != ValueType::NumberValue
@@ -302,7 +298,9 @@ namespace soviet {
 		return std::make_shared<StringValue>(n->value);
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateAddOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateAddOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<AddOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 
@@ -348,7 +346,9 @@ namespace soviet {
 		return std::make_shared<UndefinedValue>();
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateSubOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateSubOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<SubOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 
@@ -358,7 +358,9 @@ namespace soviet {
 		return valueCast<NumberValue>(left)->subtract(right);
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateMulOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateMulOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<MulOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 
@@ -376,7 +378,9 @@ namespace soviet {
 		throw EvaluateError("unknown operands");
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateDivOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateDivOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<DivOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 
@@ -465,20 +469,26 @@ namespace soviet {
 		return std::make_shared<ArrayValue>(result);
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateEqualsOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<EqualsOpNode>(n);
+
 		const auto& right = evaluate(node->right);
 		assign(recentAssignment = node->left, right);
 		return right;
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateDoubleEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateDoubleEqualsOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<DoubleEqualsOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 
 		return std::make_shared<BooleanValue>(left->equals(right));
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateNotEqualsOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateNotEqualsOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<NotEqualsOpNode>(n);
+
 		const auto left = evaluate(node->left);
 		const auto right = evaluate(node->right);
 
@@ -492,9 +502,10 @@ namespace soviet {
 		if (functionValue->type != ValueType::FunctionValue)
 			throw EvaluateError("You can only call a function");
 
-		auto function = valueCast<FunctionValue>(functionValue);
+		const auto& function = valueCast<FunctionValue>(functionValue);
 
 		std::vector<std::shared_ptr<Value>> args;
+		args.reserve(n->arguments.size());
 		for (const auto& argument : n->arguments)
 			args.push_back(evaluate(argument));
 
@@ -533,7 +544,9 @@ namespace soviet {
 		return std::make_shared<NullValue>();
 	}
 
-	std::shared_ptr<soviet::Value> Evaluator::evaluateDotOpNode(const std::shared_ptr<BinOpNode>& node) {
+	std::shared_ptr<soviet::Value> Evaluator::evaluateDotOpNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<DotOpNode>(n);
+
 		if (node->right->type != NodeType::NameNode)
 			throw EvaluateError{"right operand has to be a name"};
 		const auto& right = nodeCast<NameNode>(node->right)->value;

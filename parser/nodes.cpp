@@ -28,7 +28,6 @@ namespace soviet {
 			case NodeType::BooleanNode: return "boolean_node";
 			case NodeType::ArrayNode: return "array_node";
 			case NodeType::WhileLoopNode: return "while_loop_node";
-			case NodeType::BinOpNode: return "bin_op_node";
 			case NodeType::ModuleNode: return "module_node";
 			case NodeType::ForLoopNode: return "for_loop_node";
 			case NodeType::PipeOpNode: return "pipe_op_node";
@@ -37,24 +36,6 @@ namespace soviet {
 			default:
 				throw ParseError("Unknown error");
 		}
-	}
-
-	std::string dumpBinOpType(BinOpType type) {
-		switch (type) {
-			case BinOpType::Add: return "Add";
-			case BinOpType::Subtract: return "Subtract";
-			case BinOpType::Multiply: return "Multiply";
-			case BinOpType::Divide: return "Divide";
-			case BinOpType::GreaterThan: return "GreaterThan";
-			case BinOpType::GreaterThanOrEqual: return "GreaterThanOrEqual";
-			case BinOpType::LessThan: return "LessThan";
-			case BinOpType::LessThanOrEqual: return "LessThanOrEqual";
-			case BinOpType::DoubleEquals: return "DoubleEquals";
-			case BinOpType::Equals: return "Equals";
-			case BinOpType::Dot: return "Dot";
-		}
-
-		return "Unknown-BinOpType";
 	}
 
 	AddOpNode::AddOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right)
@@ -178,11 +159,6 @@ namespace soviet {
 
 	PipeOpNode::PipeOpNode(std::shared_ptr<Node> value, std::shared_ptr<Node> function)
 		: Node{NodeType::PipeOpNode}, value(std::move(value)), function(std::move(function))
-	{}
-
-
-	BinOpNode::BinOpNode(BinOpType type, std::shared_ptr<Node> left, std::shared_ptr<Node> right)
-		: Node{NodeType::BinOpNode}, binOpType(type), left(std::move(left)), right(std::move(right))
 	{}
 
 	NullNode::NullNode() : Node{NodeType::NullNode} {}
