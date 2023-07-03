@@ -20,7 +20,7 @@ namespace soviet {
 		}
 	}
 
-	soviet::TokenList Tokenizer::getTokens() {
+	TokenList Tokenizer::getTokens() {
 		return TokenList{std::move(tokens)};
 	}
 

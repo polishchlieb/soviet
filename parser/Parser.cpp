@@ -6,15 +6,15 @@
 namespace soviet {
 	Parser::Parser(TokenList tokens) : tokens(std::move(tokens)) {}
 
-	std::shared_ptr<soviet::Node> Parser::parse() {
+	std::shared_ptr<Node> Parser::parse() {
 		return this->parseExpression();
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseExpression() {
+	std::shared_ptr<Node> Parser::parseExpression() {
 		return this->parseAssignment();
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parsePrimary() {
+	std::shared_ptr<Node> Parser::parsePrimary() {
 		switch (tokens.peekNextToken().type) {
 			case TokenType::open_bracket:
 				return parseBracketExpression();
@@ -40,7 +40,7 @@ namespace soviet {
 		}
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseBracketExpression() {
+	std::shared_ptr<Node> Parser::parseBracketExpression() {
 		tokens.getNextToken(); // eat open bracket
 
 		if (tokens.peekNextToken().type == TokenType::close_bracket) {
@@ -96,7 +96,7 @@ namespace soviet {
 		return operand;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseSquareBracketExpression() {
+	std::shared_ptr<Node> Parser::parseSquareBracketExpression() {
 		tokens.getNextToken(); // eat square bracket
 
 		std::vector<std::shared_ptr<Node>> elements;
@@ -118,7 +118,7 @@ namespace soviet {
 		return std::make_shared<ArrayNode>(std::move(elements));
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseCurlyBracketExpression() {
+	std::shared_ptr<Node> Parser::parseCurlyBracketExpression() {
 		tokens.getNextToken(); // eat curly bracket
 
 		std::vector<std::shared_ptr<Node>> nodes;
@@ -128,7 +128,7 @@ namespace soviet {
 		return std::make_shared<BlockNode>(std::move(nodes));
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseNumber() {
+	std::shared_ptr<Node> Parser::parseNumber() {
 		auto result = std::make_shared<NumberNode>(
 			std::stof(tokens.getNextToken().value)
 		);
@@ -136,7 +136,7 @@ namespace soviet {
 		return result;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseIfStatement() {
+	std::shared_ptr<Node> Parser::parseIfStatement() {
 		auto condition = this->parseExpression();
 
 		auto body = this->parseExpression();
@@ -162,7 +162,7 @@ namespace soviet {
 		);
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseWhileLoop() {
+	std::shared_ptr<Node> Parser::parseWhileLoop() {
 		auto condition = parseExpression();
 		auto command = parseExpression();
 		return std::make_shared<WhileLoopNode>(
@@ -171,7 +171,7 @@ namespace soviet {
 		);
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseForLoop() {
+	std::shared_ptr<Node> Parser::parseForLoop() {
 		auto iterator = parsePrimary();
 
 		const auto in = tokens.getNextToken();
@@ -188,7 +188,7 @@ namespace soviet {
 		);
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseModuleDefinition() {
+	std::shared_ptr<Node> Parser::parseModuleDefinition() {
 		auto moduleName = tokens.getNextToken().value;
 
 		tokens.getNextToken(); // eat {
@@ -206,19 +206,19 @@ namespace soviet {
 		return std::make_shared<ModuleNode>(std::move(moduleName), std::move(members));
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseString() {
+	std::shared_ptr<Node> Parser::parseString() {
 		return std::make_shared<StringNode>(
 			std::move(tokens.getNextToken().value)
 		);
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseReturn() {
+	std::shared_ptr<Node> Parser::parseReturn() {
 		return std::make_shared<ReturnNode>(
 			this->parseExpression()
 		);
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseName() {
+	std::shared_ptr<Node> Parser::parseName() {
 		auto token = tokens.getNextToken();
 
 		if (token.value == "if")
@@ -263,7 +263,7 @@ namespace soviet {
 	}
 
 	// actually, now it parses at operator too.
-	std::shared_ptr<soviet::Node> Parser::parseFunctionCallOrDotOperator() {
+	std::shared_ptr<Node> Parser::parseFunctionCallOrDotOperator() {
 		auto result = parsePrimary();
 
 		while (tokens.hasNextToken() && isIn(
@@ -326,12 +326,12 @@ namespace soviet {
 		return result;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseNegation() {
+	std::shared_ptr<Node> Parser::parseNegation() {
 		tokens.getNextToken(); // eat !
 		return std::make_shared<NegationNode>(parseExpression());
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseImport() {
+	std::shared_ptr<Node> Parser::parseImport() {
 		auto moduleName = tokens.getNextToken();
 		if (moduleName.type != TokenType::name && moduleName.type != TokenType::string)
 			throw ParseError{"import statement must be followed by module name"};
@@ -354,7 +354,7 @@ namespace soviet {
 		);
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseAssignment() {
+	std::shared_ptr<Node> Parser::parseAssignment() {
 		auto operand1 = parseComparison();
 		while (tokens.hasNextToken()
 			&& tokens.peekNextToken().type == TokenType::equals_op) {
@@ -368,7 +368,7 @@ namespace soviet {
 		return operand1;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseComparison() {
+	std::shared_ptr<Node> Parser::parseComparison() {
 		auto operand1 = this->parseAdditive();
 		while (tokens.hasNextToken() && isIn(
 			tokens.peekNextToken().type,
@@ -428,7 +428,7 @@ namespace soviet {
 		return operand1;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseAdditive() {
+	std::shared_ptr<Node> Parser::parseAdditive() {
 		auto operand1 = this->parseMultiplicative();
 		while (tokens.hasNextToken() && isIn(
 			tokens.peekNextToken().type,
@@ -451,7 +451,7 @@ namespace soviet {
 		return operand1;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parsePipe() {
+	std::shared_ptr<Node> Parser::parsePipe() {
 		auto operand1 = parseFunctionCallOrDotOperator();
 
 		while (tokens.hasNextToken() && tokens.peekNextToken().type == TokenType::pipe_op) {
@@ -467,7 +467,7 @@ namespace soviet {
 		return operand1;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseMultiplicative() {
+	std::shared_ptr<Node> Parser::parseMultiplicative() {
 		auto operand1 = parsePipe();
 
 		while (tokens.hasNextToken() && isIn(
@@ -491,7 +491,7 @@ namespace soviet {
 		return operand1;
 	}
 
-	std::shared_ptr<soviet::Node> Parser::parseEmptyPipeOp() {
+	std::shared_ptr<Node> Parser::parseEmptyPipeOp() {
 		tokens.getNextToken(); // eat |>
 		return std::make_shared<PipeOpNode>(
 			nullptr,

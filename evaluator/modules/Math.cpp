@@ -73,7 +73,7 @@ namespace soviet {
         throw EvaluateError("Math.random accepts either 0 or 2 number arguments");
     }
 
-	std::shared_ptr<soviet::Value> MathModule::mod(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
+	std::shared_ptr<Value> MathModule::mod(Evaluator&, std::vector<std::shared_ptr<Value>>& args) {
 		const auto left = valueCast<NumberValue>(args[0])->value;
 		const auto right = valueCast<NumberValue>(args[1])->value;
 		return std::make_shared<NumberValue>(std::fmod(left, right));
