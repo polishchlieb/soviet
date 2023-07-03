@@ -22,13 +22,19 @@ namespace soviet {
 				dump(operatorNode->right, spacing + 2);
 				break;
 			}
-			case NodeType::NumberNode:
-				dumpLeafNode<float>(node, spacing);
+			case NodeType::NumberNode: {
+				const auto& leafNode = nodeCast<NumberNode>(node);
+				std::cout << times(" ", spacing)
+					<< dumpNodeType(node->type) << ": " << leafNode->value << std::endl;
 				break;
+			}
 			case NodeType::NameNode:
-			case NodeType::StringNode:
-				dumpLeafNode<std::string>(node, spacing);
+			case NodeType::StringNode: {
+				const auto& leafNode = nodeCast<StringNode>(node);
+				std::cout << times(" ", spacing)
+					<< dumpNodeType(node->type) << ": " << leafNode->value << std::endl;
 				break;
+			}
 			case NodeType::BooleanNode: {
 				const auto& boolNode = nodeCast<BooleanNode>(node);
 				std::cout << times(" ", spacing) << "boolean: " << boolNode->value << std::endl;
