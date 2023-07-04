@@ -4,6 +4,16 @@
 #include <memory>
 
 namespace soviet {
+	/* Operator precedence:
+		1. assignment
+		2. logical or
+		3. logical and
+		4. comparison (==, >, >=, <, <=, !=)
+		5. additive (+, -)
+		6. multiplicative (*, /)
+		7. pipe
+		8. function call, dot op, array at op
+		9. primary (leaf nodes, bracket expression) */
 	class Parser {
 	public:
 		explicit Parser(TokenList tokens);
@@ -32,5 +42,7 @@ namespace soviet {
 		std::shared_ptr<Node> parsePipe();
 		std::shared_ptr<Node> parseMultiplicative();
 		std::shared_ptr<Node> parseEmptyPipeOp();
+		std::shared_ptr<Node> parseAnd();
+		std::shared_ptr<Node> parseOr();
 	};
 }

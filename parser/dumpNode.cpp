@@ -13,7 +13,9 @@ namespace soviet {
 			case NodeType::LessThanOrEqualOpNode:
 			case NodeType::DoubleEqualsOpNode:
 			case NodeType::EqualsOpNode:
-			case NodeType::DotOpNode: {
+			case NodeType::DotOpNode:
+			case NodeType::AndNode:
+			case NodeType::OrNode: {
 				// binary ops need to keep the same structure for this to work
 				const auto& operatorNode = nodeCast<AddOpNode>(node);
 

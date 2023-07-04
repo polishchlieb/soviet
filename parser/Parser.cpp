@@ -355,11 +355,11 @@ namespace soviet {
 	}
 
 	std::shared_ptr<Node> Parser::parseAssignment() {
-		auto operand1 = parseComparison();
+		auto operand1 = parseOr();
 		while (tokens.hasNextToken()
 			&& tokens.peekNextToken().type == TokenType::equals_op) {
 			tokens.getNextToken(); // eat =
-			auto operand2 = parseComparison();
+			auto operand2 = parseOr();
 			operand1 = std::make_shared<EqualsOpNode>(
 				std::move(operand1),
 				std::move(operand2)
@@ -499,4 +499,29 @@ namespace soviet {
 		);
 	}
 
+	std::shared_ptr<Node> Parser::parseAnd() {
+		auto operand1 = parseComparison();
+		while (tokens.hasNextToken() && tokens.peekNextToken().type == TokenType::and_op) {
+			tokens.getNextToken(); // eat &
+			auto operand2 = parseComparison();
+			operand1 = std::make_shared<AndNode>(
+				std::move(operand1),
+				std::move(operand2)
+			);
+		}
+		return operand1;
+	}
+
+	std::shared_ptr<Node> Parser::parseOr() {
+		auto operand1 = parseAnd();
+		while (tokens.hasNextToken() && tokens.peekNextToken().type == TokenType::or_op) {
+			tokens.getNextToken(); // eat |
+			auto operand2 = parseAnd();
+			operand1 = std::make_shared<OrNode>(
+				std::move(operand1),
+				std::move(operand2)
+			);
+		}
+		return operand1;
+	}
 }

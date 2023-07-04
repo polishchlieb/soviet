@@ -82,6 +82,10 @@ namespace soviet {
 			previousValue = evaluateNullNode(node); break;
 		case NodeType::AtOpNode:
 			previousValue = evaluateAtOpNode(node); break;
+		case NodeType::AndNode:
+			previousValue = evaluateAndNode(node); break;
+		case NodeType::OrNode:
+			previousValue = evaluateOrNode(node); break;
 		default:
 			throw EvaluateError("Unexpected node");
 		}
@@ -592,6 +596,34 @@ namespace soviet {
 		}
 
 		throw EvaluateError{"unknown object"};
+	}
+
+	std::shared_ptr<Value> Evaluator::evaluateOrNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<OrNode>(n);
+		
+		const auto left = evaluate(node->left);
+		const auto right = evaluate(node->right);
+
+		if (left->type != ValueType::BooleanValue || right->type != ValueType::BooleanValue)
+			throw EvaluateError{"operands have to be boolean"};
+
+		const auto leftValue = valueCast<BooleanValue>(left)->value;
+		const auto rightValue = valueCast<BooleanValue>(right)->value;
+		return std::make_shared<BooleanValue>(leftValue || rightValue);
+	}
+
+	std::shared_ptr<Value> Evaluator::evaluateAndNode(const std::shared_ptr<Node>& n) {
+		const auto& node = nodeCast<AndNode>(n);
+
+		const auto left = evaluate(node->left);
+		const auto right = evaluate(node->right);
+
+		if (left->type != ValueType::BooleanValue || right->type != ValueType::BooleanValue)
+			throw EvaluateError{"operands have to be boolean"};
+
+		const auto leftValue = valueCast<BooleanValue>(left)->value;
+		const auto rightValue = valueCast<BooleanValue>(right)->value;
+		return std::make_shared<BooleanValue>(leftValue && rightValue);
 	}
 
 	std::shared_ptr<Value> Evaluator::evaluateModuleNode(const std::shared_ptr<Node>& node) {

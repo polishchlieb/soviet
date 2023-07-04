@@ -33,6 +33,8 @@ namespace soviet {
 			case NodeType::PipeOpNode: return "pipe_op_node";
 			case NodeType::AtOpNode: return "at_op_node";
 			case NodeType::NullNode: return "null_node";
+			case NodeType::AndNode: return "and_node";
+			case NodeType::OrNode: return "or_node";
 			default:
 				throw ParseError("Unknown error");
 		}
@@ -165,5 +167,13 @@ namespace soviet {
 
 	AtOpNode::AtOpNode(std::shared_ptr<Node> array, std::shared_ptr<Node> index)
 		: Node{NodeType::AtOpNode}, array(std::move(array)), index(std::move(index))
+	{}
+
+	OrNode::OrNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right)
+		: Node{NodeType::OrNode}, left(std::move(left)), right(std::move(right))
+	{}
+
+	AndNode::AndNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right)
+		: Node{NodeType::AndNode}, left(std::move(left)), right(std::move(right))
 	{}
 }

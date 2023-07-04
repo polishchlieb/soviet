@@ -36,7 +36,9 @@ namespace soviet {
 		ForLoopNode,
 		PipeOpNode,
 		NullNode,
-		AtOpNode
+		AtOpNode,
+		OrNode,
+		AndNode
 	};
 
 	struct Node {
@@ -220,6 +222,20 @@ namespace soviet {
 		std::shared_ptr<Node> right;
 
 		MulOpNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
+	};
+
+	struct OrNode : Node {
+		std::shared_ptr<Node> left;
+		std::shared_ptr<Node> right;
+
+		OrNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
+	};
+
+	struct AndNode : Node {
+		std::shared_ptr<Node> left;
+		std::shared_ptr<Node> right;
+
+		AndNode(std::shared_ptr<Node> left, std::shared_ptr<Node> right);
 	};
 
 	struct NameNode : Node {

@@ -58,5 +58,7 @@ namespace soviet {
 		std::shared_ptr<Value> evaluatePipeOpNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluateForLoopNode(const std::shared_ptr<Node>& node);
 		std::shared_ptr<Value> evaluateAtOpNode(const std::shared_ptr<Node>& node);
+		std::shared_ptr<Value> evaluateOrNode(const std::shared_ptr<Node>& node);
+		std::shared_ptr<Value> evaluateAndNode(const std::shared_ptr<Node>& node);
 	};
 }
